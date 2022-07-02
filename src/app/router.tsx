@@ -3,8 +3,6 @@ import AuthGuard from '../auth/AuthGuard'
 import { Login } from 'modules/auth/Login'
 import { Register } from 'modules/auth/Register'
 import { Admin, Roles, CreateRole, UpdateRole, DetailRole, Users, CreateUser, UpdateUser, DetailUser } from 'modules/admin'
-import { Store, Brands, Categories, CreateCategory, DetailCategory, UpdateCategory, CreateBrand, DetailBrand, UpdateBrand, Products, CreateProduct, DetailProduct, UpdateProduct, ProductSetup } from 'modules/store'
-import { Sale, Stock, Stocks } from 'modules/sale'
 import { Report } from 'modules/report'
 import { Counter } from 'modules/counter/Counter'
 import Config from 'modules/config/Config'
@@ -103,127 +101,6 @@ const routes: RouteObject[] = [
         ),
       },
     ],
-  },
-  {
-    path: '/store',
-    element: <Store />,
-    children: [
-      // Category
-      {
-        path: 'category',
-        element: (
-          <AuthGuard role={{ route: 'category', action: 'list' }}>
-            <Categories />
-          </AuthGuard>
-        ),
-      },
-      {
-        path: 'category/create',
-        element: (
-          <AuthGuard role={{ route: 'category', action: 'create' }}>
-            <CreateCategory />
-          </AuthGuard>
-        ),
-      },
-      {
-        path: 'category/update/:id',
-        element: (
-          <AuthGuard role={{ route: 'category', action: 'update' }}>
-            <UpdateCategory />
-          </AuthGuard>
-        ),
-      },
-      {
-        path: 'category/detail/:id',
-        element: (
-          <AuthGuard role={{ route: 'category', action: 'detail' }}>
-            <DetailCategory />
-          </AuthGuard>
-        ),
-      },
-
-      // Brand
-      {
-        path: 'brand',
-        element: <Brands />,
-      },
-      {
-        path: 'brand/create',
-        element: (
-          <AuthGuard role={{ route: 'category', action: 'create' }}>
-            <CreateBrand />
-          </AuthGuard>
-        ),
-      },
-      {
-        path: 'brand/update/:id',
-        element: (
-          <AuthGuard role={{ route: 'category', action: 'update' }}>
-            <UpdateBrand />
-          </AuthGuard>
-        ),
-      },
-      {
-        path: 'brand/detail/:id',
-        element: (
-          <AuthGuard role={{ route: 'category', action: 'detail' }}>
-            <DetailBrand />
-          </AuthGuard>
-        ),
-      },
-
-      // Product
-      {
-        path: 'product',
-        element: <Products />,
-      },
-      {
-        path: 'product/create',
-        element: (
-          <AuthGuard role={{ route: 'category', action: 'create' }}>
-            <CreateProduct />
-          </AuthGuard>
-        ),
-      },
-      {
-        path: 'product/update/:id',
-        element: (
-          <AuthGuard role={{ route: 'category', action: 'update' }}>
-            <UpdateProduct />
-          </AuthGuard>
-        ),
-      },
-      {
-        path: 'product/detail/:id',
-        element: (
-          <AuthGuard role={{ route: 'category', action: 'detail' }}>
-            <DetailProduct />
-          </AuthGuard>
-        ),
-      },
-      {
-        path: 'product/:action/property/:id',
-        element: (
-          <AuthGuard role={{ route: 'category', action: 'detail' }}>
-            <ProductSetup />
-          </AuthGuard>
-        ),
-      },
-    ],
-  },
-  {
-    path: '/sale',
-    element: <Sale />,
-    children: [
-      {
-        path: 'stock',
-        element: <Stocks />,
-      },
-      {
-        path: 'stock/item/:id',
-        element: <Stock />,
-      }
-    ]
   },
   {
     path: '/report',
