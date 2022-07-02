@@ -6,7 +6,6 @@ const AdminNavbar = () => {
     <>
         <NavLink to='/admin/role'>Role</NavLink>
         <NavLink to='/admin/user'>User</NavLink>
-        <NavLink to='/admin/test'>Test</NavLink>
     </>
   )
 }

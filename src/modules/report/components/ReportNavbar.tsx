@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom'
 const ReportNavbar = () => {
   return (
     <>
-        <NavLink to='/report/sale'>Sale</NavLink>
+        <NavLink to='/report/income'>Income</NavLink>
     </>
   )
 }

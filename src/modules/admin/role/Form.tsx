@@ -71,7 +71,7 @@ export const RoleForm = ({ defaultValues, id }: any) => {
               `,
       }}
     >
-      <div style={{ gridArea: 'input' }}>
+      <div style={{ gridArea: 'input', marginTop: 20 }}>
         <LocaleField
           onChange={handleChangeRole}
           err={errors?.name}
