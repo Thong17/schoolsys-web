@@ -1,13 +1,19 @@
 import SettingsIcon from '@mui/icons-material/Settings'
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
 import BarChartRoundedIcon from '@mui/icons-material/BarChartRounded'
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded'
+import HomeWorkRoundedIcon from '@mui/icons-material/HomeWorkRounded'
+import FactCheckRoundedIcon from '@mui/icons-material/FactCheckRounded'
 
 export const sideNav = [
   {
-    route: '/',
-    title: 'HOME',
-    icon: <HomeRoundedIcon />,
+    route: '/operation',
+    title: 'OPERATION',
+    icon: <FactCheckRoundedIcon />,
+  },
+  {
+    route: '/school',
+    title: 'SCHOOL',
+    icon: <HomeWorkRoundedIcon />,
   },
   {
     route: '/admin',

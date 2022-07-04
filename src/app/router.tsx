@@ -7,6 +7,7 @@ import { Report } from 'modules/report'
 import { Counter } from 'modules/counter/Counter'
 import Config from 'modules/config/Config'
 import NotFound from 'components/shared/NotFound'
+import { CreateStudent, CreateTeacher, DetailStudent, DetailTeacher, School, Students, Teachers, UpdateStudent, UpdateTeacher } from 'modules/school'
 
 const routes: RouteObject[] = [
   {
@@ -90,6 +91,76 @@ const routes: RouteObject[] = [
         element: (
           <AuthGuard role={{ route: 'role', action: 'detail' }}>
             <DetailRole />
+          </AuthGuard>
+        ),
+      },
+    ],
+  },
+  {
+    path: '/school',
+    element: (<AuthGuard role={{ route: 'admin', action: 'list' }}><School /></AuthGuard>),
+    children: [
+      {
+        path: 'student',
+        element: (
+          <AuthGuard role={{ route: 'user', action: 'list' }}>
+            <Students />
+          </AuthGuard>
+        ),
+      },
+      {
+        path: 'student/create',
+        element: (
+          <AuthGuard role={{ route: 'user', action: 'create' }}>
+            <CreateStudent />
+          </AuthGuard>
+        ),
+      },
+      {
+        path: 'student/update/:id',
+        element: (
+          <AuthGuard role={{ route: 'user', action: 'update' }}>
+            <UpdateStudent />
+          </AuthGuard>
+        ),
+      },
+      {
+        path: 'student/detail/:id',
+        element: (
+          <AuthGuard role={{ route: 'user', action: 'detail' }}>
+            <DetailStudent />
+          </AuthGuard>
+        ),
+      },
+      {
+        path: 'teacher',
+        element: (
+          <AuthGuard role={{ route: 'user', action: 'list' }}>
+            <Teachers />
+          </AuthGuard>
+        ),
+      },
+      {
+        path: 'teacher/create',
+        element: (
+          <AuthGuard role={{ route: 'user', action: 'create' }}>
+            <CreateTeacher />
+          </AuthGuard>
+        ),
+      },
+      {
+        path: 'teacher/update/:id',
+        element: (
+          <AuthGuard role={{ route: 'user', action: 'update' }}>
+            <UpdateTeacher />
+          </AuthGuard>
+        ),
+      },
+      {
+        path: 'teacher/detail/:id',
+        element: (
+          <AuthGuard role={{ route: 'user', action: 'detail' }}>
+            <DetailTeacher />
           </AuthGuard>
         ),
       },
