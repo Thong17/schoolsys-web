@@ -14,6 +14,8 @@ import useNotify from 'hooks/useNotify'
 import { useEffect, useState } from 'react'
 import { inputDateFormat } from 'utils'
 import { IImage } from 'components/shared/form/UploadField'
+import { useAppDispatch } from 'app/hooks'
+import { getListStudent } from './redux'
 
 const listGender = [
   { label: 'Male', value: 'male' },
@@ -35,6 +37,7 @@ export const StudentForm = ({ defaultValues, id }: any) => {
       birthDate: inputDateFormat(defaultValues?.birthDate),
     },
   })
+  const dispatch = useAppDispatch()
   const { device } = useWeb()
   const { notify } = useNotify()
   const [loading, setLoading] = useState(false)
@@ -55,7 +58,10 @@ export const StudentForm = ({ defaultValues, id }: any) => {
       url: id ? `/school/student/update/${id}` : `/school/student/create`,
       body: data,
     })
-      .then((data) => notify(data?.data?.msg, 'success'))
+      .then((data) => {
+        notify(data?.data?.msg, 'success')
+        dispatch(getListStudent({}))
+      })
       .catch((err) => notify(err?.response?.data?.msg, 'error'))
       .finally(() => setLoading(false))
   }
