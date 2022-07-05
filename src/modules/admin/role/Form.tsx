@@ -10,6 +10,7 @@ import Button from 'components/shared/Button'
 import Axios from 'constants/functions/Axios'
 import useNotify from 'hooks/useNotify'
 import { useEffect, useState } from 'react'
+import { getListRole } from './redux'
 
 export const RoleForm = ({ defaultValues, id }: any) => {
   const {
@@ -44,7 +45,10 @@ export const RoleForm = ({ defaultValues, id }: any) => {
       url: id ? `/admin/role/update/${id}` : `/admin/role/create`,
       body: data,
     })
-      .then((data) => notify(data?.data?.msg, 'success'))
+      .then((data) => {
+        notify(data?.data?.msg, 'success')
+        dispatch(getListRole({}))
+      })
       .catch((err) => notify(err?.response?.data?.msg, 'error'))
       .finally(() => setLoading(false))
   }
