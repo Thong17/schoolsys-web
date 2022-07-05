@@ -89,7 +89,6 @@ export const TeacherForm = ({ defaultValues, id }: any) => {
     <form
       onSubmit={handleSubmit(submit)}
       style={{
-        width: 700,
         display: 'grid',
         gridTemplateColumns: '1fr 1fr 1fr',
         gridColumnGap: 20,
