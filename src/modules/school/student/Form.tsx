@@ -167,7 +167,6 @@ export const StudentForm = ({ defaultValues, id }: any) => {
         <TextField
           type='tel'
           label='Contact'
-          pattern='[0-9]{3}-[0-9]{3}-[0-9]{4}'
           err={errors.contact?.message}
           {...register('contact')}
         />
