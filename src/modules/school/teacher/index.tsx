@@ -50,7 +50,7 @@ export const Teachers = () => {
 
   const handleImport = (e) => {
     const response = ImportExcel(
-      '/admin/teacher/excel/import',
+      '/school/teacher/excel/import',
       e.target.files[0],
       importColumns
     )
@@ -90,7 +90,7 @@ export const Teachers = () => {
   const handleConfirmImport = () => {
     const response = Axios({
       method: 'POST',
-      url: '/admin/teacher/batch',
+      url: '/school/teacher/batch',
       body: importDialog.data
     })
     loadify(response)
@@ -103,7 +103,7 @@ export const Teachers = () => {
   const handleConfirmDelete = (id) => {
     const response = Axios({
       method: 'DELETE',
-      url: `/admin/teacher/disable/${id}`,
+      url: `/school/teacher/disable/${id}`,
     })
     loadify(response)
     response.then(() => dispatch(getListTeacher({ query: queryParams })))
