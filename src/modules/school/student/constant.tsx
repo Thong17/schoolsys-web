@@ -14,25 +14,27 @@ export interface IStudentBody {
   lastName: string,
   firstName: string,
   gender: string,
-  birthDate: string,
+  dateOfBirth: string,
+  placeOfBirth: string,
+  nationality: string,
   address: string,
   contact: string,
-  email: string,
 }
 
 export const initState = {
   lastName: '',
   firstName: '',
   gender: '',
-  birthDate: '',
+  dateOfBirth: '',
+  placeOfBirth: '',
+  nationality: '',
   address: '',
   contact: '',
-  email: ''
 }
 
-export declare type ColumnHeader = 'lastName' | 'firstName' | 'gender' | 'birthDate' | 'address' | 'contact' | 'email' | 'action'
+export declare type ColumnHeader = 'lastName' | 'firstName' | 'gender' | 'dateOfBirth' | 'placeOfBirth' | 'nationality' | 'address' | 'contact' | 'action'
 
-export const importColumns = ['_id', 'lastName', 'firstName', 'gender', 'birthDate', 'address', 'contact', 'email']
+export const importColumns = ['_id', 'lastName', 'firstName', 'gender', 'dateOfBirth', 'placeOfBirth', 'nationality', 'address', 'contact']
 
 export const headerColumns = [
   {
@@ -52,8 +54,16 @@ export const headerColumns = [
     key: 'gender'
   },
   {
-    label: 'birthDate',
-    key: 'birthDate'
+    label: 'dateOfBirth',
+    key: 'dateOfBirth'
+  },
+  {
+    label: 'placeOfBirth',
+    key: 'placeOfBirth'
+  },
+  {
+    label: 'nationality',
+    key: 'nationality'
   },
   {
     label: 'address',
@@ -73,7 +83,9 @@ export const importColumnData: ITableColumn<ColumnHeader>[] = [
   { id: 'lastName', label: 'Last\u00a0Name' },
   { id: 'firstName', label: 'First\u00a0Name' },
   { id: 'gender', label: 'Gender' },
-  { id: 'birthDate', label: 'Birth\u00a0Date' },
+  { id: 'dateOfBirth', label: 'Date\u00a0Of\u00a0Birth' },
+  { id: 'placeOfBirth', label: 'Place\u00a0Of\u00a0Birth' },
+  { id: 'nationality', label: 'Nationality' },
   { id: 'address', label: 'Address' },
   { id: 'contact', label: 'Contact' },
   { id: 'action', label: 'Remove' },
@@ -83,8 +95,10 @@ export const columnData: ITableColumn<ColumnHeader>[] = [
   { id: 'lastName', label: 'Last\u00a0Name' },
   { id: 'firstName', label: 'First\u00a0Name' },
   { id: 'gender', label: 'Gender' },
-  { id: 'birthDate', label: 'Birth\u00a0Date' },
-  { id: 'address', label: 'Address' },
+  { id: 'dateOfBirth', label: 'Date\u00a0Of\u00a0Birth' },
+  // { id: 'placeOfBirth', label: 'Place\u00a0Of\u00a0Birth' },
+  // { id: 'nationality', label: 'Nationality' },
+  // { id: 'address', label: 'Address' },
   { id: 'contact', label: 'Contact' },
   { id: 'action', label: 'Action', align: 'right' },
 ]
@@ -93,7 +107,9 @@ export interface Data {
   lastName: string
   firstName: string
   gender: string
-  birthDate: string
+  dateOfBirth: string
+  placeOfBirth: string
+  nationality: string
   address: string
   contact: string
   createdBy: string
@@ -105,7 +121,9 @@ export const createData = (
   lastName: string,
   firstName: string,
   gender: string,
-  birthDate: string,
+  dateOfBirth: string,
+  placeOfBirth: string,
+  nationality: string,
   address: string,
   contact: string,
   createdBy: string,
@@ -154,7 +172,7 @@ export const createData = (
     </div>
   )
 
-  const formattedBirthDate = dateFormat(birthDate)
+  const formattedBirthDate = dateFormat(dateOfBirth)
 
-  return { id, lastName, firstName, gender, birthDate: formattedBirthDate, address, contact, createdBy, action: action }
+  return { id, lastName, firstName, gender, dateOfBirth: formattedBirthDate, placeOfBirth, nationality, address, contact, createdBy, action: action }
 }

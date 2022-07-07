@@ -83,8 +83,8 @@ export const columnData: ITableColumn<ColumnHeader>[] = [
   { id: 'lastName', label: 'Last Name' },
   { id: 'firstName', label: 'First Name' },
   { id: 'gender', label: 'Gender' },
-  { id: 'birthDate', label: 'Birth Date' },
-  { id: 'address', label: 'Address' },
+  { id: 'birthDate', label: 'Date Of Birth' },
+  // { id: 'address', label: 'Address' },
   { id: 'contact', label: 'Contact' },
   { id: 'action', label: 'Action', align: 'right' },
 ]

@@ -34,7 +34,7 @@ export const StudentForm = ({ defaultValues, id }: any) => {
     resolver: yupResolver(studentSchema),
     defaultValues: {
       ...defaultValues,
-      birthDate: inputDateFormat(defaultValues?.birthDate),
+      dateOfBirth: inputDateFormat(defaultValues?.dateOfBirth),
     },
   })
   const dispatch = useAppDispatch()
@@ -103,19 +103,17 @@ export const StudentForm = ({ defaultValues, id }: any) => {
         gridTemplateAreas:
           device === 'mobile'
             ? ` 
-                'firstName firstName lastName' 
-                'gender birthDate birthDate'
-                'gender birthDate birthDate'
-                'email email contact'
+                'firstName lastName nationality' 
+                'gender dateOfBirth dateOfBirth'
+                'placeOfBirth placeOfBirth contact'
                 'profile profile profile'
                 'address address address'
                 'action action action'
               `
             : ` 
-                'firstName firstName lastName' 
-                'gender birthDate birthDate'
-                'gender birthDate birthDate'
-                'email email contact'
+                'firstName lastName nationality' 
+                'gender dateOfBirth dateOfBirth'
+                'placeOfBirth placeOfBirth contact'
                 'profile profile profile'
                 'address address address'
                 'action action action'
@@ -138,6 +136,14 @@ export const StudentForm = ({ defaultValues, id }: any) => {
           {...register('lastName')}
         />
       </div>
+      <div style={{ gridArea: 'nationality' }}>
+        <TextField
+          type='text'
+          label='Nationality'
+          err={errors.nationality?.message}
+          {...register('nationality')}
+        />
+      </div>
       <div style={{ gridArea: 'gender' }}>
         <SelectField
           value={gender}
@@ -147,20 +153,20 @@ export const StudentForm = ({ defaultValues, id }: any) => {
           {...register('gender')}
         />
       </div>
-      <div style={{ gridArea: 'birthDate' }}>
+      <div style={{ gridArea: 'dateOfBirth' }}>
         <TextField
           type='date'
-          label='Birth Date'
-          err={errors.birthDate?.message}
-          {...register('birthDate')}
+          label='Date Of Birth'
+          err={errors.dateOfBirth?.message}
+          {...register('dateOfBirth')}
         />
       </div>
-      <div style={{ gridArea: 'email' }}>
+      <div style={{ gridArea: 'placeOfBirth' }}>
         <TextField
-          type='email'
-          label='Email'
-          err={errors.email?.message}
-          {...register('email')}
+          type='text'
+          label='Place Of Birth'
+          err={errors.placeOfBirth?.message}
+          {...register('placeOfBirth')}
         />
       </div>
       <div style={{ gridArea: 'contact' }}>
