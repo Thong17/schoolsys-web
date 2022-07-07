@@ -4,6 +4,8 @@ import roleReducer from 'modules/admin/role/redux'
 import userReducer from 'modules/admin/user/redux'
 import studentReducer from 'modules/school/student/redux'
 import teacherReducer from 'modules/school/teacher/redux'
+import gradeReducer from 'modules/operation/grade/redux'
+import attendanceReducer from 'modules/operation/attendance/redux'
 import sharedReducer from 'shared/redux'
 
 export const store = configureStore({
@@ -13,6 +15,8 @@ export const store = configureStore({
     user: userReducer,
     student: studentReducer,
     teacher: teacherReducer,
+    grade: gradeReducer,
+    attendance: attendanceReducer,
     shared: sharedReducer,
   },
 });

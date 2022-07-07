@@ -4,24 +4,24 @@ import { useOutlet } from 'react-router'
 import Container from 'components/shared/Container'
 import AdminBreadcrumbs from './components/Breadcrumbs'
 
-export const School = () => {
+export const Operation = () => {
   const outlet = useOutlet()
 
   const Header = () => {
     return (
       <>
-        <AdminBreadcrumbs page='school' />
+        <AdminBreadcrumbs page='operation' />
       </>
     )
   }
 
   return (
     <Layout navbar={<Navbar />}>
-      {outlet || <Container header={<Header />}>School Updated</Container>}
+      {outlet || <Container header={<Header />}>Operation Updated</Container>}
     </Layout>
   )
 }
 
-export { Students, CreateStudent, UpdateStudent, DetailStudent } from './student'
-export { Teachers, CreateTeacher, UpdateTeacher, DetailTeacher } from './teacher'
+export { Attendances, CreateAttendance, UpdateAttendance, DetailAttendance } from './attendance'
+export { Grades, CreateGrade, UpdateGrade, DetailGrade } from './grade'
 

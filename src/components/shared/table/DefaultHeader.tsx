@@ -5,7 +5,7 @@ import { MenuList } from '@mui/material'
 import { CustomButton } from 'styles'
 // import { CSVLink } from 'react-csv'
 
-export const DefaultHeader = ({ exportComponent, importComponent, downloadComponent, exportData, styled, navigate, handleSearch, handleImport, breadcrumb, filename, createUrl, excelHeader, children }: any) => {    
+export const DefaultHeader = ({ exportComponent, importComponent, downloadComponent, exportData, styled, navigate, handleSearch, handleImport, breadcrumb, filename, createUrl, createText, excelHeader, children }: any) => {    
   return (
       <>
         {breadcrumb}
@@ -67,7 +67,7 @@ export const DefaultHeader = ({ exportComponent, importComponent, downloadCompon
               styled={styled}
               onClick={() => navigate(createUrl)}
             >
-              Create
+              {createText ? createText : 'Create'}
             </CustomButton>
           }
         </div>

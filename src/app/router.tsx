@@ -8,6 +8,8 @@ import { Counter } from 'modules/counter/Counter'
 import Config from 'modules/config/Config'
 import NotFound from 'components/shared/NotFound'
 import { CreateStudent, CreateTeacher, DetailStudent, DetailTeacher, School, Students, Teachers, UpdateStudent, UpdateTeacher } from 'modules/school'
+import { Operation, CreateAttendance, CreateGrade, DetailAttendance, DetailGrade, Attendances, Grades, UpdateAttendance, UpdateGrade } from 'modules/operation'
+
 
 const routes: RouteObject[] = [
   {
@@ -161,6 +163,76 @@ const routes: RouteObject[] = [
         element: (
           <AuthGuard role={{ route: 'user', action: 'detail' }}>
             <DetailTeacher />
+          </AuthGuard>
+        ),
+      },
+    ],
+  },
+  {
+    path: '/operation',
+    element: (<AuthGuard role={{ route: 'admin', action: 'list' }}><Operation /></AuthGuard>),
+    children: [
+      {
+        path: 'attendance',
+        element: (
+          <AuthGuard role={{ route: 'user', action: 'list' }}>
+            <Attendances />
+          </AuthGuard>
+        ),
+      },
+      {
+        path: 'attendance/check',
+        element: (
+          <AuthGuard role={{ route: 'user', action: 'create' }}>
+            <CreateAttendance />
+          </AuthGuard>
+        ),
+      },
+      {
+        path: 'attendance/update/:id',
+        element: (
+          <AuthGuard role={{ route: 'user', action: 'update' }}>
+            <UpdateAttendance />
+          </AuthGuard>
+        ),
+      },
+      {
+        path: 'attendance/detail/:id',
+        element: (
+          <AuthGuard role={{ route: 'user', action: 'detail' }}>
+            <DetailAttendance />
+          </AuthGuard>
+        ),
+      },
+      {
+        path: 'grade',
+        element: (
+          <AuthGuard role={{ route: 'user', action: 'list' }}>
+            <Grades />
+          </AuthGuard>
+        ),
+      },
+      {
+        path: 'grade/create',
+        element: (
+          <AuthGuard role={{ route: 'user', action: 'create' }}>
+            <CreateGrade />
+          </AuthGuard>
+        ),
+      },
+      {
+        path: 'grade/update/:id',
+        element: (
+          <AuthGuard role={{ route: 'user', action: 'update' }}>
+            <UpdateGrade />
+          </AuthGuard>
+        ),
+      },
+      {
+        path: 'grade/detail/:id',
+        element: (
+          <AuthGuard role={{ route: 'user', action: 'detail' }}>
+            <DetailGrade />
           </AuthGuard>
         ),
       },
