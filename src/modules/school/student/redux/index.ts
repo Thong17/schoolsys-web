@@ -17,15 +17,17 @@ export const getListStudent = createAsyncThunk(
 
 export const getStudent = createAsyncThunk(
   'student/detail',
-  async ({id, query, fields}: { id: string, query?: URLSearchParams, fields: Array<string> }) => {
+  async ({id, query, fields}: { id: string, query?: URLSearchParams, fields?: Array<string> }) => {
     const response = await Axios({
       method: 'GET',
       url: `/school/student/detail/${id}`
     })
     let data = {}
-    fields.forEach((field) => {
-      data[field] = response?.data?.data?.[field]
-    })
+    fields 
+      ? fields.forEach((field) => {
+        data[field] = response?.data?.data?.[field]
+      }) 
+      : data = response?.data?.data
     
     return { ...response?.data, data }
   }

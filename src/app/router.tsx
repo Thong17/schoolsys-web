@@ -7,7 +7,7 @@ import { Report } from 'modules/report'
 import { Counter } from 'modules/counter/Counter'
 import Config from 'modules/config/Config'
 import NotFound from 'components/shared/NotFound'
-import { CreateStudent, CreateTeacher, DetailStudent, DetailTeacher, School, Students, Teachers, UpdateStudent, UpdateTeacher } from 'modules/school'
+import { CreateStudent, CreateTeacher, DetailStudent, DetailTeacher, School, Students, Teachers, UpdateStudent, UpdateTeacher, DetailFormStudent } from 'modules/school'
 import { Operation, CreateAttendance, CreateGrade, DetailAttendance, DetailGrade, Attendances, Grades, UpdateAttendance, UpdateGrade } from 'modules/operation'
 
 
@@ -131,6 +131,14 @@ const routes: RouteObject[] = [
         element: (
           <AuthGuard role={{ route: 'user', action: 'detail' }}>
             <DetailStudent />
+          </AuthGuard>
+        ),
+      },
+      {
+        path: 'student/:action/:id/:detail',
+        element: (
+          <AuthGuard role={{ route: 'user', action: 'detail' }}>
+            <DetailFormStudent />
           </AuthGuard>
         ),
       },

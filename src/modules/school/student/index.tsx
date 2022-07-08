@@ -184,3 +184,4 @@ export const Students = () => {
 export { CreateStudent } from './Create'
 export { UpdateStudent } from './Update'
 export { DetailStudent } from './Detail'
+export { DetailFormStudent } from './DetailForm'

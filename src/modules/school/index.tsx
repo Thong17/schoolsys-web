@@ -22,6 +22,6 @@ export const School = () => {
   )
 }
 
-export { Students, CreateStudent, UpdateStudent, DetailStudent } from './student'
+export { Students, CreateStudent, UpdateStudent, DetailStudent, DetailFormStudent } from './student'
 export { Teachers, CreateTeacher, UpdateTeacher, DetailTeacher } from './teacher'
 

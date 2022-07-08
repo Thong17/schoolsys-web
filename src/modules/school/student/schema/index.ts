@@ -5,9 +5,30 @@ export const studentSchema = yup.object().shape({
   firstName: yup.string().required(),
   gender: yup.string().required(),
   dateOfBirth: yup.string().required(),
-  placeOfBirth: yup.string().required(),
-  nationality: yup.string().required(),
+  placeOfBirth: yup.string().optional(),
+  nationality: yup.string().optional(),
   address: yup.string().optional(),
   contact: yup.string().optional(),
   profile: yup.mixed().optional(),
 })
+
+export const academySchema = yup.object().shape({
+  previousGrade: yup.string().optional(),
+  previousSchool: yup.string().optional(),
+  appliedGrade: yup.string().optional(),
+})
+
+export const familySchema = yup.object().shape({
+  guardian: yup.string().optional(),
+  contact: yup.string().optional(),
+  numberOfSibling: yup.string().optional(),
+  siblingAttendSchool: yup.string().optional(),
+  languages: yup.string().optional(),
+})
+
+export const healthSchema = yup.object().shape({
+  previousTreatment: yup.string().optional(),
+  presentTreatment: yup.string().optional(),
+  allergies: yup.string().optional(),
+})
+

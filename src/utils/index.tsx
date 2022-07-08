@@ -71,6 +71,7 @@ export const dateFormat = (date) => {
 }
 
 export const inputDateFormat = (d) => {
+  if (d === '') return d
   let date = new Date(d)
   let dd: any = date.getDate()
   let mm: any = date.getMonth()+1
