@@ -120,12 +120,10 @@ export const Grades = () => {
     const listGrades = grades.map((grade: any) => {
       return createData(
         grade._id,
-        grade.lastName,
-        grade.firstName,
-        grade.gender,
-        grade.birthDate,
-        grade.address,
-        grade.contact,
+        grade.name,
+        grade.level,
+        grade.subjects,
+        grade.description,
         grade.createdBy?.username || '...',
         user?.privilege,
         device,
@@ -182,3 +180,4 @@ export const Grades = () => {
 export { CreateGrade } from './Create'
 export { UpdateGrade } from './Update'
 export { DetailGrade } from './Detail'
+export { SubjectGrade } from './Subject'

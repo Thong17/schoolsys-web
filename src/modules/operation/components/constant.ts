@@ -39,36 +39,36 @@ export const stages = {
         title: 'Update',
       },
     ],
-    grade: [
+    class: [
       {
         title: 'Operation',
         path: '/operation',
       },
       {
-        title: 'Grade',
+        title: 'Class',
       },
     ],
-    gradeCreate: [
+    classCreate: [
       {
         title: 'Operation',
         path: '/operation',
       },
       {
-        title: 'Grade',
-        path: '/operation/grade',
+        title: 'Class',
+        path: '/operation/class',
       },
       {
         title: 'Create',
       },
     ],
-    gradeUpdate: [
+    classUpdate: [
       {
         title: 'Operation',
         path: '/operation',
       },
       {
-        title: 'Grade',
-        path: '/operation/grade',
+        title: 'Class',
+        path: '/operation/class',
       },
       {
         title: 'Update',

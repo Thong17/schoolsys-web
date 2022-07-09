@@ -10,10 +10,10 @@ export const Header = ({
   handleSearch,
   handleImport,
 }) => {
-  const [roles, setGrades] = useState([])
+  const [roles, setClasses] = useState([])
 
   useEffect(() => {
-    const newGrades = data.map((role) => {
+    const newClasses = data.map((role) => {
       return {
         _id: role._id,
         name: JSON.stringify(role.name)?.replace(/"/g, '""'),
@@ -21,7 +21,7 @@ export const Header = ({
         privilege: JSON.stringify(role.privilege)?.replace(/"/g, '""'),
       }
     })
-    setGrades(newGrades)
+    setClasses(newClasses)
   }, [data])
 
   return (
@@ -32,8 +32,8 @@ export const Header = ({
       handleSearch={handleSearch}
       handleImport={handleImport}
       excelHeader={headerColumns}
-      breadcrumb={<AdminBreadcrumbs page='grade' />}
-      createUrl='/operation/grade/create'
+      breadcrumb={<AdminBreadcrumbs page='class' />}
+      createUrl='/operation/class/create'
       filename='roles'
     />
   )

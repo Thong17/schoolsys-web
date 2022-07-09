@@ -8,31 +8,22 @@ import { DeviceOptions } from 'contexts/web/interface'
 import { MenuDialog } from 'components/shared/MenuDialog'
 import { ITableColumn } from 'components/shared/table/StickyTable'
 import MenuList from '@mui/material/MenuList'
-import { dateFormat } from 'utils'
 
 export interface IGradeBody {
-  lastName: string,
-  firstName: string,
-  gender: string,
-  birthDate: string,
-  address: string,
-  contact: string,
-  email: string,
+  name: string,
+  level: string,
+  description: string,
 }
 
 export const initState = {
-  lastName: '',
-  firstName: '',
-  gender: '',
-  birthDate: '',
-  address: '',
-  contact: '',
-  email: ''
+  name: '',
+  level: '',
+  description: '',
 }
 
-export declare type ColumnHeader = 'lastName' | 'firstName' | 'gender' | 'birthDate' | 'address' | 'contact' | 'email' | 'action'
+export declare type ColumnHeader = 'name' | 'level' | 'subjects' | 'description' | 'action'
 
-export const importColumns = ['_id', 'lastName', 'firstName', 'gender', 'birthDate', 'address', 'contact', 'email']
+export const importColumns = ['_id', 'name', 'level', 'subjects', 'description']
 
 export const headerColumns = [
   {
@@ -40,74 +31,54 @@ export const headerColumns = [
     key: '_id'
   },
   {
-    label: 'lastName',
-    key: 'lastName'
+    label: 'name',
+    key: 'name'
   },
   {
-    label: 'firstName',
-    key: 'firstName'
+    label: 'level',
+    key: 'level'
   },
   {
-    label: 'gender',
-    key: 'gender'
+    label: 'subjects',
+    key: 'subjects'
   },
   {
-    label: 'birthDate',
-    key: 'birthDate'
-  },
-  {
-    label: 'address',
-    key: 'address'
-  },
-  {
-    label: 'contact',
-    key: 'contact'
-  },
-  {
-    label: 'email',
-    key: 'email'
+    label: 'description',
+    key: 'description'
   },
 ]
 
 export const importColumnData: ITableColumn<ColumnHeader>[] = [
-  { id: 'lastName', label: 'Last Name' },
-  { id: 'firstName', label: 'First Name' },
-  { id: 'gender', label: 'Gender' },
-  { id: 'birthDate', label: 'Birth Date' },
-  { id: 'address', label: 'Address' },
-  { id: 'contact', label: 'Contact' },
+  { id: 'name', label: 'Name' },
+  { id: 'level', label: 'Level' },
+  { id: 'subjects', label: 'Subjects' },
+  { id: 'description', label: 'Description' },
   { id: 'action', label: 'Remove' },
 ]
 
 export const columnData: ITableColumn<ColumnHeader>[] = [
-  { id: 'lastName', label: 'Last Name' },
-  { id: 'firstName', label: 'First Name' },
-  { id: 'gender', label: 'Gender' },
-  { id: 'birthDate', label: 'Birth Date' },
-  { id: 'address', label: 'Address' },
-  { id: 'contact', label: 'Contact' },
+  { id: 'name', label: 'Name' },
+  { id: 'level', label: 'Level' },
+  { id: 'subjects', label: 'Subjects' },
+  { id: 'description', label: 'Description' },
   { id: 'action', label: 'Action', align: 'right' },
 ]
 export interface Data {
   id: string
-  lastName: string
-  firstName: string
-  gender: string
-  birthDate: string
-  address: string
-  contact: string
+  name: string,
+  level: string,
+  subjects: number,
+  description: string,
   createdBy: string
   action: ReactElement
 }
 
 export const createData = (
   id: string,
-  lastName: string,
-  firstName: string,
-  gender: string,
-  birthDate: string,
-  address: string,
-  contact: string,
+  name: string,
+  level: string,
+  subjects: string,
+  description: string,
   createdBy: string,
   privilege: any,
   device: DeviceOptions,
@@ -154,7 +125,5 @@ export const createData = (
     </div>
   )
 
-  const formattedBirthDate = dateFormat(birthDate)
-
-  return { id, lastName, firstName, gender, birthDate: formattedBirthDate, address, contact, createdBy, action: action }
+  return { id, name, level, subjects: subjects?.length, description, createdBy, action: action }
 }
