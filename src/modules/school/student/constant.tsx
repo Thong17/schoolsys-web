@@ -9,6 +9,7 @@ import { MenuDialog } from 'components/shared/MenuDialog'
 import { ITableColumn } from 'components/shared/table/StickyTable'
 import MenuList from '@mui/material/MenuList'
 import { dateFormat } from 'utils'
+import { CircleIcon } from 'components/shared/table/CustomIcon'
 
 export interface IStudentBody {
   lastName: string,
@@ -32,7 +33,7 @@ export const initState = {
   contact: '',
 }
 
-export declare type ColumnHeader = 'lastName' | 'firstName' | 'gender' | 'dateOfBirth' | 'placeOfBirth' | 'nationality' | 'address' | 'contact' | 'action'
+export declare type ColumnHeader = 'appliedGrade' | 'profile' | 'lastName' | 'firstName' | 'gender' | 'dateOfBirth' | 'placeOfBirth' | 'nationality' | 'address' | 'contact' | 'action'
 
 export const importColumns = ['_id', 'lastName', 'firstName', 'gender', 'dateOfBirth', 'placeOfBirth', 'nationality', 'address', 'contact']
 
@@ -92,18 +93,21 @@ export const importColumnData: ITableColumn<ColumnHeader>[] = [
 ]
 
 export const columnData: ITableColumn<ColumnHeader>[] = [
+  { id: 'profile', label: 'Profile' },
   { id: 'lastName', label: 'Last\u00a0Name' },
   { id: 'firstName', label: 'First\u00a0Name' },
   { id: 'gender', label: 'Gender' },
-  { id: 'dateOfBirth', label: 'Date\u00a0Of\u00a0Birth' },
+  // { id: 'dateOfBirth', label: 'Date\u00a0Of\u00a0Birth' },
   // { id: 'placeOfBirth', label: 'Place\u00a0Of\u00a0Birth' },
   // { id: 'nationality', label: 'Nationality' },
   // { id: 'address', label: 'Address' },
   { id: 'contact', label: 'Contact' },
+  { id: 'appliedGrade', label: 'Applied\u00a0Grade' },
   { id: 'action', label: 'Action', align: 'right' },
 ]
 export interface Data {
   id: string
+  profile: ReactElement
   lastName: string
   firstName: string
   gender: string
@@ -112,12 +116,14 @@ export interface Data {
   nationality: string
   address: string
   contact: string
+  appliedGrade: string
   createdBy: string
   action: ReactElement
 }
 
 export const createData = (
   id: string,
+  profile: any,
   lastName: string,
   firstName: string,
   gender: string,
@@ -126,6 +132,7 @@ export const createData = (
   nationality: string,
   address: string,
   contact: string,
+  appliedGrade: string,
   createdBy: string,
   privilege: any,
   device: DeviceOptions,
@@ -173,6 +180,7 @@ export const createData = (
   )
 
   const formattedBirthDate = dateFormat(dateOfBirth)
+  const profileImage = <CircleIcon icon={profile?.filename} />
 
-  return { id, lastName, firstName, gender, dateOfBirth: formattedBirthDate, placeOfBirth, nationality, address, contact, createdBy, action: action }
+  return { id, profile: profileImage, lastName, firstName, gender, dateOfBirth: formattedBirthDate, placeOfBirth, nationality, address, contact, appliedGrade, createdBy, action: action }
 }

@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { selectListStudent, getListStudent } from './redux'
 import { useEffect, useState } from 'react'
-import { debounce } from 'utils'
+import { capitalizeText, debounce } from 'utils'
 import { useSearchParams } from 'react-router-dom'
 import useTheme from 'hooks/useTheme'
 import { Header } from './Header'
@@ -120,14 +120,16 @@ export const Students = () => {
     const listStudents = students.map((student: any) => {
       return createData(
         student._id,
+        student.profile,
         student.lastName,
         student.firstName,
-        student.gender,
+        capitalizeText(student.gender),
         student.dateOfBirth,
         student.placeOfBirth,
         student.nationality,
         student.address,
         student.contact,
+        student.academy?.appliedGrade || '...',
         student.createdBy?.username || '...',
         user?.privilege,
         device,
