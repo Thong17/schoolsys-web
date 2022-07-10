@@ -15,6 +15,18 @@ export const getListStudent = createAsyncThunk(
   }
 )
 
+export const getListAcademy = createAsyncThunk(
+  'student/academy',
+  async ({ id, query }: { id: string, query?: URLSearchParams }) => {
+    const response = await Axios({
+      method: 'GET',
+      url: `/school/student/academy/${id}`,
+      params: query
+    })
+    return response?.data
+  }
+)
+
 export const getStudent = createAsyncThunk(
   'student/detail',
   async ({id, query, fields}: { id: string, query?: URLSearchParams, fields?: Array<string> }) => {
@@ -51,6 +63,18 @@ export const roleSlice = createSlice({
         state.list.data = action.payload.data
       })
 
+      // List Academy
+      .addCase(getListAcademy.pending, (state) => {
+        state.academy.status = 'LOADING'
+      })
+      .addCase(getListAcademy.rejected, (state) => {
+        state.academy.status = 'FAILED'
+      })
+      .addCase(getListAcademy.fulfilled, (state, action) => {
+        state.academy.status = 'SUCCESS'
+        state.academy.data = action.payload.data
+      })
+
       // Detail Student
       .addCase(getStudent.pending, (state) => {
         state.detail.status = 'LOADING'
@@ -67,5 +91,6 @@ export const roleSlice = createSlice({
 
 export const selectStudent = (state: RootState) => state.student.detail
 export const selectListStudent = (state: RootState) => state.student.list
+export const selectListAcademy = (state: RootState) => state.student.academy
 
 export default roleSlice.reducer

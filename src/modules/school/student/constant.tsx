@@ -102,7 +102,7 @@ export const columnData: ITableColumn<ColumnHeader>[] = [
   // { id: 'nationality', label: 'Nationality' },
   // { id: 'address', label: 'Address' },
   { id: 'contact', label: 'Contact' },
-  { id: 'appliedClass', label: 'Applied\u00a0Grade' },
+  { id: 'appliedClass', label: 'Applied\u00a0Class' },
   { id: 'action', label: 'Action', align: 'right' },
 ]
 export interface Data {
