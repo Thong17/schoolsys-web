@@ -120,7 +120,7 @@ export const Grades = () => {
     const listGrades = grades.map((grade: any) => {
       return createData(
         grade._id,
-        grade.name,
+        grade.name?.[lang] || grade.name?.['English'],
         grade.level,
         grade.subjects,
         grade.description,

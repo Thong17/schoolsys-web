@@ -15,3 +15,13 @@ export const initialState: GradeState = {
     status: 'INIT',
   }
 }
+
+export const mapSubjectBody = (body) => {
+  return {
+    name: body.name,
+    level: body.level,
+    passScore: body.passScore,
+    fullScore: body.fullScore,
+    description: body.description,
+  }
+}

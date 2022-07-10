@@ -16,8 +16,16 @@ export interface IGradeBody {
 }
 
 export const initState = {
-  name: '',
+  name: {},
   level: '',
+  description: '',
+}
+
+export const initSubject = {
+  name: {},
+  level: '',
+  passScore: 0,
+  fullScore: 0,
   description: '',
 }
 
@@ -63,6 +71,16 @@ export const columnData: ITableColumn<ColumnHeader>[] = [
   { id: 'description', label: 'Description' },
   { id: 'action', label: 'Action', align: 'right' },
 ]
+
+export const subjectColumnData: ITableColumn<any>[] = [
+  { id: 'name', label: 'Name' },
+  { id: 'level', label: 'Level' },
+  { id: 'passScore', label: 'Pass Score' },
+  { id: 'fullScore', label: 'Full Score' },
+  { id: 'description', label: 'Description' },
+  { id: 'action', label: 'Action', align: 'right' },
+]
+
 export interface Data {
   id: string
   name: string,
@@ -126,4 +144,54 @@ export const createData = (
   )
 
   return { id, name, level, subjects: subjects?.length, description, createdBy, action: action }
+}
+
+export const createSubjectData = (
+  id: string,
+  name: string,
+  level: string,
+  passScore: string,
+  fullScore: string,
+  description: string,
+  createdBy: string,
+  privilege: any,
+  device: DeviceOptions,
+  onEdit: Function,
+  setDialog: Function
+): any => {
+  let action = (
+    <div style={{ float: 'right' }}>
+      {device === 'mobile' ? (
+        privilege?.grade?.detail && (
+          <MenuDialog label={<ViewButton />}>
+            <MenuList
+              component='div'
+              onClick={() => onEdit(id)}
+            >
+              Edit
+            </MenuList>
+            <MenuList
+              component='div'
+              onClick={() => setDialog({ open: true, id })}
+            >
+              Delete
+            </MenuList>
+          </MenuDialog>
+        )
+      ) : (
+        <>
+          {privilege?.grade?.update && (
+            <UpdateButton
+              onClick={() => onEdit(id)}
+            />
+          )}
+          {privilege?.grade?.delete && (
+            <DeleteButton onClick={() => setDialog({ open: true, id })} />
+          )}
+        </>
+      )}
+    </div>
+  )
+
+  return { id, name, level, passScore, fullScore, description, createdBy, action: action }
 }

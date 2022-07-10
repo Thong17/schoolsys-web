@@ -1,5 +1,6 @@
 import {
   DetailField,
+  LocaleField,
   TextField,
 } from 'components/shared/form'
 import { useForm } from 'react-hook-form'
@@ -17,6 +18,8 @@ import { useNavigate } from 'react-router-dom'
 export const GradeForm = ({ defaultValues, id }: any) => {
   const {
     register,
+    setValue,
+    getValues,
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(gradeSchema), defaultValues })
@@ -25,6 +28,10 @@ export const GradeForm = ({ defaultValues, id }: any) => {
   const { notify } = useNotify()
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
+
+  const handleLocaleChange = (data) => {
+    setValue('name', data)
+  }
 
   const submit = async (data) => {
     Axios({
@@ -51,23 +58,26 @@ export const GradeForm = ({ defaultValues, id }: any) => {
         gridTemplateAreas:
           device === 'mobile'
             ? ` 
-              'name name level' 
+              'name name name' 
+              'level level level'
               'description description description'
               'action action action'
             `
             : ` 
-              'name name level' 
+              'name name name' 
+              'level level level'
               'description description description'
               'action action action'
             `,
       }}
     >
-      <div style={{ gridArea: 'name' }}>
-        <TextField
-          type='text'
-          label='Grade'
-          err={errors.name?.message}
-          {...register('name')}
+      <div style={{ gridArea: 'name', marginTop: 20 }}>
+        <LocaleField
+          name='name'
+          err={errors?.name}
+          describe='Grade Name'
+          defaultValue={getValues('name')}
+          onChange={handleLocaleChange}
         />
       </div>
       <div style={{ gridArea: 'level' }}>
