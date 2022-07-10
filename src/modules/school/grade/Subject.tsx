@@ -113,7 +113,8 @@ export const SubjectGrade = () => {
         setDialog
       )
     })
-    listSubjects && setRowData(listSubjects)
+    
+    setRowData(listSubjects || [])
   }, [grade, lang, user, device, subjectDialog, notify, navigate, setDialog, setSubjectDialog])
 
   const actionLink =
@@ -131,7 +132,7 @@ export const SubjectGrade = () => {
       path: '/school/grade',
     },
     {
-      title: action === 'create' ? 'Create' : grade.name?.[lang] || grade.name?.['English'],
+      title: action === 'create' ? 'Create' : grade?.name?.[lang] || grade?.name?.['English'],
       path: actionLink,
     },
     {
@@ -162,7 +163,7 @@ export const SubjectGrade = () => {
         handleConfirm={handleConfirmDelete}
         handleClose={() => setDialog({ open: false, id: null })}
       ></DeleteDialog>
-      <StickyTable columns={subjectColumnData} rows={rowData} loading={false} />
+      <StickyTable columns={subjectColumnData} rows={rowData} loading={status === 'SUCCESS' ? false : true} />
     </Container>
   )
 }

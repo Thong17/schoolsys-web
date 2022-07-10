@@ -1,5 +1,6 @@
 import {
   TextField,
+  SelectField
 } from 'components/shared/form'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -10,10 +11,15 @@ import { useEffect, useState } from 'react'
 import useWeb from 'hooks/useWeb'
 import { academySchema } from '../schema'
 import { getStudent } from '../redux'
-import { useAppDispatch } from 'app/hooks'
+import { useAppDispatch, useAppSelector } from 'app/hooks'
+import { IOptions } from 'components/shared/form/SelectField'
+import useLanguage from 'hooks/useLanguage'
+import { selectListClass, getListClass } from 'modules/operation/class/redux'
 
 export const AcademyForm = ({ studentId, defaultValues }) => {
+  const { data: listClass, status: statusListClass } = useAppSelector(selectListClass)
   const {
+    watch,
     register,
     setValue,
     handleSubmit,
@@ -22,14 +28,37 @@ export const AcademyForm = ({ studentId, defaultValues }) => {
     resolver: yupResolver(academySchema)
   })
   const { device } = useWeb()
+  const { lang } = useLanguage()
   const { notify } = useNotify()
   const [loading, setLoading] = useState(false)
   const dispatch = useAppDispatch()
+  const [classOption, setClassOption] = useState<IOptions[]>([])
+  const [_class, setClass] = useState('')
+  const gradeId = watch('appliedClass')
+
+  useEffect(() => {
+    const _class: any = listClass.find((value: any) => value._id === gradeId)
+    setClass(_class?._id || '')
+  }, [gradeId, listClass])
+
+  useEffect(() => {
+    if (statusListClass !== 'INIT') return
+    dispatch(getListClass({}))
+  }, [dispatch, statusListClass])
+
+  useEffect(() => {
+    let classOptions: IOptions[] = []
+    listClass.forEach((key: any) => {
+      classOptions = [...classOptions, { label: key.name?.[lang] || key.name?.['English'], value: key._id }]
+    })
+
+    setClassOption(classOptions)
+  }, [listClass, lang])
 
   useEffect(() => {
     setValue('previousGrade', defaultValues?.previousGrade)
     setValue('previousSchool', defaultValues?.previousSchool)
-    setValue('appliedGrade', defaultValues?.appliedGrade)
+    setValue('appliedClass', defaultValues?.appliedClass)
   }, [defaultValues, setValue])
 
   const submit = async (data) => {
@@ -57,12 +86,12 @@ export const AcademyForm = ({ studentId, defaultValues }) => {
         gridTemplateAreas:
           device === 'mobile'
             ? ` 'previousSchool previousSchool previousSchool'
-                'previousGrade previousGrade appliedGrade'
+                'previousGrade previousGrade appliedClass'
                 'action action action'
               `
             : ` 
                 'previousSchool previousSchool previousSchool'
-                'previousGrade previousGrade appliedGrade'
+                'previousGrade previousGrade appliedClass'
                 'action action action'
               `,
       }}
@@ -83,12 +112,14 @@ export const AcademyForm = ({ studentId, defaultValues }) => {
           {...register('previousGrade')}
         />
       </div>
-      <div style={{ gridArea: 'appliedGrade' }}>
-        <TextField
-          type='text'
-          label='Applied Grade'
-          err={errors.appliedGrade?.message}
-          {...register('appliedGrade')}
+      <div style={{ gridArea: 'appliedClass' }}>
+        <SelectField
+          value={_class}
+          label='Applied Class'
+          options={classOption}
+          err={errors?.appliedClass?.message}
+          loading={statusListClass === 'LOADING' ? true : false}
+          {...register('appliedClass')}
         />
       </div>
       <div

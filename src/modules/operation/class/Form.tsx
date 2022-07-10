@@ -2,6 +2,7 @@ import {
   DetailField,
   TextField,
   SelectField,
+  LocaleField,
 } from 'components/shared/form'
 import { useForm } from 'react-hook-form'
 import { classSchema } from './schema'
@@ -11,9 +12,12 @@ import Button from 'components/shared/Button'
 import Axios from 'constants/functions/Axios'
 import useNotify from 'hooks/useNotify'
 import { useEffect, useState } from 'react'
-import { inputDateFormat } from 'utils'
-import { useAppDispatch } from 'app/hooks'
+import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { getListClass } from './redux'
+import { IOptions } from 'components/shared/form/SelectField'
+import { getListGrade, selectListGrade } from 'modules/school/grade/redux'
+import useLanguage from 'hooks/useLanguage'
+import { useNavigate } from 'react-router-dom'
 
 const listSchedule = [
   { label: 'Morning', value: 'morning' },
@@ -22,18 +26,49 @@ const listSchedule = [
 ]
 
 export const ClassForm = ({ defaultValues, id }: any) => {
+  const navigate = useNavigate()
   const {
     watch,
     register,
+    setValue,
+    getValues,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(classSchema), defaultValues: {...defaultValues, birthDate: inputDateFormat(defaultValues?.birthDate)} })
+  } = useForm({ resolver: yupResolver(classSchema), defaultValues })
   const dispatch = useAppDispatch()
   const { device } = useWeb()
   const { notify } = useNotify()
+  const { lang } = useLanguage()
   const [loading, setLoading] = useState(false)
   const [schedule, setSchedule] = useState('')
   const scheduleId = watch('schedule')
+  const { data: listGrade, status: statusListGrade } = useAppSelector(selectListGrade)
+  const [gradeOption, setGradeOption] = useState<IOptions[]>([])
+  const [grade, setGrade] = useState('')
+  const gradeId = watch('grade')
+
+  const handleLocaleChange = (data) => {
+    setValue('name', data)
+  }
+
+  useEffect(() => {
+    const grade: any = listGrade.find((value: any) => value._id === gradeId)
+    setGrade(grade?._id || '')
+  }, [gradeId, listGrade])
+
+  useEffect(() => {
+    if (statusListGrade !== 'INIT') return
+    dispatch(getListGrade({}))
+  }, [dispatch, statusListGrade])
+
+  useEffect(() => {
+    let gradeOptions: IOptions[] = []
+    listGrade.forEach((key: any) => {
+      gradeOptions = [...gradeOptions, { label: key.name?.[lang] || key.name?.['English'], value: key._id }]
+    })
+
+    setGradeOption(gradeOptions)
+  }, [listGrade, lang])
 
   useEffect(() => {
     const schedule = listSchedule.find((schedule) => schedule.value === scheduleId)
@@ -43,12 +78,13 @@ export const ClassForm = ({ defaultValues, id }: any) => {
   const submit = async (data) => {
     Axios({
       method: id ? 'PUT' : 'POST',
-      url: id ? `/school/class/update/${id}` : `/school/class/create`,
+      url: id ? `/operation/class/update/${id}` : `/operation/class/create`,
       body: data,
     })
       .then((data) => {
         notify(data?.data?.msg, 'success')
         dispatch(getListClass({}))
+        !id && navigate(`/operation/class/create/${data?.data?.data?._id}/students`)
       })
       .catch((err) => notify(err?.response?.data?.msg, 'error'))
       .finally(() => setLoading(false))
@@ -64,44 +100,38 @@ export const ClassForm = ({ defaultValues, id }: any) => {
         gridTemplateAreas:
           device === 'mobile'
             ? ` 
-              'name name grade' 
-              'room schedule schedule'
+              'name name name' 
+              'grade schedule room'
               'subjects subjects subjects'
               'description description description'
               'action action action'
             `
             : ` 
-              'name name grade' 
-              'room schedule schedule'
+              'name name name' 
+              'grade schedule room'
               'subjects subjects subjects'
               'description description description'
               'action action action'
             `,
       }}
     >
-      <div style={{ gridArea: 'name' }}>
-        <TextField
-          type='text'
-          label='Class Name'
-          err={errors.name?.message}
-          {...register('name')}
+      <div style={{ gridArea: 'name', marginTop: 20 }}>
+        <LocaleField
+          name='name'
+          err={errors?.name}
+          describe='Class Name'
+          defaultValue={getValues('name')}
+          onChange={handleLocaleChange}
         />
       </div>
       <div style={{ gridArea: 'grade' }}>
         <SelectField
-          value={schedule}
+          value={grade}
           label='Grade'
           err={errors.grade?.message}
-          options={listSchedule}
+          options={gradeOption}
+          loading={statusListGrade === 'LOADING' ? true : false}
           {...register('grade')}
-        />
-      </div>
-      <div style={{ gridArea: 'room' }}>
-        <TextField
-          type='text'
-          label='Room'
-          err={errors.room?.message}
-          {...register('room')}
         />
       </div>
       <div style={{ gridArea: 'schedule' }}>
@@ -111,6 +141,14 @@ export const ClassForm = ({ defaultValues, id }: any) => {
           err={errors.schedule?.message}
           options={listSchedule}
           {...register('schedule')}
+        />
+      </div>
+      <div style={{ gridArea: 'room' }}>
+        <TextField
+          type='text'
+          label='Room'
+          err={errors.room?.message}
+          {...register('room')}
         />
       </div>
       <div style={{ gridArea: 'description' }}>

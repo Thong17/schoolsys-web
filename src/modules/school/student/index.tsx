@@ -129,7 +129,7 @@ export const Students = () => {
         student.nationality,
         student.address,
         student.contact,
-        student.academy?.appliedGrade || '...',
+        student.academy?.appliedClass || '...',
         student.createdBy?.username || '...',
         user?.privilege,
         device,

@@ -33,7 +33,7 @@ export const initState = {
   contact: '',
 }
 
-export declare type ColumnHeader = 'appliedGrade' | 'profile' | 'lastName' | 'firstName' | 'gender' | 'dateOfBirth' | 'placeOfBirth' | 'nationality' | 'address' | 'contact' | 'action'
+export declare type ColumnHeader = 'appliedClass' | 'profile' | 'lastName' | 'firstName' | 'gender' | 'dateOfBirth' | 'placeOfBirth' | 'nationality' | 'address' | 'contact' | 'action'
 
 export const importColumns = ['_id', 'lastName', 'firstName', 'gender', 'dateOfBirth', 'placeOfBirth', 'nationality', 'address', 'contact']
 
@@ -102,7 +102,7 @@ export const columnData: ITableColumn<ColumnHeader>[] = [
   // { id: 'nationality', label: 'Nationality' },
   // { id: 'address', label: 'Address' },
   { id: 'contact', label: 'Contact' },
-  { id: 'appliedGrade', label: 'Applied\u00a0Grade' },
+  { id: 'appliedClass', label: 'Applied\u00a0Grade' },
   { id: 'action', label: 'Action', align: 'right' },
 ]
 export interface Data {
@@ -116,7 +116,7 @@ export interface Data {
   nationality: string
   address: string
   contact: string
-  appliedGrade: string
+  appliedClass: string
   createdBy: string
   action: ReactElement
 }
@@ -132,7 +132,7 @@ export const createData = (
   nationality: string,
   address: string,
   contact: string,
-  appliedGrade: string,
+  appliedClass: string,
   createdBy: string,
   privilege: any,
   device: DeviceOptions,
@@ -182,5 +182,5 @@ export const createData = (
   const formattedBirthDate = dateFormat(dateOfBirth)
   const profileImage = <CircleIcon icon={profile?.filename} />
 
-  return { id, profile: profileImage, lastName, firstName, gender, dateOfBirth: formattedBirthDate, placeOfBirth, nationality, address, contact, appliedGrade, createdBy, action: action }
+  return { id, profile: profileImage, lastName, firstName, gender, dateOfBirth: formattedBirthDate, placeOfBirth, nationality, address, contact, appliedClass, createdBy, action: action }
 }

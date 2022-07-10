@@ -15,7 +15,7 @@ export const studentSchema = yup.object().shape({
 export const academySchema = yup.object().shape({
   previousGrade: yup.string().optional(),
   previousSchool: yup.string().optional(),
-  appliedGrade: yup.string().optional(),
+  appliedClass: yup.string().optional(),
 })
 
 export const familySchema = yup.object().shape({

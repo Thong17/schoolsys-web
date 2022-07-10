@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { selectListClass, getListClass } from './redux'
 import { useEffect, useState } from 'react'
-import { debounce } from 'utils'
+import { capitalizeText, debounce } from 'utils'
 import { useSearchParams } from 'react-router-dom'
 import useTheme from 'hooks/useTheme'
 import { Header } from './Header'
@@ -120,10 +120,11 @@ export const Classes = () => {
     const listClasses = classes.map((_class: any) => {
       return createData(
         _class._id,
-        _class.name,
-        _class.schedule,
-        _class.students,
-        _class.grade,
+        _class.name?.[lang] || _class.name?.['English'],
+        _class.room,
+        capitalizeText(_class.schedule),
+        _class.students?.length,
+        _class.grade?.name?.[lang] || _class.grade?.name?.['English'],
         _class.description,
         _class.createdBy?.username || '...',
         user?.privilege,
@@ -181,3 +182,4 @@ export const Classes = () => {
 export { CreateClass } from './Create'
 export { UpdateClass } from './Update'
 export { DetailClass } from './Detail'
+export { StudentClass } from './Student'

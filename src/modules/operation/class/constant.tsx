@@ -10,26 +10,24 @@ import { ITableColumn } from 'components/shared/table/StickyTable'
 import MenuList from '@mui/material/MenuList'
 
 export interface IClassBody {
-  name: string,
+  name: Object,
   room: string,
   schedule: string,
-  subjects: string,
-  students: string,
+  grade: string,
   description: string,
 }
 
 export const initState = {
-  name: '',
+  name: {},
   room: '',
   schedule: '',
-  subjects: '',
-  students: '',
+  grade: '',
   description: '',
 }
 
-export declare type ColumnHeader = 'name' | 'room' | 'level' | 'schedule' | 'subjects' | 'students' | 'description' | 'action'
+export declare type ColumnHeader = 'name' | 'room' | 'level' | 'schedule' | 'grade' | 'students' | 'description' | 'action'
 
-export const importColumns = ['_id', 'name', 'room', 'schedule', 'subjects', 'students', 'description']
+export const importColumns = ['_id', 'name', 'room', 'schedule', 'grade', 'students', 'description']
 
 export const headerColumns = [
   {
@@ -49,8 +47,8 @@ export const headerColumns = [
     key: 'schedule'
   },
   {
-    label: 'subjects',
-    key: 'subjects'
+    label: 'grade',
+    key: 'grade'
   },
   {
     label: 'students',
@@ -67,6 +65,7 @@ export const importColumnData: ITableColumn<ColumnHeader>[] = [
   { id: 'room', label: 'Room' },
   { id: 'schedule', label: 'Schedule' },
   { id: 'students', label: 'Students' },
+  { id: 'grade', label: 'Grade' },
   { id: 'description', label: 'Description' },
   { id: 'action', label: 'Remove' },
 ]
@@ -76,6 +75,7 @@ export const columnData: ITableColumn<ColumnHeader>[] = [
   { id: 'room', label: 'Room' },
   { id: 'schedule', label: 'Schedule' },
   { id: 'students', label: 'Students' },
+  { id: 'grade', label: 'Grade' },
   { id: 'description', label: 'Description' },
   { id: 'action', label: 'Action', align: 'right' },
 ]
@@ -85,6 +85,7 @@ export interface Data {
   room: string,
   schedule: string,
   students: string,
+  grade: string,
   description: string,
   createdBy: string
   action: ReactElement
@@ -96,6 +97,7 @@ export const createData = (
   room: string,
   schedule: string,
   students: string,
+  grade: string,
   description: string,
   createdBy: string,
   privilege: any,
@@ -143,5 +145,5 @@ export const createData = (
     </div>
   )
 
-  return { id, name, room, schedule, students, description, createdBy, action: action }
+  return { id, name, room, schedule, students, grade, description, createdBy, action: action }
 }
