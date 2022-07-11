@@ -84,7 +84,7 @@ export const ClassForm = ({ defaultValues, id }: any) => {
       .then((data) => {
         notify(data?.data?.msg, 'success')
         dispatch(getListClass({}))
-        !id && navigate(`/operation/class/create/${data?.data?.data?._id}/students`)
+        !id && navigate(`/operation/class/create/${data?.data?.data?._id}/student`)
       })
       .catch((err) => notify(err?.response?.data?.msg, 'error'))
       .finally(() => setLoading(false))
