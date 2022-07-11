@@ -71,6 +71,7 @@ export const AcademyForm = ({ studentId, defaultValues }) => {
       .then((data) => {
         dispatch(getStudent({ id: studentId }))
         dispatch(getListStudent({}))
+        dispatch(getListClass({}))
         notify(data?.data?.msg, 'success')
       })
       .catch((err) => notify(err?.response?.data?.msg, 'error'))

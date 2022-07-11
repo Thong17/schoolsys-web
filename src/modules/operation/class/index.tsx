@@ -124,7 +124,7 @@ export const Classes = () => {
         _class.room,
         capitalizeText(_class.schedule),
         _class.students?.length,
-        _class.applied?.length,
+        _class.totalApplied,
         _class.grade?.name?.[lang] || _class.grade?.name?.['English'],
         _class.description,
         _class.createdBy?.username || '...',

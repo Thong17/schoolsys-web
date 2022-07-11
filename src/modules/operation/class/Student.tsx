@@ -135,7 +135,6 @@ export const StudentClass = () => {
   useEffect(() => {
     if (statusClass !== 'SUCCESS') return
 
-    
     const studentData = _class?.students?.map((student) => {
       return createStudentData(
         student?._id,

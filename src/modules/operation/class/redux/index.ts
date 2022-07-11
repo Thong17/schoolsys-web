@@ -35,9 +35,6 @@ export const classSlice = createSlice({
   name: 'class',
   initialState,
   reducers: {
-    addStudent(state, action) {
-      state.detail.data.students = [...state.detail.data?.students, action.payload]
-    },
     removeStudent(state, action) {
       state.detail.data.students = state.detail.data?.students?.filter((data: any) => data._id !== action.payload)
     },
@@ -72,6 +69,6 @@ export const classSlice = createSlice({
 
 export const selectClass = (state: RootState) => state.class.detail
 export const selectListClass = (state: RootState) => state.class.list
-export const { removeStudent, addStudent } = classSlice.actions
+export const { removeStudent } = classSlice.actions
 
 export default classSlice.reducer
