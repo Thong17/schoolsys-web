@@ -15,12 +15,12 @@ export const getListStudent = createAsyncThunk(
   }
 )
 
-export const getListAcademy = createAsyncThunk(
-  'student/academy',
+export const getListApplied = createAsyncThunk(
+  'student/applied',
   async ({ id, query }: { id: string, query?: URLSearchParams }) => {
     const response = await Axios({
       method: 'GET',
-      url: `/school/student/academy/${id}`,
+      url: `/school/student/applied/${id}`,
       params: query
     })
     return response?.data
@@ -45,10 +45,17 @@ export const getStudent = createAsyncThunk(
   }
 )
 
-export const roleSlice = createSlice({
+export const studentSlice = createSlice({
   name: 'student',
   initialState,
-  reducers: {},
+  reducers: {
+    deleteAppliedStudent(state, action) {
+      state.applied.data = state.applied.data?.filter((data: any) => data._id !== action.payload)
+    },
+    deleteStudent(state, action) {
+      state.list.data = state.list.data?.filter((data: any) => data._id !== action.payload)
+    },
+  },
   extraReducers: (builder) => {
     builder
       // List Student
@@ -64,15 +71,15 @@ export const roleSlice = createSlice({
       })
 
       // List Academy
-      .addCase(getListAcademy.pending, (state) => {
-        state.academy.status = 'LOADING'
+      .addCase(getListApplied.pending, (state) => {
+        state.applied.status = 'LOADING'
       })
-      .addCase(getListAcademy.rejected, (state) => {
-        state.academy.status = 'FAILED'
+      .addCase(getListApplied.rejected, (state) => {
+        state.applied.status = 'FAILED'
       })
-      .addCase(getListAcademy.fulfilled, (state, action) => {
-        state.academy.status = 'SUCCESS'
-        state.academy.data = action.payload.data
+      .addCase(getListApplied.fulfilled, (state, action) => {
+        state.applied.status = 'SUCCESS'
+        state.applied.data = action.payload.data
       })
 
       // Detail Student
@@ -91,6 +98,7 @@ export const roleSlice = createSlice({
 
 export const selectStudent = (state: RootState) => state.student.detail
 export const selectListStudent = (state: RootState) => state.student.list
-export const selectListAcademy = (state: RootState) => state.student.academy
+export const selectListApplied = (state: RootState) => state.student.applied
+export const { deleteAppliedStudent, deleteStudent } = studentSlice.actions
 
-export default roleSlice.reducer
+export default studentSlice.reducer

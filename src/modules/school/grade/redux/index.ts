@@ -33,7 +33,7 @@ export const getGrade = createAsyncThunk(
   }
 )
 
-export const roleSlice = createSlice({
+export const gradeSlice = createSlice({
   name: 'grade',
   initialState,
   reducers: {},
@@ -68,4 +68,4 @@ export const roleSlice = createSlice({
 export const selectGrade = (state: RootState) => state.grade.detail
 export const selectListGrade = (state: RootState) => state.grade.list
 
-export default roleSlice.reducer
+export default gradeSlice.reducer

@@ -63,7 +63,7 @@ export const DetailFormStudent = () => {
             path: `${detailLink}/health`,
           },
           {
-            title: 'Academy',
+            title: 'Application',
           },
         ])
         break

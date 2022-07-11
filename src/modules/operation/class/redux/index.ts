@@ -31,10 +31,17 @@ export const getClass = createAsyncThunk(
   }
 )
 
-export const roleSlice = createSlice({
+export const classSlice = createSlice({
   name: 'class',
   initialState,
-  reducers: {},
+  reducers: {
+    addStudent(state, action) {
+      state.detail.data.students = [...state.detail.data?.students, action.payload]
+    },
+    removeStudent(state, action) {
+      state.detail.data.students = state.detail.data?.students?.filter((data: any) => data._id !== action.payload)
+    },
+  },
   extraReducers: (builder) => {
     builder
       // List Class
@@ -65,5 +72,6 @@ export const roleSlice = createSlice({
 
 export const selectClass = (state: RootState) => state.class.detail
 export const selectListClass = (state: RootState) => state.class.list
+export const { removeStudent, addStudent } = classSlice.actions
 
-export default roleSlice.reducer
+export default classSlice.reducer

@@ -37,7 +37,7 @@ export const UpdateStudent = () => {
       path: `/school/student/update/${id}/health`,
     },
     {
-      title: 'Academy',
+      title: 'Application',
       path: `/school/student/update/${id}/academy`,
     },
   ]

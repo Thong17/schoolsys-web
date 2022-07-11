@@ -674,7 +674,6 @@ export const CustomButton = styled(Button)(
   ({ styled }: { styled: IThemeStyle }) => ({
     borderRadius: styled.radius.primary,
     padding: '6px 13px',
-    overflow: 'hidden',
   })
 )
 

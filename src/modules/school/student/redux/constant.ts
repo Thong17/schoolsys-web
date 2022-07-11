@@ -2,7 +2,7 @@ import { IBody } from 'shared/interface'
 
 export interface StudentState {
   list: IBody<Object[]>
-  academy: IBody<Object[]>
+  applied: IBody<Object[]>
   detail: IBody<any>
 }
 
@@ -11,7 +11,7 @@ export const initialState: StudentState = {
     data: [],
     status: 'INIT',
   },
-  academy: {
+  applied: {
     data: [],
     status: 'INIT',
   },

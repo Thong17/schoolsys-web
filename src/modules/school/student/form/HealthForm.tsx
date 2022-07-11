@@ -9,7 +9,7 @@ import useNotify from 'hooks/useNotify'
 import { useEffect, useState } from 'react'
 import useWeb from 'hooks/useWeb'
 import { healthSchema } from '../schema'
-import { getStudent } from '../redux'
+import { getListStudent, getStudent } from '../redux'
 import { useAppDispatch } from 'app/hooks'
 
 export const HealthForm = ({ studentId, defaultValues }) => {
@@ -41,6 +41,7 @@ export const HealthForm = ({ studentId, defaultValues }) => {
     })
       .then((data) => {
         dispatch(getStudent({ id: studentId }))
+        dispatch(getListStudent({}))
         notify(data?.data?.msg, 'success')
       })
       .catch((err) => notify(err?.response?.data?.msg, 'error'))
