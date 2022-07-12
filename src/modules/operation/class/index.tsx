@@ -125,6 +125,7 @@ export const Classes = () => {
         _class.students?.length,
         _class.totalApplied,
         _class.grade?.name?.[lang] || _class.grade?.name?.['English'],
+        _class.teacher,
         _class.description,
         _class.createdBy?.username || '...',
         user?.privilege,

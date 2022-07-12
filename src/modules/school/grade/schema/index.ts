@@ -12,7 +12,7 @@ export const subjectSchema = yup.object().shape({
   name: yup.object({
     English: yup.string().required('English is required'),
   }),
-  level: yup.string().optional(),
+  teacher: yup.string().optional(),
   passScore: yup.number().required(),
   fullScore: yup.number().required(),
   description: yup.string().optional(),

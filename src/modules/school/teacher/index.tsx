@@ -126,6 +126,8 @@ export const Teachers = () => {
         teacher.birthDate,
         teacher.address,
         teacher.contact,
+        teacher.grade,
+        teacher.subject,
         teacher.createdBy?.username || '...',
         user?.privilege,
         device,

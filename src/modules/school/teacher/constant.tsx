@@ -17,6 +17,8 @@ export interface ITeacherBody {
   birthDate: string,
   address: string,
   contact: string,
+  grade: string,
+  subject: string,
   email: string,
 }
 
@@ -27,12 +29,14 @@ export const initState = {
   birthDate: '',
   address: '',
   contact: '',
+  grade: '',
+  subject: '',
   email: ''
 }
 
-export declare type ColumnHeader = 'lastName' | 'firstName' | 'gender' | 'birthDate' | 'address' | 'contact' | 'email' | 'action'
+export declare type ColumnHeader = 'lastName' | 'firstName' | 'gender' | 'birthDate' | 'address' | 'contact' | 'grade' | 'subject' | 'email' | 'action'
 
-export const importColumns = ['_id', 'lastName', 'firstName', 'gender', 'birthDate', 'address', 'contact', 'email']
+export const importColumns = ['_id', 'lastName', 'firstName', 'gender', 'birthDate', 'address', 'contact', 'email', 'grade', 'subject']
 
 export const headerColumns = [
   {
@@ -64,6 +68,14 @@ export const headerColumns = [
     key: 'contact'
   },
   {
+    label: 'grade',
+    key: 'grade'
+  },
+  {
+    label: 'subject',
+    key: 'subject'
+  },
+  {
     label: 'email',
     key: 'email'
   },
@@ -76,6 +88,8 @@ export const importColumnData: ITableColumn<ColumnHeader>[] = [
   { id: 'birthDate', label: 'Birth Date' },
   { id: 'address', label: 'Address' },
   { id: 'contact', label: 'Contact' },
+  { id: 'grade', label: 'Grade' },
+  { id: 'subject', label: 'Subject' },
   { id: 'action', label: 'Remove' },
 ]
 
@@ -86,6 +100,8 @@ export const columnData: ITableColumn<ColumnHeader>[] = [
   { id: 'birthDate', label: 'Date Of Birth' },
   // { id: 'address', label: 'Address' },
   { id: 'contact', label: 'Contact' },
+  { id: 'grade', label: 'Grade' },
+  { id: 'subject', label: 'Subject' },
   { id: 'action', label: 'Action', align: 'right' },
 ]
 export interface Data {
@@ -96,6 +112,8 @@ export interface Data {
   birthDate: string
   address: string
   contact: string
+  grade: string
+  subject: string
   createdBy: string
   action: ReactElement
 }
@@ -108,6 +126,8 @@ export const createData = (
   birthDate: string,
   address: string,
   contact: string,
+  grade: string,
+  subject: string,
   createdBy: string,
   privilege: any,
   device: DeviceOptions,
@@ -156,5 +176,5 @@ export const createData = (
 
   const formattedBirthDate = dateFormat(birthDate)
 
-  return { id, lastName, firstName, gender, birthDate: formattedBirthDate, address, contact, createdBy, action: action }
+  return { id, lastName, firstName, gender, birthDate: formattedBirthDate, address, contact, grade, subject, createdBy, action: action }
 }

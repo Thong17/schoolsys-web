@@ -17,6 +17,7 @@ export interface IClassBody {
   room: string,
   schedule: string,
   grade: string,
+  teacher: string,
   description: string,
 }
 
@@ -25,12 +26,13 @@ export const initState = {
   room: '',
   schedule: '',
   grade: '',
+  teacher: '',
   description: '',
 }
 
-export declare type ColumnHeader = 'name' | 'room' | 'level' | 'schedule' | 'grade' | 'students' | 'description' | 'action' | 'applied'
+export declare type ColumnHeader = 'name' | 'room' | 'level' | 'schedule' | 'grade' | 'teacher' | 'students' | 'description' | 'action' | 'applied'
 
-export const importColumns = ['_id', 'name', 'room', 'schedule', 'grade', 'students', 'description']
+export const importColumns = ['_id', 'name', 'room', 'schedule', 'grade', 'teacher', 'students', 'description']
 
 export const headerColumns = [
   {
@@ -54,6 +56,10 @@ export const headerColumns = [
     key: 'grade'
   },
   {
+    label: 'teacher',
+    key: 'teacher'
+  },
+  {
     label: 'students',
     key: 'students'
   },
@@ -69,6 +75,7 @@ export const importColumnData: ITableColumn<ColumnHeader>[] = [
   { id: 'schedule', label: 'Schedule' },
   { id: 'students', label: 'Students' },
   { id: 'grade', label: 'Grade' },
+  { id: 'teacher', label: 'Teacher' },
   { id: 'description', label: 'Description' },
   { id: 'action', label: 'Remove' },
 ]
@@ -78,6 +85,7 @@ export const columnData: ITableColumn<ColumnHeader>[] = [
   { id: 'room', label: 'Room' },
   { id: 'schedule', label: 'Schedule' },
   { id: 'grade', label: 'Grade' },
+  // { id: 'teacher', label: 'Teacher' },
   { id: 'students', label: 'Student' },
   { id: 'applied', label: 'Applied' },
   { id: 'action', label: 'Action', align: 'right' },
@@ -113,6 +121,7 @@ export interface Data {
   students: string,
   applied: string,
   grade: string,
+  teacher: string,
   description: string,
   createdBy: string
   action: ReactElement
@@ -126,6 +135,7 @@ export const createData = (
   students: string,
   applied: string,
   grade: string,
+  teacher: string,
   description: string,
   createdBy: string,
   privilege: any,
@@ -173,7 +183,7 @@ export const createData = (
     </div>
   )
 
-  return { id, name, room, schedule, students, applied, grade, description, createdBy, action: action }
+  return { id, name, room, schedule, students, applied, grade, teacher, description, createdBy, action: action }
 }
 
 export const createRequestData = (

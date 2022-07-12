@@ -95,6 +95,7 @@ export const TeacherForm = ({ defaultValues, id }: any) => {
                 'gender birthDate birthDate'
                 'gender birthDate birthDate'
                 'email email contact'
+                'grade subject subject'
                 'profile profile profile'
                 'address address address'
                 'action action action'
@@ -104,6 +105,7 @@ export const TeacherForm = ({ defaultValues, id }: any) => {
                 'gender birthDate birthDate'
                 'gender birthDate birthDate'
                 'email email contact'
+                'grade subject subject'
                 'profile profile profile'
                 'address address address'
                 'action action action'
@@ -157,6 +159,22 @@ export const TeacherForm = ({ defaultValues, id }: any) => {
           label='Contact'
           err={errors.contact?.message}
           {...register('contact')}
+        />
+      </div>
+      <div style={{ gridArea: 'grade' }}>
+        <TextField
+          type='text'
+          label='Grade'
+          err={errors.grade?.message}
+          {...register('grade')}
+        />
+      </div>
+      <div style={{ gridArea: 'subject' }}>
+        <TextField
+          type='text'
+          label='Subject'
+          err={errors.subject?.message}
+          {...register('subject')}
         />
       </div>
       <div style={{ gridArea: 'profile' }}>

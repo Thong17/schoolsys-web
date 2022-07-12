@@ -21,7 +21,7 @@ export const UpdateTeacher = () => {
   
   useEffect(() => {
     if (id) {
-      dispatch(getTeacher({ id, query: {}, fields: ['firstName', 'lastName', 'gender', 'birthDate', 'email', 'contact', 'profile', 'address'] }))
+      dispatch(getTeacher({ id, query: {}, fields: ['firstName', 'lastName', 'gender', 'birthDate', 'email', 'contact', 'grade', 'subject', 'profile', 'address'] }))
     }
   }, [dispatch, id])
 

@@ -45,7 +45,7 @@ export const UpdateGrade = () => {
             'name',
             'level',
             'description',
-            'subjects'
+            'subjects',
           ],
         })
       )

@@ -7,15 +7,18 @@ import { useForm } from 'react-hook-form'
 import {
   DetailField,
   LocaleField,
+  SelectField,
   TextField,
 } from 'components/shared/form'
 import Axios from 'constants/functions/Axios'
 import useNotify from 'hooks/useNotify'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import useWeb from 'hooks/useWeb'
 import { TextTitle } from 'components/shared/TextTitle'
 import { getGrade } from './redux'
-import { useAppDispatch } from 'app/hooks'
+import { useAppDispatch, useAppSelector } from 'app/hooks'
+import { IOptions } from 'components/shared/form/SelectField'
+import { getListTeacher, selectListTeacher } from '../teacher/redux'
 
 export const SubjectForm = ({
   dialog,
@@ -24,6 +27,7 @@ export const SubjectForm = ({
   theme,
 }: any) => {
   const {
+    watch,
     reset,
     register,
     handleSubmit,
@@ -35,6 +39,28 @@ export const SubjectForm = ({
   const { notify } = useNotify()
   const { width } = useWeb()
   const dispatch = useAppDispatch()
+
+  const { data: listTeacher, status: statusListTeacher } = useAppSelector(selectListTeacher)
+  const [teacherOption, setTeacherOption] = useState<IOptions[]>([])
+  const [teacher, setTeacher] = useState('')
+  const teacherId = watch('teacher')
+  useEffect(() => {
+    if (statusListTeacher !== 'INIT') return
+    dispatch(getListTeacher({}))
+  }, [dispatch, statusListTeacher])
+
+  useEffect(() => {
+    const teacher: any = listTeacher.find((value: any) => value._id === teacherId)
+    setTeacher(teacher?._id || '')
+  }, [teacherId, listTeacher])
+  useEffect(() => {
+    let teacherOptions: IOptions[] = []
+    listTeacher.forEach((key: any) => {
+      teacherOptions = [...teacherOptions, { label: `${key.lastName} ${key.firstName}`, value: key._id }]
+    })
+
+    setTeacherOption(teacherOptions)
+  }, [listTeacher])
 
   useEffect(() => {
     reset(defaultValues)
@@ -90,7 +116,7 @@ export const SubjectForm = ({
           gridColumnGap: 20,
           gridTemplateAreas: `
                             'subject subject subject'
-                            'level passScore fullScore'
+                            'teacher passScore fullScore'
                             'description description description'
                             'action action action'
                         `,
@@ -105,12 +131,14 @@ export const SubjectForm = ({
             onChange={handleLocaleChange}
           />
         </div>
-        <div style={{ gridArea: 'level' }}>
-          <TextField
-            type='text'
-            label='Level'
-            err={errors?.level?.message}
-            {...register('level')}
+        <div style={{ gridArea: 'teacher' }}>
+          <SelectField
+            value={teacher}
+            label='Teacher'
+            err={errors.teacher?.message}
+            options={teacherOption}
+            loading={statusListTeacher === 'LOADING' ? true : false}
+            {...register('teacher')}
           />
         </div>
         <div style={{ gridArea: 'passScore' }}>

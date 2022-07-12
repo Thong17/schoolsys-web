@@ -17,6 +17,7 @@ import { IOptions } from 'components/shared/form/SelectField'
 import { getListGrade, selectListGrade } from 'modules/school/grade/redux'
 import useLanguage from 'hooks/useLanguage'
 import { useNavigate } from 'react-router-dom'
+import { getListTeacher, selectListTeacher } from 'modules/school/teacher/redux'
 
 const listSchedule = [
   { label: 'Morning', value: 'morning' },
@@ -45,7 +46,29 @@ export const ClassForm = ({ defaultValues, id }: any) => {
   const [gradeOption, setGradeOption] = useState<IOptions[]>([])
   const [grade, setGrade] = useState('')
   const gradeId = watch('grade')
-  
+
+  const { data: listTeacher, status: statusListTeacher } = useAppSelector(selectListTeacher)
+  const [teacherOption, setTeacherOption] = useState<IOptions[]>([])
+  const [teacher, setTeacher] = useState('')
+  const teacherId = watch('teacher')
+  useEffect(() => {
+    if (statusListTeacher !== 'INIT') return
+    dispatch(getListTeacher({}))
+  }, [dispatch, statusListTeacher])
+
+  useEffect(() => {
+    const teacher: any = listTeacher.find((value: any) => value._id === teacherId)
+    setTeacher(teacher?._id || '')
+  }, [teacherId, listTeacher])
+  useEffect(() => {
+    let teacherOptions: IOptions[] = []
+    listTeacher.forEach((key: any) => {
+      teacherOptions = [...teacherOptions, { label: `${key.lastName} ${key.firstName}`, value: key._id }]
+    })
+
+    setTeacherOption(teacherOptions)
+  }, [listTeacher])
+
   const handleLocaleChange = (data) => {
     setValue('name', data)
   }
@@ -99,15 +122,15 @@ export const ClassForm = ({ defaultValues, id }: any) => {
           device === 'mobile'
             ? ` 
               'name name name' 
-              'grade schedule room'
-              'subjects subjects subjects'
+              'schedule schedule room'
+              'grade teacher teacher'
               'description description description'
               'action action action'
             `
             : ` 
               'name name name' 
-              'grade schedule room'
-              'subjects subjects subjects'
+              'schedule schedule room'
+              'grade teacher teacher'
               'description description description'
               'action action action'
             `,
@@ -120,16 +143,6 @@ export const ClassForm = ({ defaultValues, id }: any) => {
           describe='Class Name'
           defaultValue={getValues('name')}
           onChange={handleLocaleChange}
-        />
-      </div>
-      <div style={{ gridArea: 'grade' }}>
-        <SelectField
-          value={grade}
-          label='Grade'
-          err={errors.grade?.message}
-          options={gradeOption}
-          loading={statusListGrade === 'LOADING' ? true : false}
-          {...register('grade')}
         />
       </div>
       <div style={{ gridArea: 'schedule' }}>
@@ -147,6 +160,26 @@ export const ClassForm = ({ defaultValues, id }: any) => {
           label='Room'
           err={errors.room?.message}
           {...register('room')}
+        />
+      </div>
+      <div style={{ gridArea: 'grade' }}>
+        <SelectField
+          value={grade}
+          label='Grade'
+          err={errors.grade?.message}
+          options={gradeOption}
+          loading={statusListGrade === 'LOADING' ? true : false}
+          {...register('grade')}
+        />
+      </div>
+      <div style={{ gridArea: 'teacher' }}>
+        <SelectField
+          value={teacher}
+          label='Class Teacher'
+          err={errors.teacher?.message}
+          options={teacherOption}
+          loading={statusListTeacher === 'LOADING' ? true : false}
+          {...register('teacher')}
         />
       </div>
       <div style={{ gridArea: 'description' }}>

@@ -27,7 +27,7 @@ export const mapGradeBody = (body): IGradeBody => {
 
 export const initSubject = {
   name: {},
-  level: '',
+  teacher: '',
   passScore: 0,
   fullScore: 0,
   description: '',
@@ -78,7 +78,7 @@ export const columnData: ITableColumn<ColumnHeader>[] = [
 
 export const subjectColumnData: ITableColumn<any>[] = [
   { id: 'name', label: 'Name' },
-  { id: 'level', label: 'Level' },
+  { id: 'teacher', label: 'Teacher' },
   { id: 'passScore', label: 'Pass Score' },
   { id: 'fullScore', label: 'Full Score' },
   { id: 'description', label: 'Description' },
@@ -153,7 +153,7 @@ export const createData = (
 export const createSubjectData = (
   id: string,
   name: string,
-  level: string,
+  teacher: string,
   passScore: string,
   fullScore: string,
   description: string,
@@ -197,5 +197,5 @@ export const createSubjectData = (
     </div>
   )
 
-  return { id, name, level, passScore, fullScore, description, createdBy, action: action }
+  return { id, name, teacher, passScore, fullScore, description, createdBy, action: action }
 }
