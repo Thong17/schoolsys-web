@@ -11,8 +11,6 @@ import Button from 'components/shared/Button'
 import Axios from 'constants/functions/Axios'
 import useNotify from 'hooks/useNotify'
 import { useState } from 'react'
-import { useAppDispatch } from 'app/hooks'
-import { getListGrade } from './redux'
 import { useNavigate } from 'react-router-dom'
 
 export const GradeForm = ({ defaultValues, id }: any) => {
@@ -23,7 +21,6 @@ export const GradeForm = ({ defaultValues, id }: any) => {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(gradeSchema), defaultValues })
-  const dispatch = useAppDispatch()
   const { device } = useWeb()
   const { notify } = useNotify()
   const [loading, setLoading] = useState(false)
@@ -41,7 +38,6 @@ export const GradeForm = ({ defaultValues, id }: any) => {
     })
       .then((data) => {
         notify(data?.data?.msg, 'success')
-        dispatch(getListGrade({}))
         !id && navigate(`/school/grade/create/${data?.data?.data?._id}/subject`)
       })
       .catch((err) => notify(err?.response?.data?.msg, 'error'))

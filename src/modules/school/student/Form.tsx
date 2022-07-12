@@ -14,8 +14,6 @@ import useNotify from 'hooks/useNotify'
 import { useEffect, useState } from 'react'
 import { inputDateFormat } from 'utils'
 import { IImage } from 'components/shared/form/UploadField'
-import { useAppDispatch } from 'app/hooks'
-import { getListStudent } from './redux'
 import { useNavigate } from 'react-router-dom'
 
 const listGender = [
@@ -39,7 +37,6 @@ export const StudentForm = ({ defaultValues, id }: any) => {
     },
   })
   const navigate = useNavigate()
-  const dispatch = useAppDispatch()
   const { device } = useWeb()
   const { notify } = useNotify()
   const [loading, setLoading] = useState(false)
@@ -62,7 +59,6 @@ export const StudentForm = ({ defaultValues, id }: any) => {
     })
       .then((data) => {
         notify(data?.data?.msg, 'success')
-        dispatch(getListStudent({}))
         !id && navigate(`/school/student/create/${data?.data?.data?._id}/family`)
       })
       .catch((err) => notify(err?.response?.data?.msg, 'error'))

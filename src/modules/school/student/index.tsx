@@ -33,10 +33,10 @@ export const Students = () => {
   const { device } = useWeb()
   const { user } = useAuth()
   const [rowData, setRowData] = useState<Data[]>([])
-  const { data: students, status } = useAppSelector(selectListStudent)
+  const { data: students } = useAppSelector(selectListStudent)
   const [dialog, setDialog] = useState({ open: false, id: null })
   const [queryParams, setQueryParams] = useSearchParams()
-  const [loading, setLoading] = useState(status === 'LOADING' ? true : false)
+  const [loading, setLoading] = useState(true)
   const [importDialog, setImportDialog] = useState({ open: false, data: [] })
 
   const updateQuery = debounce((value) => {
@@ -112,9 +112,9 @@ export const Students = () => {
   }
 
   useEffect(() => {
-    if (status !== 'INIT') return
     dispatch(getListStudent({ query: queryParams }))
-  }, [dispatch, status, queryParams])
+    setLoading(false)
+  }, [dispatch, queryParams])
 
   useEffect(() => {
     const listStudents = students.map((student: any) => {

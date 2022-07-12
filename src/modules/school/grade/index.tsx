@@ -33,10 +33,10 @@ export const Grades = () => {
   const { device } = useWeb()
   const { user } = useAuth()
   const [rowData, setRowData] = useState<Data[]>([])
-  const { data: grades, status } = useAppSelector(selectListGrade)
+  const { data: grades } = useAppSelector(selectListGrade)
   const [dialog, setDialog] = useState({ open: false, id: null })
   const [queryParams, setQueryParams] = useSearchParams()
-  const [loading, setLoading] = useState(status === 'LOADING' ? true : false)
+  const [loading, setLoading] = useState(true)
   const [importDialog, setImportDialog] = useState({ open: false, data: [] })
 
   const updateQuery = debounce((value) => {
@@ -112,9 +112,9 @@ export const Grades = () => {
   }
 
   useEffect(() => {
-    if (status !== 'INIT') return
     dispatch(getListGrade({ query: queryParams }))
-  }, [dispatch, status, queryParams])
+    setLoading(false)
+  }, [dispatch, queryParams])
 
   useEffect(() => {
     const listGrades = grades.map((grade: any) => {

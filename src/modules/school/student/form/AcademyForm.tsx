@@ -10,7 +10,7 @@ import useNotify from 'hooks/useNotify'
 import { useEffect, useState } from 'react'
 import useWeb from 'hooks/useWeb'
 import { academySchema } from '../schema'
-import { getListStudent, getStudent } from '../redux'
+import { getStudent } from '../redux'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { IOptions } from 'components/shared/form/SelectField'
 import useLanguage from 'hooks/useLanguage'
@@ -70,7 +70,6 @@ export const AcademyForm = ({ studentId, defaultValues }) => {
     })
       .then((data) => {
         dispatch(getStudent({ id: studentId }))
-        dispatch(getListStudent({}))
         notify(data?.data?.msg, 'success')
       })
       .catch((err) => notify(err?.response?.data?.msg, 'error'))
