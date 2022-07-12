@@ -33,7 +33,7 @@ export const ClassForm = ({ defaultValues, id }: any) => {
     getValues,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(classSchema), defaultValues })
+  } = useForm({ resolver: yupResolver(classSchema), defaultValues: { ...defaultValues, grade: defaultValues?.grade?._id }})
   const dispatch = useAppDispatch()
   const { device } = useWeb()
   const { notify } = useNotify()
@@ -45,20 +45,20 @@ export const ClassForm = ({ defaultValues, id }: any) => {
   const [gradeOption, setGradeOption] = useState<IOptions[]>([])
   const [grade, setGrade] = useState('')
   const gradeId = watch('grade')
-
+  
   const handleLocaleChange = (data) => {
     setValue('name', data)
   }
 
   useEffect(() => {
-    const grade: any = listGrade.find((value: any) => value._id === gradeId)
-    setGrade(grade?._id || '')
-  }, [gradeId, listGrade])
-
-  useEffect(() => {
     if (statusListGrade !== 'INIT') return
     dispatch(getListGrade({}))
   }, [dispatch, statusListGrade])
+
+  useEffect(() => {
+    const grade: any = listGrade.find((value: any) => value._id === gradeId)
+    setGrade(grade?._id || '')
+  }, [gradeId, listGrade])
 
   useEffect(() => {
     let gradeOptions: IOptions[] = []
@@ -87,7 +87,7 @@ export const ClassForm = ({ defaultValues, id }: any) => {
       .catch((err) => notify(err?.response?.data?.msg, 'error'))
       .finally(() => setLoading(false))
   }
-    
+
   return (
     <form
       onSubmit={handleSubmit(submit)}
