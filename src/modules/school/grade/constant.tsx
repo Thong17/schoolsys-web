@@ -59,7 +59,7 @@ export const headerColumns = [
 export const importColumnData: ITableColumn<ColumnHeader>[] = [
   { id: 'name', label: 'Name' },
   { id: 'level', label: 'Level' },
-  { id: 'subjects', label: 'Subjects' },
+  { id: 'subjects', label: 'Subject' },
   { id: 'description', label: 'Description' },
   { id: 'action', label: 'Remove' },
 ]
@@ -67,7 +67,7 @@ export const importColumnData: ITableColumn<ColumnHeader>[] = [
 export const columnData: ITableColumn<ColumnHeader>[] = [
   { id: 'name', label: 'Name' },
   { id: 'level', label: 'Level' },
-  { id: 'subjects', label: 'Subjects' },
+  { id: 'subjects', label: 'Subject' },
   { id: 'description', label: 'Description' },
   { id: 'action', label: 'Action', align: 'right' },
 ]
