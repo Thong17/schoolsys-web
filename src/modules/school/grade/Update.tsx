@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom'
 import { getGrade, selectGrade } from './redux'
 import { useAppSelector, useAppDispatch } from 'app/hooks'
 import { useEffect } from 'react'
+import { mapGradeBody } from './constant'
 
 const Header = ({ stages }) => {
   return <Breadcrumb stages={stages} title={<HomeWorkRoundedIcon />} />
@@ -54,7 +55,7 @@ export const UpdateGrade = () => {
   return (
     <Container header={<Header stages={stages} />}>
       {status === 'SUCCESS' && (
-        <GradeForm id={id} defaultValues={defaultValues} />
+        <GradeForm id={id} defaultValues={mapGradeBody(defaultValues)} />
       )}
     </Container>
   )

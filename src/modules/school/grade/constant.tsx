@@ -21,6 +21,10 @@ export const initState = {
   description: '',
 }
 
+export const mapGradeBody = (body): IGradeBody => {
+  return { name: body?.name, level: body?.level, description: body?.description }
+}
+
 export const initSubject = {
   name: {},
   level: '',
