@@ -13,7 +13,6 @@ import Axios from 'constants/functions/Axios'
 import useNotify from 'hooks/useNotify'
 import { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
-import { getListClass } from './redux'
 import { IOptions } from 'components/shared/form/SelectField'
 import { getListGrade, selectListGrade } from 'modules/school/grade/redux'
 import useLanguage from 'hooks/useLanguage'
@@ -83,7 +82,6 @@ export const ClassForm = ({ defaultValues, id }: any) => {
     })
       .then((data) => {
         notify(data?.data?.msg, 'success')
-        dispatch(getListClass({}))
         !id && navigate(`/operation/class/create/${data?.data?.data?._id}/student`)
       })
       .catch((err) => notify(err?.response?.data?.msg, 'error'))

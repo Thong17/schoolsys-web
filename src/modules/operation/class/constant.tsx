@@ -78,7 +78,7 @@ export const columnData: ITableColumn<ColumnHeader>[] = [
   { id: 'room', label: 'Room' },
   { id: 'schedule', label: 'Schedule' },
   { id: 'grade', label: 'Grade' },
-  { id: 'students', label: 'Students' },
+  { id: 'students', label: 'Student' },
   { id: 'applied', label: 'Applied' },
   { id: 'action', label: 'Action', align: 'right' },
 ]

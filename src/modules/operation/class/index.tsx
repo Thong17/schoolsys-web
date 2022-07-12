@@ -112,9 +112,8 @@ export const Classes = () => {
   }
 
   useEffect(() => {
-    if (status !== 'INIT') return
     dispatch(getListClass({ query: queryParams }))
-  }, [dispatch, status, queryParams])
+  }, [dispatch, queryParams])
 
   useEffect(() => {
     const listClasses = classes.map((_class: any) => {

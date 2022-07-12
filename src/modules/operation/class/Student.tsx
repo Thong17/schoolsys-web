@@ -5,7 +5,7 @@ import FactCheckRoundedIcon from '@mui/icons-material/FactCheckRounded'
 import { useParams } from 'react-router-dom'
 import Container from 'components/shared/Container'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
-import { getClass, getListClass, removeStudent, selectClass } from './redux'
+import { getClass, removeStudent, selectClass } from './redux'
 import { useEffect, useState } from 'react'
 import useLanguage from 'hooks/useLanguage'
 import { getListApplied, selectListApplied } from 'modules/school/student/redux'
@@ -108,7 +108,6 @@ export const StudentClass = () => {
       .then((data) => {
         dispatch(removeStudent(id))
         notify(data?.data?.msg, 'success')
-        dispatch(getListClass({}))
         setDeleteDialog({ open: false, id: null })
       })
       .catch((err) => notify(err?.response?.data?.msg, 'error'))

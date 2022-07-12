@@ -15,7 +15,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { capitalizeText } from 'utils'
 import { createRequestData, requestColumnData } from './constant'
-import { getClass, getListClass } from './redux'
+import { getClass } from './redux'
 
 export const RequestDialog = ({
   classId,
@@ -42,7 +42,6 @@ export const RequestDialog = ({
     })
       .then((data) => {
         dispatch(deleteAppliedStudent(id))
-        dispatch(getListClass({}))
         notify(data?.data?.msg, 'info')
       })
       .catch((err) => notify(err?.response?.data?.msg, 'error'))
@@ -59,7 +58,6 @@ export const RequestDialog = ({
         .then((data) => {
           dispatch(getClass({ id: classId, query: {}, fields: ['_id', 'name', 'room', 'schedule', 'grade', 'description', 'students'] }))
           dispatch(deleteAppliedStudent(id))
-          dispatch(getListClass({}))
           notify(data?.data?.msg, 'info')
         })
         .catch((err) => notify(err?.response?.data?.msg, 'error'))
