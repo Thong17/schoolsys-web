@@ -70,7 +70,7 @@ export const studentSlice = createSlice({
         state.list.data = action.payload.data
       })
 
-      // List Academy
+      // List Application
       .addCase(getListApplied.pending, (state) => {
         state.applied.status = 'LOADING'
       })

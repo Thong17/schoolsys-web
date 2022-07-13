@@ -3,7 +3,7 @@ import HomeWorkRoundedIcon from '@mui/icons-material/HomeWorkRounded'
 import { useParams } from 'react-router-dom'
 import Container from 'components/shared/Container'
 import { FamilyForm } from './form/FamilyForm'
-import { AcademyForm } from './form/AcademyForm'
+import { ApplicationForm } from './form/ApplicationForm'
 import { HealthForm } from './form/HealthForm'
 import { ReactElement, useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
@@ -46,13 +46,13 @@ export const DetailFormStudent = () => {
             path: `${detailLink}/health`,
           },
           {
-            title: 'Academy',
-            path: `${detailLink}/academy`,
+            title: 'Application',
+            path: `${detailLink}/application`,
           },
         ])
         break
-      case 'academy':
-        setForm(<AcademyForm studentId={id} defaultValues={data?.academy} />)
+      case 'application':
+        setForm(<ApplicationForm studentId={id} defaultValues={data?.application} />)
         setBreadcrumb([
           {
             title: 'Family',
@@ -78,8 +78,8 @@ export const DetailFormStudent = () => {
             title: 'Health',
           },
           {
-            title: 'Academy',
-            path: `${detailLink}/academy`,
+            title: 'Application',
+            path: `${detailLink}/application`,
           },
         ])
         break
@@ -90,7 +90,7 @@ export const DetailFormStudent = () => {
   }, [detail, detailLink, data, id])
 
   if (action !== 'create' && action !== 'update') return <>Not found</>
-  if (detail !== 'family' && detail !== 'academy' && detail !== 'health') return <>Not found</>
+  if (detail !== 'family' && detail !== 'application' && detail !== 'health') return <>Not found</>
 
   const stages = [
     {

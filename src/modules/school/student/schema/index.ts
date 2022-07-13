@@ -12,7 +12,7 @@ export const studentSchema = yup.object().shape({
   profile: yup.mixed().optional(),
 })
 
-export const academySchema = yup.object().shape({
+export const applicationSchema = yup.object().shape({
   previousGrade: yup.string().optional(),
   previousSchool: yup.string().optional(),
   appliedClass: yup.string().optional(),

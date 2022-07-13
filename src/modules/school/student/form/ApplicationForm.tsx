@@ -9,14 +9,14 @@ import Axios from 'constants/functions/Axios'
 import useNotify from 'hooks/useNotify'
 import { useEffect, useState } from 'react'
 import useWeb from 'hooks/useWeb'
-import { academySchema } from '../schema'
+import { applicationSchema } from '../schema'
 import { getStudent } from '../redux'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { IOptions } from 'components/shared/form/SelectField'
 import useLanguage from 'hooks/useLanguage'
 import { selectListClass, getListClass } from 'modules/operation/class/redux'
 
-export const AcademyForm = ({ studentId, defaultValues }) => {
+export const ApplicationForm = ({ studentId, defaultValues }) => {
   const { data: listClass, status: statusListClass } = useAppSelector(selectListClass)
   const {
     watch,
@@ -25,7 +25,7 @@ export const AcademyForm = ({ studentId, defaultValues }) => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(academySchema)
+    resolver: yupResolver(applicationSchema)
   })
   const { device } = useWeb()
   const { lang } = useLanguage()
@@ -65,7 +65,7 @@ export const AcademyForm = ({ studentId, defaultValues }) => {
     if (!defaultValues) return
     Axios({
       method: 'PUT',
-      url: `/school/student/academy/${defaultValues?._id}`,
+      url: `/school/student/application/${defaultValues?._id}`,
       body: {...data, student: studentId},
     })
       .then((data) => {
