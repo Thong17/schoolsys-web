@@ -19,7 +19,7 @@ export const initialState: GradeState = {
 export const mapSubjectBody = (body) => {
   return {
     name: body.name,
-    teacher: body.teacher,
+    teacher: body.teacher?._id,
     passScore: body.passScore,
     fullScore: body.fullScore,
     description: body.description,

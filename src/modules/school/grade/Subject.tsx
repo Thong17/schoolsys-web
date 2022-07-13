@@ -102,7 +102,7 @@ export const SubjectGrade = () => {
       return createSubjectData(
         subject._id,
         subject.name?.[lang] || grade.name?.['English'],
-        subject.level,
+        subject.teacher ? `${subject.teacher?.lastName} ${subject.teacher?.firstName}` : '...',
         subject.passScore,
         subject.fullScore,
         subject.description,
