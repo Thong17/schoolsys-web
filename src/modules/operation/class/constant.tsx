@@ -11,6 +11,8 @@ import { MenuDialog } from 'components/shared/MenuDialog'
 import { ITableColumn } from 'components/shared/table/StickyTable'
 import MenuList from '@mui/material/MenuList'
 import { CircleIcon } from 'components/shared/table/CustomIcon'
+import { TextHighlight } from 'components/shared/TextHighlight'
+import { IThemeStyle } from 'contexts/theme/interface'
 
 export interface IClassBody {
   name: Object,
@@ -118,8 +120,8 @@ export interface Data {
   name: string,
   room: string,
   schedule: string,
-  students: string,
-  applied: string,
+  students: ReactElement,
+  applied: ReactElement,
   grade: string,
   teacher: string,
   description: string,
@@ -139,6 +141,7 @@ export const createData = (
   description: string,
   createdBy: string,
   privilege: any,
+  theme: IThemeStyle,
   device: DeviceOptions,
   navigate: Function,
   setDialog: Function
@@ -183,7 +186,7 @@ export const createData = (
     </div>
   )
 
-  return { id, name, room, schedule, students, applied, grade, teacher, description, createdBy, action: action }
+  return { id, name, room, schedule, students: <TextHighlight text={students} color={`${theme.color.info}11`} />, applied: <TextHighlight text={applied} color={`${theme.color.error}22`} />, grade, teacher, description, createdBy, action: action }
 }
 
 export const createRequestData = (

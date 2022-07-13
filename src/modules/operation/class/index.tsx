@@ -129,13 +129,14 @@ export const Classes = () => {
         _class.description,
         _class.createdBy?.username || '...',
         user?.privilege,
+        theme,
         device,
         navigate,
         setDialog
       )
     })
     setRowData(listClasses)
-  }, [classes, lang, user, device, navigate])
+  }, [classes, lang, user, device, theme, navigate])
 
   return (
     <Container
