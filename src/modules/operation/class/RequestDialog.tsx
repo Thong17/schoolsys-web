@@ -16,7 +16,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { capitalizeText } from 'utils'
 import { createRequestData, requestColumnData } from './constant'
-import { getClass } from './redux'
+import { getClass, getListStudentOfClass } from './redux'
 
 export const RequestDialog = ({
   classId,
@@ -57,6 +57,7 @@ export const RequestDialog = ({
         url: `/operation/class/accept/applied/${id}`,
       })
         .then((data) => {
+          dispatch(getListStudentOfClass({ id: classId }))
           dispatch(getClass({ id: classId, query: {}, fields: ['_id', 'name', 'room', 'schedule', 'grade', 'description', 'students'] }))
           dispatch(deleteAppliedStudent(id))
           notify(data?.data?.msg, 'info')

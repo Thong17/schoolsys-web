@@ -17,8 +17,6 @@ const Score = ({ data, id, classId }) => {
   const { notify } = useNotify()
   const confirm = useAlert()
 
-
-
   const handleRemoveScore = () => {
     confirm({
       title: 'Remove Score',
@@ -27,7 +25,7 @@ const Score = ({ data, id, classId }) => {
     }).then(() => {
       Axios({
         method: 'DELETE',
-        url: `/operation/score/disable/${id}`,
+        url: `/operation/score/delete/${id}`,
       })
         .then((data) => {
           dispatch(getClass({ id: classId, query: {}, fields: ['_id', 'name', 'room', 'schedule', 'grade', 'description', 'students'] }))
@@ -78,7 +76,7 @@ const scoreOptions = [
   { label: 'Other', value: 'Other' },
 ]
 
-export const ScoreForm = ({ defaultValue, onSubmit, student, option, onChangeOption }: any) => {
+export const ScoreForm = ({ defaultValue, onSubmit, student, academy, option, onChangeOption }: any) => {
   const { theme } = useTheme()
   const [selected, setSelected] = useState(option || 'other')
   const [score, setScore] = useState('')
@@ -99,7 +97,7 @@ export const ScoreForm = ({ defaultValue, onSubmit, student, option, onChangeOpt
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    return onSubmit({ description: selected, score, student })
+    return onSubmit({ description: selected, score, student, academy })
   }
 
   return (
@@ -150,7 +148,7 @@ export const ScoreForm = ({ defaultValue, onSubmit, student, option, onChangeOpt
   )
 }
 
-export const StudentMarkList = ({ scores, student, subject, buttonRef, index, option, onChangeOption, classId }) => {
+export const StudentMarkList = ({ scores, student, academy, subject, buttonRef, index, option, onChangeOption, classId }) => {
   const { theme } = useTheme()
   const [showForm, setShowForm] = useState(false)
   const [ref, setRef] = useState<any>(null)
@@ -228,7 +226,7 @@ export const StudentMarkList = ({ scores, student, subject, buttonRef, index, op
         {scores?.map((score, key) => {
           return score.subject === subject && <Score key={key} data={`${score.description}: ${score.score}`} id={score._id} classId={classId} />
         })}
-        {showForm && <ScoreForm student={student} onSubmit={handleSubmitScore} option={option} onChangeOption={onChangeOption} />}
+        {showForm && <ScoreForm student={student} academy={academy} onSubmit={handleSubmitScore} option={option} onChangeOption={onChangeOption} />}
       </div>
     </div>
   )

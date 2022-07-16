@@ -71,8 +71,8 @@ export const StudentScore = ({ students, subject, classId }) => {
               {student.lastName} {student.firstName}
             </Column>
             <Column width={60}>{capitalizeText(student.gender)}</Column>
-            <StudentMarkList student={student._id} subject={subject} scores={student?.scores} buttonRef={refs?.[key + 1]?.children?.[4]?.children?.[1]} index={key} option={option} onChangeOption={handleChangeOption} classId={classId} />
-            <TextLabel width={50} label='score'>{calculateTotalScore(student?.scores, subject)}</TextLabel>
+            <StudentMarkList academy={student.currentAcademy?._id} student={student._id} subject={subject} scores={student?.currentAcademy?.scores} buttonRef={refs?.[key + 1]?.children?.[4]?.children?.[1]} index={key} option={option} onChangeOption={handleChangeOption} classId={classId} />
+            <TextLabel width={50} label='score'>{calculateTotalScore(student?.currentAcademy?.scores, subject)}</TextLabel>
           </div>
         )
       })}

@@ -75,9 +75,8 @@ export const SubjectGrade = () => {
   }
 
   useEffect(() => {
-    if (status !== 'INIT') return
     dispatch(getGrade({ id: subjectDialog?.gradeId as string, query: {} }))
-  }, [dispatch, status, subjectDialog])
+  }, [dispatch, subjectDialog])
 
   useEffect(() => {
     const handleEditSubject = (sid) => {

@@ -130,7 +130,7 @@ export const Students = () => {
         student.address,
         student.contact,
         student.application?.appliedClass?.name?.[lang] || student.application?.appliedClass?.name?.['English'] || '...',
-        student.application?.currentClass?.name?.[lang] || student.application?.currentClass?.name?.['English'] || '...',
+        student.currentAcademy?.class?.name?.[lang] || student.currentAcademy?.class?.name?.['English'] || '...',
         student.createdBy?.username || '...',
         user?.privilege,
         device,

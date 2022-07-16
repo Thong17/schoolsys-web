@@ -24,10 +24,10 @@ export const ScoreDialog = ({ gradeId, classId, dialog, setDialog, rowData }: an
   const [selectedSubject, setSelectedSubject] = useState(null)
 
   useEffect(() => {
-    if (!gradeId) return
-    dispatch(getListStudentOfClass({ id: gradeId }))
+    if (!gradeId || !classId) return
+    dispatch(getListStudentOfClass({ id: classId }))
     dispatch(getListSubjectOfClass({ id: gradeId }))
-  }, [gradeId, dispatch])
+  }, [gradeId, classId, dispatch])
 
   useEffect(() => {
     setStudents(listStudent)

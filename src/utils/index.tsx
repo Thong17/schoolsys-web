@@ -103,9 +103,11 @@ export const calculateTotalScore = (scores, subject = null) => {
 
 export const calculateAverageScore = (scores, number) => {
   let total = 0
-  scores.forEach(score => {
+  scores?.forEach(score => {
     total += score.score
-  });
+  })
+
+  if (total === 0) return '0.00'
   return (total / number).toFixed(2)
 }
 
