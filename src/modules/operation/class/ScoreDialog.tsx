@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react'
 import useLanguage from 'hooks/useLanguage'
 import { StudentScore } from './components/StudentScore'
 
-export const ScoreDialog = ({ classId, dialog, setDialog, rowData }: any) => {
+export const ScoreDialog = ({ gradeId, classId, dialog, setDialog, rowData }: any) => {
   const { theme } = useTheme()
   const { lang } = useLanguage()
   const dispatch = useAppDispatch()
@@ -24,10 +24,10 @@ export const ScoreDialog = ({ classId, dialog, setDialog, rowData }: any) => {
   const [selectedSubject, setSelectedSubject] = useState(null)
 
   useEffect(() => {
-    if (!classId) return
-    dispatch(getListStudentOfClass({ id: classId }))
-    dispatch(getListSubjectOfClass({ id: classId }))
-  }, [classId, dispatch])
+    if (!gradeId) return
+    dispatch(getListStudentOfClass({ id: gradeId }))
+    dispatch(getListSubjectOfClass({ id: gradeId }))
+  }, [gradeId, dispatch])
 
   useEffect(() => {
     setStudents(listStudent)

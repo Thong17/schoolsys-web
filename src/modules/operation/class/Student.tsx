@@ -207,6 +207,7 @@ export const StudentClass = () => {
       />
       <ScoreDialog
         classId={_class?._id}
+        gradeId={_class?.grade?._id}
         dialog={achievementDialog}
         setDialog={setAchievementDialog}
         rowData={[]}
