@@ -15,6 +15,30 @@ export const getListClass = createAsyncThunk(
   }
 )
 
+export const getListSubjectOfClass = createAsyncThunk(
+  'class/subject',
+  async ({ id, query }: { id: string, query?: URLSearchParams }) => {
+    const response = await Axios({
+      method: 'GET',
+      url: `/operation/class/${id}/subject`,
+      params: query
+    })
+    return response?.data
+  }
+)
+
+export const getListStudentOfClass = createAsyncThunk(
+  'class/student',
+  async ({ id, query }: { id: string, query?: URLSearchParams }) => {
+    const response = await Axios({
+      method: 'GET',
+      url: `/operation/class/${id}/student`,
+      params: query
+    })
+    return response?.data
+  }
+)
+
 export const getClass = createAsyncThunk(
   'class/detail',
   async ({id, query, fields}: { id: string, query: Object, fields: Array<string> }) => {
@@ -53,6 +77,30 @@ export const classSlice = createSlice({
         state.list.data = action.payload.data
       })
 
+      // List Subject Of Class
+      .addCase(getListSubjectOfClass.pending, (state) => {
+        state.subject.status = 'LOADING'
+      })
+      .addCase(getListSubjectOfClass.rejected, (state) => {
+        state.subject.status = 'FAILED'
+      })
+      .addCase(getListSubjectOfClass.fulfilled, (state, action) => {
+        state.subject.status = 'SUCCESS'
+        state.subject.data = action.payload.data
+      })
+
+      // List Student Of Class
+      .addCase(getListStudentOfClass.pending, (state) => {
+        state.student.status = 'LOADING'
+      })
+      .addCase(getListStudentOfClass.rejected, (state) => {
+        state.student.status = 'FAILED'
+      })
+      .addCase(getListStudentOfClass.fulfilled, (state, action) => {
+        state.student.status = 'SUCCESS'
+        state.student.data = action.payload.data
+      })
+
       // Detail Class
       .addCase(getClass.pending, (state) => {
         state.detail.status = 'LOADING'
@@ -69,6 +117,8 @@ export const classSlice = createSlice({
 
 export const selectClass = (state: RootState) => state.class.detail
 export const selectListClass = (state: RootState) => state.class.list
+export const selectListSubjectOfClass = (state: RootState) => state.class.subject
+export const selectListStudentOfClass = (state: RootState) => state.class.student
 export const { removeStudent } = classSlice.actions
 
 export default classSlice.reducer

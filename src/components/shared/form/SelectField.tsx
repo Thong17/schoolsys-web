@@ -2,7 +2,7 @@ import { MenuItem, Select, SelectProps, CircularProgress } from '@mui/material'
 import useTheme from 'hooks/useTheme'
 import useWeb from 'hooks/useWeb'
 import { forwardRef, InputHTMLAttributes, ForwardRefRenderFunction } from 'react'
-import { CustomSelect } from 'styles'
+import { CustomMiniSelect, CustomSelect } from 'styles'
 
 export interface IOptions {
   value: any
@@ -53,10 +53,47 @@ const Input: ForwardRefRenderFunction<InputHTMLAttributes<HTMLSelectElement>, IS
       <label htmlFor={name}>{label}</label>
       <div className="err">{err}</div>
       <div className="hint">{hint}</div>
-
     </CustomSelect>
   )
 }
 
+const MiniInput: ForwardRefRenderFunction<InputHTMLAttributes<HTMLSelectElement>, ISelectField> = ({ options, name, value, label, err, hint, loading, ...props }, ref) => {
+  const { theme } = useTheme()
+  const { device } = useWeb()
+  
+  return (
+    <CustomMiniSelect styled={theme} device={device} active={value !== '' ? 'active' : undefined}>
+      <Select
+        value={value}
+        ref={ref}
+        id={name}
+        name={name}
+        className={err && 'input-error'}
+        MenuProps={{
+          sx: {
+            '& .MuiPaper-root': {
+              backgroundColor: theme.background.primary,
+              color: theme.text.primary,
+            },
+          },
+        }}
+        {...props}
+      >
+        {!loading ? options.map((item, index) => {
+          return (
+            <MenuItem key={index} value={item.value}>
+              {item.label}
+            </MenuItem>
+          )
+        }) : <CircularProgress />}
+      </Select>
+      <label htmlFor={name}>{label}</label>
+      <div className="err">{err}</div>
+      <div className="hint">{hint}</div>
+    </CustomMiniSelect>
+  )
+}
+
 const SelectField = forwardRef(Input)
-export { SelectField }
+const MiniSelectField = forwardRef(MiniInput)
+export { SelectField, MiniSelectField }

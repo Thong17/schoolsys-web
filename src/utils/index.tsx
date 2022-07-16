@@ -85,3 +85,27 @@ export const capitalizeText = (text) => {
   return text?.charAt(0).toUpperCase() + text?.slice(1)
 }
 
+export const calculateTotalScore = (scores, subject = null) => {
+  let total = 0
+  if (subject) {
+    scores?.forEach(score => {
+      if (score.subject === subject)
+      total += score.score
+    })
+    return total
+  } else {
+    scores?.forEach(score => {
+      total += score.score
+    })
+    return total
+  }
+}
+
+export const calculateAverageScore = (scores, number) => {
+  let total = 0
+  scores.forEach(score => {
+    total += score.score
+  });
+  return (total / number).toFixed(2)
+}
+

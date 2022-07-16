@@ -13,6 +13,7 @@ import MenuList from '@mui/material/MenuList'
 import { CircleIcon } from 'components/shared/table/CustomIcon'
 import { TextHighlight } from 'components/shared/TextHighlight'
 import { IThemeStyle } from 'contexts/theme/interface'
+import { calculateTotalScore, calculateAverageScore } from 'utils'
 
 export interface IClassBody {
   name: Object,
@@ -249,7 +250,7 @@ export const createStudentData = (
   lastName: string,
   firstName: string,
   gender: string,
-  score: number,
+  scores: Array<any>,
   average: number,
   privilege: any,
   device: DeviceOptions,
@@ -279,5 +280,5 @@ export const createStudentData = (
 
   const profileImage = <CircleIcon icon={profile} />
 
-  return { id, ref, profile: profileImage, lastName, firstName, gender, score, average, action: action }
+  return { id, ref, profile: profileImage, lastName, firstName, gender, score: calculateTotalScore(scores), average: calculateAverageScore(scores, average), action: action }
 }

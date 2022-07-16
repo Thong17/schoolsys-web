@@ -96,21 +96,19 @@ export const RequestDialog = ({
         handleConfirm={handleConfirmReject}
         handleClose={() => setRejectDialog({ open: false, id: null })}
       ></DeleteDialog>
-      <div style={{ padding: '20px 30px 0 30px', fontFamily: theme.font.family }}>
+      <div style={{ padding: '20px 30px', fontFamily: theme.font.family }}>
         <FlexBetween>
-          <div></div>
           <h3 style={{ color: theme.text.secondary }}>Application List</h3>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'space-between' }}>
             <h5 style={{ color: theme.text.secondary, fontWeight: theme.font.weight }}>Class: {_class}</h5>
-            <h5 style={{ color: theme.text.secondary, fontWeight: theme.font.weight }}>Grade: {grade}</h5>
           </div>
         </FlexBetween>
       </div>
-      <div style={{ width: '90vw', height: '70vh', position: 'relative', marginTop: 20, overflowY: 'scroll' }}>
+      <div style={{ width: '95vw', height: '75vh', marginBottom: 10, position: 'relative', overflowY: 'auto' }}>
         <StickyTable columns={requestColumnData} rows={requestData} />
       </div>
-      <DialogActions style={{ marginRight: 10 }}>
-        <Button onClick={handleCloseDialog}>Close</Button>
+      <DialogActions style={{ position: 'absolute', bottom: 5, left: 10 }}>
+        <Button onClick={handleCloseDialog} variant='contained'>Close</Button>
       </DialogActions>
     </AlertDialog>
   )

@@ -12,7 +12,7 @@ import { getListApplied, selectListApplied } from 'modules/school/student/redux'
 import { CustomButton } from 'styles'
 import useTheme from 'hooks/useTheme'
 import { RequestDialog } from './RequestDialog'
-import { AchievementDialog } from './AchievementDialog'
+import { ScoreDialog } from './ScoreDialog'
 import { StickyTable } from 'components/shared/table/StickyTable'
 import { createStudentData, studentColumnData } from './constant'
 import useAuth from 'hooks/useAuth'
@@ -142,8 +142,8 @@ export const StudentClass = () => {
         student?.lastName,
         student?.firstName,
         student?.gender,
-        100,
-        5.0,
+        student?.scores,
+        _class?.grade?.subjects?.length,
         user?.privilege,
         device,
         setDeleteDialog
@@ -205,7 +205,8 @@ export const StudentClass = () => {
         grade={_class?.grade?.name?.[lang] || _class?.grade?.name?.['English']}
         rowData={requestDialog.students || []}
       />
-      <AchievementDialog
+      <ScoreDialog
+        classId={_class?._id}
         dialog={achievementDialog}
         setDialog={setAchievementDialog}
         rowData={[]}
