@@ -26,7 +26,8 @@ export const TextLabel = ({ children, width, label }: any) => {
           backgroundColor: theme.active.primary,
           padding: '1px 8px 2px 8px',
           fontSize: theme.responsive[device]?.text.quaternary,
-          borderRadius: theme.radius.primary
+          borderRadius: theme.radius.primary,
+          color: theme.text.secondary
         }}
       >
         {label}

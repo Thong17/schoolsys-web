@@ -5,6 +5,7 @@ import { FlexBetween } from 'components/shared/container/FlexBetween'
 import { AlertDialog } from 'components/shared/table/AlertDialog'
 import { DeleteDialog } from 'components/shared/table/DeleteDialog'
 import { StickyTable } from 'components/shared/table/StickyTable'
+import { TextLabel } from 'components/shared/TextLabel'
 import Axios from 'constants/functions/Axios'
 import useAuth from 'hooks/useAuth'
 import useNotify from 'hooks/useNotify'
@@ -99,8 +100,9 @@ export const RequestDialog = ({
       <div style={{ padding: '20px 30px', fontFamily: theme.font.family }}>
         <FlexBetween>
           <h3 style={{ color: theme.text.secondary }}>Application List</h3>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'space-between' }}>
-            <h5 style={{ color: theme.text.secondary, fontWeight: theme.font.weight }}>Class: {_class}</h5>
+          <div style={{ display: 'flex', alignItems: 'start', justifyContent: 'space-between' }}>
+            <TextLabel label='Class'><span style={{ color: theme.text.tertiary }}>{_class}</span></TextLabel>
+            <TextLabel label='Grade'><span style={{ color: theme.text.tertiary }}>{grade}</span></TextLabel>
           </div>
         </FlexBetween>
       </div>
