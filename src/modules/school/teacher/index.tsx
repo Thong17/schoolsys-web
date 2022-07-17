@@ -120,6 +120,7 @@ export const Teachers = () => {
     const listTeachers = teachers.map((teacher: any) => {
       return createData(
         teacher._id,
+        teacher.profile,
         teacher.lastName,
         teacher.firstName,
         teacher.gender,

@@ -9,6 +9,7 @@ import { MenuDialog } from 'components/shared/MenuDialog'
 import { ITableColumn } from 'components/shared/table/StickyTable'
 import MenuList from '@mui/material/MenuList'
 import { dateFormat } from 'utils'
+import { CircleIcon } from 'components/shared/table/CustomIcon'
 
 export interface ITeacherBody {
   lastName: string,
@@ -34,7 +35,7 @@ export const initState = {
   email: ''
 }
 
-export declare type ColumnHeader = 'lastName' | 'firstName' | 'gender' | 'birthDate' | 'address' | 'contact' | 'grade' | 'subject' | 'email' | 'action'
+export declare type ColumnHeader = 'profile' | 'lastName' | 'firstName' | 'gender' | 'birthDate' | 'address' | 'contact' | 'grade' | 'subject' | 'email' | 'action'
 
 export const importColumns = ['_id', 'lastName', 'firstName', 'gender', 'birthDate', 'address', 'contact', 'email', 'grade', 'subject']
 
@@ -42,6 +43,10 @@ export const headerColumns = [
   {
     label: '_id',
     key: '_id'
+  },
+  {
+    label: 'profile',
+    key: 'profile'
   },
   {
     label: 'lastName',
@@ -82,6 +87,7 @@ export const headerColumns = [
 ]
 
 export const importColumnData: ITableColumn<ColumnHeader>[] = [
+  { id: 'profile', label: 'Profile' },
   { id: 'lastName', label: 'Last Name' },
   { id: 'firstName', label: 'First Name' },
   { id: 'gender', label: 'Gender' },
@@ -94,6 +100,7 @@ export const importColumnData: ITableColumn<ColumnHeader>[] = [
 ]
 
 export const columnData: ITableColumn<ColumnHeader>[] = [
+  { id: 'profile', label: 'Profile' },
   { id: 'lastName', label: 'Last Name' },
   { id: 'firstName', label: 'First Name' },
   { id: 'gender', label: 'Gender' },
@@ -106,6 +113,7 @@ export const columnData: ITableColumn<ColumnHeader>[] = [
 ]
 export interface Data {
   id: string
+  profile: ReactElement
   lastName: string
   firstName: string
   gender: string
@@ -120,6 +128,7 @@ export interface Data {
 
 export const createData = (
   id: string,
+  profile: any,
   lastName: string,
   firstName: string,
   gender: string,
@@ -175,6 +184,7 @@ export const createData = (
   )
 
   const formattedBirthDate = dateFormat(birthDate)
+  const profileImage = <CircleIcon icon={profile?.filename} />
 
-  return { id, lastName, firstName, gender, birthDate: formattedBirthDate, address, contact, grade, subject, createdBy, action: action }
+  return { id, profile: profileImage, lastName, firstName, gender, birthDate: formattedBirthDate, address, contact, grade, subject, createdBy, action: action }
 }

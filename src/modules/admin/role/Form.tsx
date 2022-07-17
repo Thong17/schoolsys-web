@@ -2,7 +2,7 @@ import { DetailField, LocaleField, PrivilegeField } from 'components/shared/form
 import { useForm } from 'react-hook-form'
 import { roleSchema } from './schema'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { getPreRole, selectPreRole } from 'shared/redux'
+import { getPreRole, selectPreRole, getListRole } from 'shared/redux'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import Loading from 'components/shared/Loading'
 import useWeb from 'hooks/useWeb'
@@ -10,7 +10,6 @@ import Button from 'components/shared/Button'
 import Axios from 'constants/functions/Axios'
 import useNotify from 'hooks/useNotify'
 import { useEffect, useState } from 'react'
-import { getListRole } from 'shared/redux'
 
 export const RoleForm = ({ defaultValues, id }: any) => {
   const {

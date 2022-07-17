@@ -1,6 +1,6 @@
 import Breadcrumb from 'components/shared/Breadcrumbs'
 import GroupAddRoundedIcon from '@mui/icons-material/GroupAddRounded'
-import SchoolRoundedIcon from '@mui/icons-material/SchoolRounded'
+import BallotIcon from '@mui/icons-material/Ballot'
 import FactCheckRoundedIcon from '@mui/icons-material/FactCheckRounded'
 import { useParams } from 'react-router-dom'
 import Container from 'components/shared/Container'
@@ -62,7 +62,7 @@ const Header = ({ stages, styled, onOpenRequest, onOpenAchievement, totalRequest
           styled={styled}
           onClick={() => onOpenAchievement()}
         >
-          <SchoolRoundedIcon />
+          <BallotIcon />
         </CustomButton>
       </div>
     </>

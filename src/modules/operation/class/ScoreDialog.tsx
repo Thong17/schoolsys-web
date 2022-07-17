@@ -104,9 +104,15 @@ export const ScoreDialog = ({
                           selectedSubject === subject._id
                             ? theme.background.secondary
                             : theme.background.primary,
+                        transform:
+                          selectedSubject === subject._id
+                            ? 'scale(1)'
+                            : 'scale(0.8)',
+                        transition: '0.2s ease',
                         margin: '0 3px',
-                        padding: '3px 10px',
-                        borderRadius: theme.radius.quaternary,
+                        padding: '0 10px',
+                        height: 33,
+                        borderRadius: theme.radius.secondary,
                       }}
                       onClick={() => handleClickSubject(subject._id)}
                     >

@@ -10,7 +10,7 @@ export const Header = ({
   handleSearch,
   handleImport,
 }) => {
-  const [roles, setClasses] = useState([])
+  const [classes, setClasses] = useState([])
 
   useEffect(() => {
     const newClasses = data.map((role) => {
@@ -26,7 +26,7 @@ export const Header = ({
 
   return (
     <DefaultHeader
-      exportData={roles}
+      exportData={classes}
       styled={styled}
       navigate={navigate}
       handleSearch={handleSearch}
@@ -34,7 +34,7 @@ export const Header = ({
       excelHeader={headerColumns}
       breadcrumb={<AdminBreadcrumbs page='class' />}
       createUrl='/operation/class/create'
-      filename='roles'
+      filename='class'
     />
   )
 }

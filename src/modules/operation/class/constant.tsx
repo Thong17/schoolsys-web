@@ -1,4 +1,5 @@
 import { ReactElement } from 'react'
+import SchoolRoundedIcon from '@mui/icons-material/SchoolRounded'
 import {
   UpdateButton,
   DeleteButton,
@@ -18,6 +19,7 @@ import {
   calculateAverageScore,
   capitalizeText,
 } from 'utils'
+import { IconButton } from '@mui/material'
 
 export interface IClassBody {
   name: Object
@@ -197,6 +199,17 @@ export const createData = (
         )
       ) : (
         <>
+          <IconButton
+            size='small'
+            style={{
+              backgroundColor: `${theme.color.success}22`,
+              borderRadius: theme.radius.primary,
+              marginLeft: 5,
+              color: theme.color.success,
+            }}
+          >
+            <SchoolRoundedIcon fontSize='small' />
+          </IconButton>
           {privilege?.class?.update && (
             <UpdateButton
               onClick={() => navigate(`/operation/class/update/${id}`)}
