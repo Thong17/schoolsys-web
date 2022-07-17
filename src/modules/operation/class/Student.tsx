@@ -146,13 +146,14 @@ export const StudentClass = () => {
         student?.currentAcademy?.scores,
         _class?.grade?.subjects?.length,
         user?.privilege,
+        theme,
         device,
         setDeleteDialog
       )
     })
 
     setStudentData(studentData || [])
-  }, [statusClass, _class, device, user, notify, dispatch, setDeleteDialog])
+  }, [statusClass, _class, device, user, theme, notify, dispatch, setDeleteDialog])
 
   const actionLink =
     action === 'create' ? '/operation/class/create' : `/operation/class/update/${id}`

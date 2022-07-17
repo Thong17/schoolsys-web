@@ -13,15 +13,19 @@ import MenuList from '@mui/material/MenuList'
 import { CircleIcon } from 'components/shared/table/CustomIcon'
 import { TextHighlight } from 'components/shared/TextHighlight'
 import { IThemeStyle } from 'contexts/theme/interface'
-import { calculateTotalScore, calculateAverageScore } from 'utils'
+import {
+  calculateTotalScore,
+  calculateAverageScore,
+  capitalizeText,
+} from 'utils'
 
 export interface IClassBody {
-  name: Object,
-  room: string,
-  schedule: string,
-  grade: string,
-  teacher: string,
-  description: string,
+  name: Object
+  room: string
+  schedule: string
+  grade: string
+  teacher: string
+  description: string
 }
 
 export const initState = {
@@ -33,42 +37,61 @@ export const initState = {
   description: '',
 }
 
-export declare type ColumnHeader = 'name' | 'room' | 'level' | 'schedule' | 'grade' | 'teacher' | 'students' | 'description' | 'action' | 'applied'
+export declare type ColumnHeader =
+  | 'name'
+  | 'room'
+  | 'level'
+  | 'schedule'
+  | 'grade'
+  | 'teacher'
+  | 'students'
+  | 'description'
+  | 'action'
+  | 'applied'
 
-export const importColumns = ['_id', 'name', 'room', 'schedule', 'grade', 'teacher', 'students', 'description']
+export const importColumns = [
+  '_id',
+  'name',
+  'room',
+  'schedule',
+  'grade',
+  'teacher',
+  'students',
+  'description',
+]
 
 export const headerColumns = [
   {
     label: '_id',
-    key: '_id'
+    key: '_id',
   },
   {
     label: 'name',
-    key: 'name'
+    key: 'name',
   },
   {
     label: 'room',
-    key: 'room'
+    key: 'room',
   },
   {
     label: 'schedule',
-    key: 'schedule'
+    key: 'schedule',
   },
   {
     label: 'grade',
-    key: 'grade'
+    key: 'grade',
   },
   {
     label: 'teacher',
-    key: 'teacher'
+    key: 'teacher',
   },
   {
     label: 'students',
-    key: 'students'
+    key: 'students',
   },
   {
     label: 'description',
-    key: 'description'
+    key: 'description',
   },
 ]
 
@@ -118,14 +141,14 @@ export const studentColumnData: ITableColumn<any>[] = [
 
 export interface Data {
   id: string
-  name: string,
-  room: string,
-  schedule: string,
-  students: ReactElement,
-  applied: ReactElement,
-  grade: string,
-  teacher: string,
-  description: string,
+  name: string
+  room: string
+  schedule: string
+  students: ReactElement
+  applied: ReactElement
+  grade: string
+  teacher: string
+  description: string
   createdBy: string
   action: ReactElement
 }
@@ -187,7 +210,19 @@ export const createData = (
     </div>
   )
 
-  return { id, name, room, schedule, students: <TextHighlight text={students} color={`${theme.color.info}11`} />, applied: <TextHighlight text={applied} color={`${theme.color.error}22`} />, grade, teacher, description, createdBy, action: action }
+  return {
+    id,
+    name,
+    room,
+    schedule,
+    students: <TextHighlight text={students} color={theme.color.info} />,
+    applied: <TextHighlight text={applied} color={theme.color.error} />,
+    grade,
+    teacher,
+    description,
+    createdBy,
+    action: action,
+  }
 }
 
 export const createRequestData = (
@@ -209,10 +244,7 @@ export const createRequestData = (
       {device === 'mobile' ? (
         privilege?.class?.detail && (
           <MenuDialog label={<ViewButton />}>
-            <MenuList
-              component='div'
-              onClick={() => onAccept(id)}
-            >
+            <MenuList component='div' onClick={() => onAccept(id)}>
               Edit
             </MenuList>
             <MenuList
@@ -229,9 +261,7 @@ export const createRequestData = (
             <RejectButton onClick={() => setDialog({ open: true, id })} />
           )}
           {privilege?.class?.update && (
-            <ConfirmButton
-              onClick={() => onAccept(id)}
-            />
+            <ConfirmButton onClick={() => onAccept(id)} />
           )}
         </>
       )}
@@ -240,7 +270,17 @@ export const createRequestData = (
 
   const profileImage = <CircleIcon icon={profile} />
 
-  return { id, profile: profileImage, lastName, firstName, gender, previousSchool, previousGrade, contact, action: action }
+  return {
+    id,
+    profile: profileImage,
+    lastName,
+    firstName,
+    gender,
+    previousSchool,
+    previousGrade,
+    contact,
+    action: action,
+  }
 }
 
 export const createStudentData = (
@@ -253,6 +293,7 @@ export const createStudentData = (
   scores: Array<any>,
   average: number,
   privilege: any,
+  theme: IThemeStyle,
   device: DeviceOptions,
   onRemove: Function
 ): any => {
@@ -261,11 +302,7 @@ export const createStudentData = (
       {device === 'mobile' ? (
         privilege?.class?.detail && (
           <MenuDialog label={<ViewButton />}>
-            <MenuList
-              component='div'
-            >
-              Reject
-            </MenuList>
+            <MenuList component='div'>Reject</MenuList>
           </MenuDialog>
         )
       ) : (
@@ -277,8 +314,37 @@ export const createStudentData = (
       )}
     </div>
   )
-
+  const calculatedAverage = parseFloat(calculateAverageScore(scores, average))
   const profileImage = <CircleIcon icon={profile} />
+  let averageText
 
-  return { id, ref, profile: profileImage, lastName, firstName, gender, score: calculateTotalScore(scores), average: calculateAverageScore(scores, average), action: action }
+  switch (true) {
+    case calculatedAverage < 50:
+      averageText = <TextHighlight text={calculatedAverage.toFixed(2)} color={theme.color.error} />
+      break
+    case calculatedAverage < 70:
+      averageText = <TextHighlight text={calculatedAverage.toFixed(2)} color={theme.color.warning} />
+      break
+    case calculatedAverage < 90:
+      averageText = <TextHighlight text={calculatedAverage.toFixed(2)} color={theme.color.info} />
+      break
+    case calculatedAverage < 100:
+      averageText = <TextHighlight text={calculatedAverage.toFixed(2)} color={theme.color.success} />
+      break
+    default:
+      averageText = <TextHighlight text={calculatedAverage.toFixed(2)} color={theme.text.secondary} />
+      break
+  }
+
+  return {
+    id,
+    ref,
+    profile: profileImage,
+    lastName,
+    firstName,
+    gender: capitalizeText(gender),
+    score: calculateTotalScore(scores),
+    average: averageText,
+    action: action,
+  }
 }

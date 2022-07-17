@@ -172,7 +172,10 @@ export const StudentMarkList = ({ scores, student, academy, subject, buttonRef, 
         setShowForm(false)
         ref?.click()
       })
-      .catch((err) => notify(err?.response?.data?.msg, 'error'))
+      .catch((err) => {
+        if (err?.response?.status === 422) return notify(err?.response?.data?.[0]?.path, 'error')
+        notify(err?.response?.data?.msg, 'error')
+      })
   }
 
   useEffect(() => {

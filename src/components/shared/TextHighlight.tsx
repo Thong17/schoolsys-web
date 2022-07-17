@@ -4,7 +4,8 @@ export const TextHighlight = ({ text, color }: any) => {
       style={{
         padding: '0 11px',
         height: 27,
-        backgroundColor: color,
+        color: color,
+        backgroundColor: `${color}22`,
         display: 'flex',
         alignItems: 'center',
         width: 'fit-content',

@@ -4,12 +4,24 @@ import DialogActions from '@mui/material/DialogActions'
 import useTheme from 'hooks/useTheme'
 import { FlexBetween } from 'components/shared/container/FlexBetween'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
-import { getListStudentOfClass, getListSubjectOfClass, selectListStudentOfClass, selectListSubjectOfClass } from './redux'
+import {
+  getListStudentOfClass,
+  getListSubjectOfClass,
+  selectListStudentOfClass,
+  selectListSubjectOfClass,
+} from './redux'
 import { useEffect, useState } from 'react'
 import useLanguage from 'hooks/useLanguage'
 import { StudentScore } from './components/StudentScore'
+import { TextHighlight } from 'components/shared/TextHighlight'
 
-export const ScoreDialog = ({ gradeId, classId, dialog, setDialog, rowData }: any) => {
+export const ScoreDialog = ({
+  gradeId,
+  classId,
+  dialog,
+  setDialog,
+  rowData,
+}: any) => {
   const { theme } = useTheme()
   const { lang } = useLanguage()
   const dispatch = useAppDispatch()
@@ -22,6 +34,12 @@ export const ScoreDialog = ({ gradeId, classId, dialog, setDialog, rowData }: an
   const [students, setStudents] = useState<any>([])
   const [subjects, setSubjects] = useState<any>([])
   const [selectedSubject, setSelectedSubject] = useState(null)
+  const [currentSubject, setCurrentSubject] = useState<any>(null)
+
+  useEffect(() => {
+    const [current] = subjects.filter((subject) => subject._id === selectedSubject)
+    setCurrentSubject(current)
+  }, [selectedSubject, subjects])
 
   useEffect(() => {
     if (!gradeId || !classId) return
@@ -33,7 +51,7 @@ export const ScoreDialog = ({ gradeId, classId, dialog, setDialog, rowData }: an
     setStudents(listStudent)
     setStudentLoading(false)
   }, [listStudent])
-  
+
   useEffect(() => {
     setSubjects(listSubject)
     setSubjectLoading(false)
@@ -50,9 +68,13 @@ export const ScoreDialog = ({ gradeId, classId, dialog, setDialog, rowData }: an
 
   return (
     <AlertDialog isOpen={dialog.open} handleClose={handleCloseDialog}>
-      <div style={{ padding: '20px 30px 10px 30px', fontFamily: theme.font.family }}>
+      <div
+        style={{
+          padding: '20px 30px 10px 30px',
+          fontFamily: theme.font.family,
+        }}
+      >
         <FlexBetween>
-          <h2 style={{ color: theme.text.secondary }}>Score List</h2>
           <div
             style={{
               display: 'flex',
@@ -60,30 +82,55 @@ export const ScoreDialog = ({ gradeId, classId, dialog, setDialog, rowData }: an
               justifyContent: 'start',
             }}
           >
-            {
-              !subjectLoading && subjects?.map((subject, key) => {
-                return <Button
-                  key={key}
-                  style={{
-                    color: theme.text.secondary,
-                    backgroundColor: selectedSubject === subject._id ? theme.background.secondary : theme.background.primary,
-                    margin: '0 3px',
-                    padding: '3px 10px',
-                    borderRadius: theme.radius.quaternary
-                  }}
-                  onClick={() => handleClickSubject(subject._id)}
-                >
-                  {subject.name?.[lang] || subject.name?.['English']}
-                </Button>
-              })
-            }
+            <h2 style={{ color: theme.text.secondary, marginRight: 20 }}>
+              Subject
+            </h2>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'start',
+                overflowX: 'auto',
+              }}
+            >
+              {!subjectLoading &&
+                subjects?.map((subject, key) => {
+                  return (
+                    <Button
+                      key={key}
+                      style={{
+                        color: theme.text.secondary,
+                        backgroundColor:
+                          selectedSubject === subject._id
+                            ? theme.background.secondary
+                            : theme.background.primary,
+                        margin: '0 3px',
+                        padding: '3px 10px',
+                        borderRadius: theme.radius.quaternary,
+                      }}
+                      onClick={() => handleClickSubject(subject._id)}
+                    >
+                      {subject.name?.[lang] || subject.name?.['English']}
+                    </Button>
+                  )
+                })}
+            </div>
+          </div>
+          <div style={{ display: 'flex' }}>
+            <TextHighlight text={`Pass Score: ${currentSubject?.passScore || 0}`} color={theme.text.secondary} />
+            <div style={{ width: 10 }}></div>
+            <TextHighlight text={`Full Score: ${currentSubject?.fullScore || 0}`} color={theme.text.secondary} />
           </div>
         </FlexBetween>
       </div>
       <div style={{ width: '95vw', height: '75vh' }}>
-        {
-          !studentLoading && <StudentScore students={students} subject={selectedSubject} classId={classId} />
-        }
+        {!studentLoading && (
+          <StudentScore
+            students={students}
+            subject={selectedSubject}
+            classId={classId}
+          />
+        )}
       </div>
       <DialogActions style={{ position: 'absolute', bottom: 5, right: 10 }}>
         <Button onClick={handleCloseDialog} variant='contained'>

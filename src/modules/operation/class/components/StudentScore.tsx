@@ -3,6 +3,7 @@ import { calculateTotalScore, capitalizeText } from 'utils'
 import { StudentMarkList } from './StudentMarkList'
 import { TextLabel } from 'components/shared/TextLabel'
 import { useRef, useState, useEffect } from 'react'
+import { CircleIcon } from 'components/shared/table/CustomIcon'
 
 const Column = ({ children, width, align }: any) => {
   return (
@@ -65,7 +66,7 @@ export const StudentScore = ({ students, subject, classId }) => {
               borderRadius: theme.radius.primary
             }}
           >
-            <Column width={20}>#{key + 1}</Column>
+            <Column width={40}><CircleIcon icon={student.profile?.filename} /></Column>
             <Column width={110}>{student.ref}</Column>
             <Column width={200}>
               {student.lastName} {student.firstName}
