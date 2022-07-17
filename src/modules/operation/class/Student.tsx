@@ -146,7 +146,6 @@ export const StudentClass = () => {
         student?.currentAcademy?.scores,
         _class?.grade?.subjects?.length,
         user?.privilege,
-        theme,
         device,
         setDeleteDialog
       )

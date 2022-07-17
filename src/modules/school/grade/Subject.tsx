@@ -45,7 +45,7 @@ const Header = ({ stages, styled, setSubjectDialog, setSubjectValue }) => {
 export const SubjectGrade = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  const { data: grade, status } = useAppSelector(selectGrade)
+  const { data: grade } = useAppSelector(selectGrade)
   const { id, action } = useParams()
   const { lang } = useLanguage()
   const { theme } = useTheme()
@@ -162,7 +162,7 @@ export const SubjectGrade = () => {
         handleConfirm={handleConfirmDelete}
         handleClose={() => setDialog({ open: false, id: null })}
       ></DeleteDialog>
-      <StickyTable columns={subjectColumnData} rows={rowData} loading={status === 'SUCCESS' ? false : true} />
+      <StickyTable columns={subjectColumnData} rows={rowData} />
     </Container>
   )
 }

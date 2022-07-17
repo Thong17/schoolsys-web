@@ -8,7 +8,7 @@ import { DeviceOptions } from 'contexts/web/interface'
 import { MenuDialog } from 'components/shared/MenuDialog'
 import { ITableColumn } from 'components/shared/table/StickyTable'
 import MenuList from '@mui/material/MenuList'
-import { dateFormat } from 'utils'
+import { capitalizeText, dateFormat } from 'utils'
 import { CircleIcon } from 'components/shared/table/CustomIcon'
 
 export interface ITeacherBody {
@@ -186,5 +186,5 @@ export const createData = (
   const formattedBirthDate = dateFormat(birthDate)
   const profileImage = <CircleIcon icon={profile?.filename} />
 
-  return { id, profile: profileImage, lastName, firstName, gender, birthDate: formattedBirthDate, address, contact, grade, subject, createdBy, action: action }
+  return { id, profile: profileImage, lastName, firstName, gender: capitalizeText(gender), birthDate: formattedBirthDate, address, contact, grade, subject, createdBy, action: action }
 }

@@ -70,6 +70,12 @@ export const dateFormat = (date) => {
   return localDate
 }
 
+export const dateFullYear = (date = null) => {
+  if (!date) return new Date().getFullYear()
+  const year = new Date(date).getFullYear()
+  return year
+}
+
 export const inputDateFormat = (d) => {
   if (d === '') return d
   let date = new Date(d)
@@ -109,5 +115,46 @@ export const calculateAverageScore = (scores, number) => {
 
   if (total === 0) return '0.00'
   return (total / number).toFixed(2)
+}
+
+export const calculateGraduateResult = (scores, subjects) => {
+  let totalScore = 0
+  let passScore = 0
+  let fullScore = 0
+
+  scores.forEach(score => {
+    totalScore += score.score
+  })
+
+  subjects.forEach(subject => {
+    passScore += subject.passScore
+    fullScore += subject.fullScore
+  })
+
+  const totalAverage = totalScore / subjects?.length
+  const passAverage = passScore / subjects?.length
+  const fullAverage = fullScore / subjects?.length
+
+  const gradeF = passAverage
+  const gradeE = passAverage + ((fullAverage - passAverage) / 4)
+  const gradeD = gradeE + ((fullAverage - passAverage) / 4)
+  const gradeC = gradeD + ((fullAverage - passAverage) / 4)
+  const gradeB = gradeD + ((fullAverage - passAverage) / 3)
+  const gradeA = fullAverage
+
+  switch (true) {
+    case totalAverage < gradeF:
+      return 'F'
+    case totalAverage < gradeE:
+      return 'E'
+    case totalAverage < gradeD:
+      return 'D'
+    case totalAverage < gradeC:
+      return 'C'
+    case totalAverage < gradeB:
+      return 'B'
+    case totalAverage < gradeA:
+      return 'A'
+  }
 }
 

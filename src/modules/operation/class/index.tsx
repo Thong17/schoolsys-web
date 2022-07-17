@@ -1,4 +1,3 @@
-
 import Container from 'components/shared/Container'
 import useLanguage from 'hooks/useLanguage'
 import useAuth from 'hooks/useAuth'
@@ -9,19 +8,30 @@ import { DeleteDialog } from 'components/shared/table/DeleteDialog'
 import { StickyTable } from 'components/shared/table/StickyTable'
 import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
-import { selectListClass, getListClass } from './redux'
+import { selectListClass, getListClass, getClass, selectClass } from './redux'
 import { useEffect, useState } from 'react'
-import { capitalizeText, debounce } from 'utils'
+import { capitalizeText, debounce, dateFullYear } from 'utils'
 import { useSearchParams } from 'react-router-dom'
 import useTheme from 'hooks/useTheme'
 import { Header } from './Header'
-import { Data, createData, columnData, importColumnData, importColumns } from './constant'
+import {
+  Data,
+  createData,
+  columnData,
+  importColumnData,
+  importColumns,
+  graduateColumnData,
+  createGraduateData,
+  graduateExportColumnData,
+} from './constant'
 import { ImportExcel } from 'constants/functions/Excels'
 import useAlert from 'hooks/useAlert'
 import { AlertDialog } from 'components/shared/table/AlertDialog'
 import { Button, DialogActions, IconButton } from '@mui/material'
 import { CustomButton } from 'styles'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
+import FileDownloadRoundedIcon from '@mui/icons-material/FileDownloadRounded'
+import { CSVLink } from 'react-csv'
 
 export const Classes = () => {
   const dispatch = useAppDispatch()
@@ -33,8 +43,15 @@ export const Classes = () => {
   const { device } = useWeb()
   const { user } = useAuth()
   const [rowData, setRowData] = useState<Data[]>([])
+  const [graduateRowData, setGraduateRowData] = useState<any[]>([])
+  const [graduateExportRowData, setGraduateExportRowData] = useState<any[]>([])
+  const { data: _class, status: statusClass } = useAppSelector(selectClass)
   const { data: classes, status } = useAppSelector(selectListClass)
   const [dialog, setDialog] = useState({ open: false, id: null })
+  const [graduateDialog, setGraduateDialog] = useState({
+    open: false,
+    id: null,
+  })
   const [queryParams, setQueryParams] = useSearchParams()
   const [loading, setLoading] = useState(status === 'LOADING' ? true : false)
   const [importDialog, setImportDialog] = useState({ open: false, data: [] })
@@ -48,9 +65,14 @@ export const Classes = () => {
     updateQuery(e.target.value)
   }
 
+  const handleCloseGraduateDialog = () => {
+    setGraduateDialog({ open: false, id: null })
+    setGraduateRowData([])
+  }
+
   const handleImport = (e) => {
     const response = ImportExcel(
-      '/school/class/excel/import',
+      '/operation/class/excel/import',
       e.target.files[0],
       importColumns
     )
@@ -59,13 +81,16 @@ export const Classes = () => {
       const importList = data.data.data.map((importData) => {
         const ImportAction = ({ no }) => (
           <IconButton
-            onClick={
-              () => {
-                setImportDialog((prevData) => {
-                  return { ...prevData, data: prevData.data.filter((prevItem: any) => prevItem.no !== no) }
-                })
-              }
-            }
+            onClick={() => {
+              setImportDialog((prevData) => {
+                return {
+                  ...prevData,
+                  data: prevData.data.filter(
+                    (prevItem: any) => prevItem.no !== no
+                  ),
+                }
+              })
+            }}
             style={{ color: theme.text.secondary }}
           >
             <CloseRoundedIcon />
@@ -82,16 +107,17 @@ export const Classes = () => {
     confirm({
       title: 'Discard Import',
       description: 'Do you want to discard all the change?',
-      variant: 'error'
-    }).then(() => setImportDialog({ ...importDialog, open: false }))
+      variant: 'error',
+    })
+      .then(() => setImportDialog({ ...importDialog, open: false }))
       .catch(() => setImportDialog({ ...importDialog }))
   }
 
   const handleConfirmImport = () => {
     const response = Axios({
       method: 'POST',
-      url: '/school/class/batch',
-      body: importDialog.data
+      url: '/operation/class/batch',
+      body: importDialog.data,
     })
     loadify(response)
     response.then(() => {
@@ -103,7 +129,7 @@ export const Classes = () => {
   const handleConfirmDelete = (id) => {
     const response = Axios({
       method: 'DELETE',
-      url: `/school/class/disable/${id}`,
+      url: `/operation/class/disable/${id}`,
     })
     loadify(response)
     response.then(() => dispatch(getListClass({ query: queryParams })))
@@ -112,10 +138,62 @@ export const Classes = () => {
   }
 
   useEffect(() => {
+    if (statusClass !== 'SUCCESS') return
+    let exportDate: any = []
+    const graduateStudents = _class?.students?.map((student, key) => {
+      const data = createGraduateData(
+        student.profile?.filename,
+        student.ref,
+        student.lastName,
+        student.firstName,
+        student.gender,
+        student.currentAcademy?.scores,
+        _class.grade?.subjects
+      )
+      exportDate = [
+        ...exportDate,
+        {
+          ID: data.ref,
+          LastName: data.lastName,
+          FirstName: data.firstName,
+          Gender: data.gender,
+          Contact: student.contact,
+          Score: data.score,
+          Average: data.averageText,
+          Grade: data.result,
+        },
+      ]
+      return data
+    })
+    setGraduateExportRowData(exportDate.sort((a, b) => a.Score > b.Score ? -1 : 1).map((student, key) => { return { ...student, Rank: `#${key+1}` } }))
+    setGraduateRowData(graduateStudents.sort((a, b) => a.score > b.score ? -1 : 1).map((student, key) => { return { ...student, rank: `#${key+1}` } }))
+  }, [_class, statusClass])
+
+  useEffect(() => {
     dispatch(getListClass({ query: queryParams }))
   }, [dispatch, queryParams])
 
   useEffect(() => {
+    const handleGraduateDialog = (data) => {
+      dispatch(
+        getClass({
+          id: data.id,
+          query: {},
+          fields: [
+            '_id',
+            'name',
+            'room',
+            'schedule',
+            'grade',
+            'description',
+            'students',
+            'createdAt',
+          ],
+        })
+      )
+      setGraduateDialog(data)
+    }
+
     const listClasses = classes.map((_class: any) => {
       return createData(
         _class._id,
@@ -132,11 +210,12 @@ export const Classes = () => {
         theme,
         device,
         navigate,
-        setDialog
+        setDialog,
+        handleGraduateDialog
       )
     })
     setRowData(listClasses)
-  }, [classes, lang, user, device, theme, navigate])
+  }, [classes, lang, user, device, theme, navigate, dispatch])
 
   return (
     <Container
@@ -152,7 +231,12 @@ export const Classes = () => {
     >
       <AlertDialog isOpen={importDialog.open} handleClose={handleCloseImport}>
         <div style={{ position: 'relative' }}>
-          <StickyTable columns={importColumnData} rows={importDialog.data} loading={loading} style={{ maxWidth: '90vw' }} />
+          <StickyTable
+            columns={importColumnData}
+            rows={importDialog.data}
+            loading={loading}
+            style={{ maxWidth: '90vw' }}
+          />
         </div>
         <DialogActions>
           <Button onClick={handleCloseImport}>Cancel</Button>
@@ -166,9 +250,9 @@ export const Classes = () => {
             onClick={handleConfirmImport}
             autoFocus
           >
-            Import 
+            Import
           </CustomButton>
-        </DialogActions> 
+        </DialogActions>
       </AlertDialog>
       <DeleteDialog
         id={dialog.id}
@@ -176,6 +260,71 @@ export const Classes = () => {
         handleConfirm={handleConfirmDelete}
         handleClose={() => setDialog({ open: false, id: null })}
       ></DeleteDialog>
+
+      <AlertDialog
+        isOpen={graduateDialog.open}
+        handleClose={handleCloseGraduateDialog}
+      >
+        <div
+          style={{
+            padding: '13px 30px',
+            fontFamily: theme.font.family,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          <h3 style={{ color: theme.text.secondary }}>
+            Graduate Class:{' '}
+            {_class.grade?.name?.[lang] || _class.grade?.name?.['English']},{' '}
+            <span
+              style={{
+                color: theme.text.secondary,
+                fontWeight: theme.font.weight,
+              }}
+            >
+              {dateFullYear(_class.createdAt)} - {dateFullYear()}
+            </span>
+          </h3>
+          <CSVLink
+            headers={graduateExportColumnData}
+            data={graduateExportRowData}
+            filename={`graduate_${
+              _class.grade?.name?.['English']
+            }_${new Date().toDateString()}.csv`}
+            style={{
+              color: theme.text.secondary,
+              textDecoration: 'none',
+            }}
+          >
+            <CustomButton
+              style={{
+                backgroundColor: theme.background.secondary,
+                color: theme.text.secondary,
+              }}
+              styled={theme}
+              autoFocus
+            >
+              <FileDownloadRoundedIcon />
+            </CustomButton>
+          </CSVLink>
+        </div>
+        <div
+          style={{
+            width: '95vw',
+            height: '75vh',
+            marginBottom: 10,
+            position: 'relative',
+            overflowY: 'auto',
+          }}
+        >
+          <StickyTable columns={graduateColumnData} rows={graduateRowData} />
+        </div>
+        <DialogActions style={{ position: 'absolute', bottom: 5, left: 10 }}>
+          <Button onClick={handleCloseGraduateDialog}>Close</Button>
+        </DialogActions>
+      </AlertDialog>
+
       <StickyTable columns={columnData} rows={rowData} loading={loading} />
     </Container>
   )

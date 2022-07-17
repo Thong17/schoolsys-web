@@ -18,8 +18,10 @@ import {
   calculateTotalScore,
   calculateAverageScore,
   capitalizeText,
+  calculateGraduateResult,
 } from 'utils'
 import { IconButton } from '@mui/material'
+import { AverageHighlight } from 'components/shared/AverageHighlight'
 
 export interface IClassBody {
   name: Object
@@ -170,7 +172,8 @@ export const createData = (
   theme: IThemeStyle,
   device: DeviceOptions,
   navigate: Function,
-  setDialog: Function
+  setDialog: Function,
+  setGraduateDialog: Function
 ): Data => {
   let action = (
     <div style={{ float: 'right' }}>
@@ -199,7 +202,16 @@ export const createData = (
         )
       ) : (
         <>
+          {privilege?.class?.update && (
+            <UpdateButton
+              onClick={() => navigate(`/operation/class/update/${id}`)}
+            />
+          )}
+          {privilege?.class?.delete && (
+            <DeleteButton onClick={() => setDialog({ open: true, id })} />
+          )}
           <IconButton
+            onClick={() => setGraduateDialog({ open: true, id })}
             size='small'
             style={{
               backgroundColor: `${theme.color.success}22`,
@@ -210,14 +222,6 @@ export const createData = (
           >
             <SchoolRoundedIcon fontSize='small' />
           </IconButton>
-          {privilege?.class?.update && (
-            <UpdateButton
-              onClick={() => navigate(`/operation/class/update/${id}`)}
-            />
-          )}
-          {privilege?.class?.delete && (
-            <DeleteButton onClick={() => setDialog({ open: true, id })} />
-          )}
         </>
       )}
     </div>
@@ -306,7 +310,6 @@ export const createStudentData = (
   scores: Array<any>,
   average: number,
   privilege: any,
-  theme: IThemeStyle,
   device: DeviceOptions,
   onRemove: Function
 ): any => {
@@ -327,27 +330,9 @@ export const createStudentData = (
       )}
     </div>
   )
-  const calculatedAverage = parseFloat(calculateAverageScore(scores, average))
+  const calculatedAverage = calculateAverageScore(scores, average)
   const profileImage = <CircleIcon icon={profile} />
-  let averageText
-
-  switch (true) {
-    case calculatedAverage < 50:
-      averageText = <TextHighlight text={calculatedAverage.toFixed(2)} color={theme.color.error} />
-      break
-    case calculatedAverage < 70:
-      averageText = <TextHighlight text={calculatedAverage.toFixed(2)} color={theme.color.warning} />
-      break
-    case calculatedAverage < 90:
-      averageText = <TextHighlight text={calculatedAverage.toFixed(2)} color={theme.color.info} />
-      break
-    case calculatedAverage < 100:
-      averageText = <TextHighlight text={calculatedAverage.toFixed(2)} color={theme.color.success} />
-      break
-    default:
-      averageText = <TextHighlight text={calculatedAverage.toFixed(2)} color={theme.text.secondary} />
-      break
-  }
+  let averageText = <AverageHighlight calculatedAverage={calculatedAverage} />
 
   return {
     id,
@@ -359,5 +344,49 @@ export const createStudentData = (
     score: calculateTotalScore(scores),
     average: averageText,
     action: action,
+  }
+}
+
+export const graduateColumnData: ITableColumn<any>[] = [
+  { id: 'rank', label: 'Rank' },
+  { id: 'profile', label: 'Profile' },
+  { id: 'ref', label: 'ID' },
+  { id: 'lastName', label: 'Last\u00a0Name' },
+  { id: 'firstName', label: 'First\u00a0Name' },
+  { id: 'gender', label: 'Gender' },
+  // { id: 'contact', label: 'Contact' },
+  { id: 'score', label: 'Score' },
+  { id: 'average', label: 'Average' },
+  { id: 'result', label: 'Grade' },
+]
+
+export const graduateExportColumnData = [
+  'Rank',
+  'ID',
+  'LastName',
+  'FirstName',
+  'Gender',
+  'Contact',
+  'Score',
+  'Average',
+  'Grade',
+]
+
+export const createGraduateData = (profile, ref, lastName, firstName, gender, scores, subjects) => {
+  const profileImage = <CircleIcon icon={profile} />
+  const calculatedAverage = calculateAverageScore(scores, subjects?.length)  
+  let averageText = <AverageHighlight calculatedAverage={calculatedAverage} subjects={subjects} />
+  
+  return {
+    profile: profileImage,
+    ref,
+    lastName,
+    firstName,
+    gender: capitalizeText(gender),
+    // contact,
+    score: calculateTotalScore(scores),
+    average: averageText,
+    averageText: calculatedAverage,
+    result: calculateGraduateResult(scores, subjects)
   }
 }
