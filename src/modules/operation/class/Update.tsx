@@ -40,7 +40,7 @@ export const UpdateClass = () => {
   
   useEffect(() => {
     if (id) {
-      dispatch(getClass({ id, query: {}, fields: ['name', 'room', 'schedule', 'grade', 'description', 'teacher'] }))
+      dispatch(getClass({ id, query: {}, fields: ['name', 'room', 'schedule', 'grade', 'description', 'teacher', 'monitor', 'students'] }))
     }
   }, [dispatch, id])
 

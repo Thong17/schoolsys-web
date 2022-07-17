@@ -165,8 +165,8 @@ export const Classes = () => {
       ]
       return data
     })
-    setGraduateExportRowData(exportDate.sort((a, b) => a.Score > b.Score ? -1 : 1).map((student, key) => { return { ...student, Rank: `#${key+1}` } }))
-    setGraduateRowData(graduateStudents.sort((a, b) => a.score > b.score ? -1 : 1).map((student, key) => { return { ...student, rank: `#${key+1}` } }))
+    setGraduateExportRowData(exportDate?.sort((a, b) => a.Score > b.Score ? -1 : 1).map((student, key) => { return { ...student, Rank: `#${key+1}` } }))
+    setGraduateRowData(graduateStudents?.sort((a, b) => a.score > b.score ? -1 : 1).map((student, key) => { return { ...student, rank: `#${key+1}` } }))
   }, [_class, statusClass])
 
   useEffect(() => {

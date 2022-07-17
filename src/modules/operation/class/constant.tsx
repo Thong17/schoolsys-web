@@ -38,6 +38,7 @@ export const initState = {
   schedule: '',
   grade: '',
   teacher: '',
+  monitor: '',
   description: '',
 }
 
@@ -301,6 +302,7 @@ export const createRequestData = (
 }
 
 export const createStudentData = (
+  monitor: string,
   id: string,
   ref: string,
   profile: string,
@@ -331,7 +333,8 @@ export const createStudentData = (
     </div>
   )
   const calculatedAverage = calculateAverageScore(scores, average)
-  const profileImage = <CircleIcon icon={profile} />
+  
+  const profileImage = id === monitor ? <CircleIcon star={true} icon={profile} /> : <CircleIcon icon={profile} />
   let averageText = <AverageHighlight calculatedAverage={calculatedAverage} />
 
   return {

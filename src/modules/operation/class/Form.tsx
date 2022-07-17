@@ -49,6 +49,24 @@ export const ClassForm = ({ defaultValues, id }: any) => {
 
   const { data: listTeacher, status: statusListTeacher } = useAppSelector(selectListTeacher)
   const [teacherOption, setTeacherOption] = useState<IOptions[]>([])
+  const [monitorOption, setMonitorOption] = useState<IOptions[]>([])
+  const [monitor, setMonitor] = useState('')
+  const monitorId = watch('monitor')
+
+  useEffect(() => {
+    const monitors: any = defaultValues?.students?.find((value: any) => value._id === monitorId)
+    setMonitor(monitors?._id || '')
+  }, [monitorId, defaultValues])
+  useEffect(() => {
+    let monitorOptions: IOptions[] = []
+    defaultValues?.students?.forEach((key: any) => {
+      monitorOptions = [...monitorOptions, { label: `${key.lastName} ${key.firstName}`, value: key._id }]
+    })
+
+    setMonitorOption(monitorOptions)
+  }, [defaultValues])
+  
+
   const [teacher, setTeacher] = useState('')
   const teacherId = watch('teacher')
   useEffect(() => {
@@ -98,6 +116,7 @@ export const ClassForm = ({ defaultValues, id }: any) => {
   }, [scheduleId])
 
   const submit = async (data) => {
+    delete data.students
     Axios({
       method: id ? 'PUT' : 'POST',
       url: id ? `/operation/class/update/${id}` : `/operation/class/create`,
@@ -123,14 +142,14 @@ export const ClassForm = ({ defaultValues, id }: any) => {
             ? ` 
               'name name name' 
               'schedule schedule room'
-              'grade teacher teacher'
+              'grade teacher monitor'
               'description description description'
               'action action action'
             `
             : ` 
               'name name name' 
               'schedule schedule room'
-              'grade teacher teacher'
+              'grade teacher monitor'
               'description description description'
               'action action action'
             `,
@@ -180,6 +199,15 @@ export const ClassForm = ({ defaultValues, id }: any) => {
           options={teacherOption}
           loading={statusListTeacher === 'LOADING' ? true : false}
           {...register('teacher')}
+        />
+      </div>
+      <div style={{ gridArea: 'monitor' }}>
+        <SelectField
+          value={monitor}
+          label='Class Monitor'
+          err={errors.monitor?.message}
+          options={monitorOption}
+          {...register('monitor')}
         />
       </div>
       <div style={{ gridArea: 'description' }}>

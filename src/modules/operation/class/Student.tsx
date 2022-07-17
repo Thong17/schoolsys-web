@@ -116,7 +116,7 @@ export const StudentClass = () => {
   
   useEffect(() => {
     if (id) {
-      dispatch(getClass({ id, query: {}, fields: ['_id', 'name', 'room', 'schedule', 'grade', 'description', 'students'] }))
+      dispatch(getClass({ id, query: {}, fields: ['_id', 'name', 'room', 'schedule', 'grade', 'description', 'students', 'monitor'] }))
     }
   }, [dispatch, id])  
 
@@ -137,6 +137,7 @@ export const StudentClass = () => {
 
     const studentData = _class?.students?.map((student) => {
       return createStudentData(
+        _class.monitor,
         student?._id,
         student?.ref,
         student?.profile?.filename,

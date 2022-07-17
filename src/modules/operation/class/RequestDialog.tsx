@@ -58,7 +58,7 @@ export const RequestDialog = ({
       })
         .then((data) => {
           dispatch(getListStudentOfClass({ id: classId }))
-          dispatch(getClass({ id: classId, query: {}, fields: ['_id', 'name', 'room', 'schedule', 'grade', 'description', 'students'] }))
+          dispatch(getClass({ id: classId, query: {}, fields: ['_id', 'name', 'room', 'schedule', 'grade', 'description', 'students', 'monitor'] }))
           dispatch(deleteAppliedStudent(id))
           notify(data?.data?.msg, 'info')
         })
