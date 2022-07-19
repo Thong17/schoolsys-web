@@ -3,7 +3,7 @@ import HomeWorkRoundedIcon from '@mui/icons-material/HomeWorkRounded'
 import { FC } from 'react'
 import { stages } from './constant'
 
-declare type page = 'operation' | 'attendance' | 'attendanceCheck' | 'attendanceUpdate' | 'class' | 'classCreate' | 'classUpdate'
+declare type page = 'operation' | 'attendance' | 'attendanceCheck' | 'attendanceUpdate'
 
 interface IAdminBreadcrumbs {
   page: page

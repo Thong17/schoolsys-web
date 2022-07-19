@@ -23,5 +23,4 @@ export const Operation = () => {
 }
 
 export { Attendances, CreateAttendance, UpdateAttendance, DetailAttendance } from './attendance'
-export { Classes, CreateClass, UpdateClass, DetailClass, StudentClass } from './class'
 

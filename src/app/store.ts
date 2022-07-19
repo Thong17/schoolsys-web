@@ -5,7 +5,7 @@ import userReducer from 'modules/admin/user/redux'
 import studentReducer from 'modules/school/student/redux'
 import teacherReducer from 'modules/school/teacher/redux'
 import gradeReducer from 'modules/school/grade/redux'
-import classReducer from 'modules/operation/class/redux'
+import classReducer from 'modules/school/class/redux'
 import attendanceReducer from 'modules/operation/attendance/redux'
 import sharedReducer from 'shared/redux'
 

@@ -73,7 +73,7 @@ export const Classes = () => {
 
   const handleImport = (e) => {
     const response = ImportExcel(
-      '/operation/class/excel/import',
+      '/school/class/excel/import',
       e.target.files[0],
       importColumns
     )
@@ -117,7 +117,7 @@ export const Classes = () => {
   const handleConfirmImport = () => {
     const response = Axios({
       method: 'POST',
-      url: '/operation/class/batch',
+      url: '/school/class/batch',
       body: importDialog.data,
     })
     loadify(response)
@@ -130,7 +130,7 @@ export const Classes = () => {
   const handleConfirmDelete = (id) => {
     const response = Axios({
       method: 'DELETE',
-      url: `/operation/class/delete/${id}`,
+      url: `/school/class/delete/${id}`,
     })
     loadify(response)
     response.then(() => dispatch(getListClass({ query: queryParams })))
@@ -147,7 +147,7 @@ export const Classes = () => {
       .then(() => {
         Axios({
           method: 'PUT',
-          url: `/operation/class/graduate/${graduateDialog.id}`,
+          url: `/school/class/graduate/${graduateDialog.id}`,
         })
         .then((data) => {
           notify(data?.data?.data?.msg, 'success')
@@ -224,7 +224,7 @@ export const Classes = () => {
       }).then(() => {
         Axios({
           method: 'PUT',
-          url: `/operation/class/enable/${id}`,
+          url: `/school/class/enable/${id}`,
         })
           .then((data) => {
             notify(data?.data?.msg, 'success')

@@ -27,7 +27,7 @@ export const mapGradeBody = (body): IGradeBody => {
 
 export const initSubject = {
   name: {},
-  teacher: '',
+  teacher: null,
   passScore: 0,
   fullScore: 0,
   description: '',

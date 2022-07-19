@@ -8,7 +8,7 @@ export const getListClass = createAsyncThunk(
   async ({ query }: { query?: URLSearchParams }) => {
     const response = await Axios({
       method: 'GET',
-      url: '/operation/class',
+      url: '/school/class',
       params: query
     })
     return response?.data
@@ -20,7 +20,7 @@ export const getListSubjectOfClass = createAsyncThunk(
   async ({ id, query }: { id: string, query?: URLSearchParams }) => {
     const response = await Axios({
       method: 'GET',
-      url: `/operation/class/${id}/subject`,
+      url: `/school/class/${id}/subject`,
       params: query
     })
     return response?.data
@@ -32,7 +32,7 @@ export const getListStudentOfClass = createAsyncThunk(
   async ({ id, query }: { id: string, query?: URLSearchParams }) => {
     const response = await Axios({
       method: 'GET',
-      url: `/operation/class/${id}/student`,
+      url: `/school/class/${id}/student`,
       params: query
     })
     return response?.data
@@ -44,7 +44,7 @@ export const getClass = createAsyncThunk(
   async ({id, query, fields}: { id: string, query: Object, fields: Array<string> }) => {
     const response = await Axios({
       method: 'GET',
-      url: `/operation/class/detail/${id}`
+      url: `/school/class/detail/${id}`
     })
     let data = {}
     fields.forEach((field) => {

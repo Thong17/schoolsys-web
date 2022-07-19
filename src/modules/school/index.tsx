@@ -25,4 +25,6 @@ export const School = () => {
 export { Students, CreateStudent, UpdateStudent, DetailStudent, DetailFormStudent } from './student'
 export { Teachers, CreateTeacher, UpdateTeacher, DetailTeacher } from './teacher'
 export { Grades, CreateGrade, UpdateGrade, DetailGrade, SubjectGrade } from './grade'
+export { Classes, CreateClass, UpdateClass, DetailClass, StudentClass } from './class'
+
 

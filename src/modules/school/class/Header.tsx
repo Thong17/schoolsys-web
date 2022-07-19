@@ -33,7 +33,7 @@ export const Header = ({
       handleImport={handleImport}
       excelHeader={headerColumns}
       breadcrumb={<AdminBreadcrumbs page='class' />}
-      createUrl='/operation/class/create'
+      createUrl='/school/class/create'
       filename='class'
     />
   )

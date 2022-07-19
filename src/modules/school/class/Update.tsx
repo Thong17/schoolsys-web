@@ -1,5 +1,5 @@
 import Breadcrumb from 'components/shared/Breadcrumbs'
-import FactCheckRoundedIcon from '@mui/icons-material/FactCheckRounded'
+import HomeWorkRoundedIcon from '@mui/icons-material/HomeWorkRounded'
 import Container from 'components/shared/Container'
 import { ClassForm } from './Form'
 import { useParams } from 'react-router-dom'
@@ -10,7 +10,7 @@ import { useEffect } from 'react'
 const Header = ({ stages }) => {
   return (
     <>
-      <Breadcrumb stages={stages} title={<FactCheckRoundedIcon />} />
+      <Breadcrumb stages={stages} title={<HomeWorkRoundedIcon />} />
     </>
   )
 }
@@ -22,19 +22,19 @@ export const UpdateClass = () => {
 
   const stages = [
     {
-      title: 'Operation',
-      path: '/operation',
+      title: 'School',
+      path: '/school',
     },
     {
       title: 'Class',
-      path: '/operation/class',
+      path: '/school/class',
     },
     {
       title: 'Update',
     },
     {
       title: 'Student',
-      path: `/operation/class/update/${id}/student`,
+      path: `/school/class/update/${id}/student`,
     },
   ]
   

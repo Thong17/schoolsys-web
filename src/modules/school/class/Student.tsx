@@ -1,7 +1,7 @@
 import Breadcrumb from 'components/shared/Breadcrumbs'
 import GroupAddRoundedIcon from '@mui/icons-material/GroupAddRounded'
 import BallotIcon from '@mui/icons-material/Ballot'
-import FactCheckRoundedIcon from '@mui/icons-material/FactCheckRounded'
+import HomeWorkRoundedIcon from '@mui/icons-material/HomeWorkRounded'
 import { useParams } from 'react-router-dom'
 import Container from 'components/shared/Container'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
@@ -24,7 +24,7 @@ import { DeleteDialog } from 'components/shared/table/DeleteDialog'
 const Header = ({ stages, styled, onOpenRequest, onOpenAchievement, totalRequest }) => {
   return (
     <>
-      <Breadcrumb stages={stages} title={<FactCheckRoundedIcon />} />
+      <Breadcrumb stages={stages} title={<HomeWorkRoundedIcon />} />
       <div>
         <CustomButton
           style={{
@@ -100,7 +100,7 @@ export const StudentClass = () => {
   const handleRemove = (id) => {
     Axios({
       method: 'DELETE',
-      url: `/operation/class/student/remove/${id}`,
+      url: `/school/class/student/remove/${id}`,
       body: {
         classId: _class?._id
       }
@@ -156,18 +156,18 @@ export const StudentClass = () => {
   }, [statusClass, _class, device, user, theme, notify, dispatch, setDeleteDialog])
 
   const actionLink =
-    action === 'create' ? '/operation/class/create' : `/operation/class/update/${id}`
+    action === 'create' ? '/school/class/create' : `/school/class/update/${id}`
 
   if (action !== 'create' && action !== 'update') return <>Not found</>
 
   const stages = [
     {
-      title: 'Operation',
-      path: '/operation',
+      title: 'School',
+      path: '/school',
     },
     {
       title: 'Class',
-      path: '/operation/class',
+      path: '/school/class',
     },
     {
       title: action === 'create' ? 'Create' : _class?.name?.[lang] || _class?.name?.['English'],

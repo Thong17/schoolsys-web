@@ -6,8 +6,8 @@ export const classSchema = yup.object().shape({
   }),
   schedule: yup.string().required(),
   room: yup.string().optional(),
-  teacher: yup.string().optional(),
-  monitor: yup.string().optional(),
+  teacher: yup.string().nullable(true),
+  monitor: yup.string().nullable(true),
   grade: yup.string().required(),
   description: yup.string().optional(),
 })

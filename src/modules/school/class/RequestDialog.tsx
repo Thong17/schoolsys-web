@@ -39,7 +39,7 @@ export const RequestDialog = ({
   const handleConfirmReject = (id) => {
     Axios({
       method: 'DELETE',
-      url: `/operation/class/reject/applied/${id}`,
+      url: `/school/class/reject/applied/${id}`,
     })
       .then((data) => {
         dispatch(deleteAppliedStudent(id))
@@ -54,7 +54,7 @@ export const RequestDialog = ({
     const handleAccept = (id) => {
       Axios({
         method: 'PUT',
-        url: `/operation/class/accept/applied/${id}`,
+        url: `/school/class/accept/applied/${id}`,
       })
         .then((data) => {
           dispatch(getListStudentOfClass({ id: classId }))

@@ -109,4 +109,40 @@ export const stages = {
         title: 'Update',
       },
     ],
+    
+    class: [
+      {
+        title: 'School',
+        path: '/school',
+      },
+      {
+        title: 'Class',
+      },
+    ],
+    classCreate: [
+      {
+        title: 'School',
+        path: '/school',
+      },
+      {
+        title: 'Class',
+        path: '/school/class',
+      },
+      {
+        title: 'Create',
+      },
+    ],
+    classUpdate: [
+      {
+        title: 'School',
+        path: '/school',
+      },
+      {
+        title: 'Class',
+        path: '/school/class',
+      },
+      {
+        title: 'Update',
+      },
+    ],
   }

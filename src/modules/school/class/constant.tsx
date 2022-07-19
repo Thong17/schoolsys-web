@@ -37,8 +37,8 @@ export const initState = {
   room: '',
   schedule: '',
   grade: '',
-  teacher: '',
-  monitor: '',
+  teacher: null,
+  monitor: null,
   description: '',
 }
 
@@ -188,7 +188,7 @@ export const createData = (
           <MenuDialog label={<ViewButton />}>
             <MenuList
               component='div'
-              onClick={() => navigate(`/operation/class/update/${id}`)}
+              onClick={() => navigate(`/school/class/update/${id}`)}
             >
               Edit
             </MenuList>
@@ -200,7 +200,7 @@ export const createData = (
             </MenuList>
             <MenuList
               component='div'
-              onClick={() => navigate(`/operation/class/detail/${id}`)}
+              onClick={() => navigate(`/school/class/detail/${id}`)}
             >
               View
             </MenuList>
@@ -210,7 +210,7 @@ export const createData = (
         <>
           {privilege?.class?.update && (
             <UpdateButton
-              onClick={() => navigate(`/operation/class/update/${id}`)}
+              onClick={() => navigate(`/school/class/update/${id}`)}
             />
           )}
           {privilege?.class?.delete && (

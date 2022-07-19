@@ -119,14 +119,17 @@ export const ClassForm = ({ defaultValues, id }: any) => {
     delete data.students
     Axios({
       method: id ? 'PUT' : 'POST',
-      url: id ? `/operation/class/update/${id}` : `/operation/class/create`,
+      url: id ? `/school/class/update/${id}` : `/school/class/create`,
       body: data,
     })
       .then((data) => {
         notify(data?.data?.msg, 'success')
-        !id && navigate(`/operation/class/create/${data?.data?.data?._id}/student`)
+        !id && navigate(`/school/class/create/${data?.data?.data?._id}/student`)
       })
-      .catch((err) => notify(err?.response?.data?.msg, 'error'))
+      .catch((err) => {
+        if (err?.response?.status === 422) return notify(err?.response?.data?.[0]?.path, 'error')
+        notify(err?.response?.data?.msg, 'error')
+      })
       .finally(() => setLoading(false))
   }
 
