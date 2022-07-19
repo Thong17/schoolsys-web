@@ -42,6 +42,7 @@ export const Classes = () => {
   const { theme } = useTheme()
   const { device } = useWeb()
   const { user } = useAuth()
+  const { notify } = useNotify()
   const [rowData, setRowData] = useState<Data[]>([])
   const [graduateRowData, setGraduateRowData] = useState<any[]>([])
   const [graduateExportRowData, setGraduateExportRowData] = useState<any[]>([])
@@ -129,12 +130,32 @@ export const Classes = () => {
   const handleConfirmDelete = (id) => {
     const response = Axios({
       method: 'DELETE',
-      url: `/operation/class/disable/${id}`,
+      url: `/operation/class/delete/${id}`,
     })
     loadify(response)
     response.then(() => dispatch(getListClass({ query: queryParams })))
 
     setDialog({ open: false, id: null })
+  }
+
+  const handleFinishGraduate = () => {
+    confirm({
+      title: 'Confirm Graduate',
+      description: `Are you sure you want to graduate class ${_class.name?.[lang] || _class.name?.['English']}?`,
+      variant: 'info'
+    })
+      .then(() => {
+        Axios({
+          method: 'PUT',
+          url: `/operation/class/graduate/${graduateDialog.id}`,
+        })
+        .then((data) => {
+          notify(data?.data?.msg, 'success')
+          dispatch(getListClass({ query: queryParams }))
+        })
+        .catch((err) => notify(err?.msg, 'error'))
+      })
+      .catch()
   }
 
   useEffect(() => {
@@ -194,6 +215,42 @@ export const Classes = () => {
       setGraduateDialog(data)
     }
 
+    const handleEnableClass = (id) => {
+      confirm({
+        title: 'Enable Class',
+        description: 'Are you sure you want to enable this class?',
+        variant: 'info'
+      }).then(() => {
+        Axios({
+          method: 'PUT',
+          url: `/operation/class/enable/${id}`,
+        })
+          .then((data) => {
+            notify(data?.data?.msg, 'success')
+            dispatch(getListClass({ query: queryParams }))
+          })
+          .catch((err) => notify(err?.response?.data?.msg, 'error'))
+      }).catch()
+    }
+
+    const handleDisableClass = (id) => {
+      confirm({
+        title: 'Disable Class',
+        description: 'Are you sure you want to disable this class?',
+        variant: 'error'
+      }).then(() => {
+        Axios({
+          method: 'PUT',
+          url: `/operation/class/disable/${id}`,
+        })
+          .then((data) => {
+            notify(data?.data?.msg, 'success')
+            dispatch(getListClass({ query: queryParams }))
+          })
+          .catch((err) => notify(err?.response?.data?.msg, 'error'))
+      }).catch()
+    }
+
     const listClasses = classes.map((_class: any) => {
       return createData(
         _class._id,
@@ -204,6 +261,7 @@ export const Classes = () => {
         _class.totalApplied,
         _class.grade?.name?.[lang] || _class.grade?.name?.['English'],
         _class.teacher,
+        _class.isActive,
         _class.description,
         _class.createdBy?.username || '...',
         user?.privilege,
@@ -211,11 +269,13 @@ export const Classes = () => {
         device,
         navigate,
         setDialog,
-        handleGraduateDialog
+        handleGraduateDialog,
+        handleEnableClass,
+        handleDisableClass
       )
     })
     setRowData(listClasses)
-  }, [classes, lang, user, device, theme, navigate, dispatch])
+  }, [classes, lang, user, device, theme, queryParams, navigate, dispatch, notify, confirm])
 
   return (
     <Container
@@ -318,10 +378,11 @@ export const Classes = () => {
             overflowY: 'auto',
           }}
         >
-          <StickyTable columns={graduateColumnData} rows={graduateRowData} />
+          <StickyTable pagination={false} columns={graduateColumnData} rows={graduateRowData} />
         </div>
-        <DialogActions style={{ position: 'absolute', bottom: 5, left: 10 }}>
+        <DialogActions style={{ position: 'absolute', bottom: 5, right: 10 }}>
           <Button onClick={handleCloseGraduateDialog}>Close</Button>
+          <CustomButton onClick={handleFinishGraduate} styled={theme} style={{ backgroundColor: theme.background.secondary, color: theme.text.secondary, marginLeft: 10 }}>Graduate</CustomButton>
         </DialogActions>
       </AlertDialog>
 

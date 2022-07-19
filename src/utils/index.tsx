@@ -122,11 +122,11 @@ export const calculateGraduateResult = (scores, subjects) => {
   let passScore = 0
   let fullScore = 0
 
-  scores.forEach(score => {
+  scores?.forEach(score => {
     totalScore += score.score
   })
 
-  subjects.forEach(subject => {
+  subjects?.forEach(subject => {
     passScore += subject.passScore
     fullScore += subject.fullScore
   })

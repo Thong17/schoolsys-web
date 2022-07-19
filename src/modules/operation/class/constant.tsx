@@ -22,6 +22,8 @@ import {
 } from 'utils'
 import { IconButton } from '@mui/material'
 import { AverageHighlight } from 'components/shared/AverageHighlight'
+import ToggleOffIcon from '@mui/icons-material/ToggleOff'
+import ToggleOnIcon from '@mui/icons-material/ToggleOn'
 
 export interface IClassBody {
   name: Object
@@ -53,6 +55,7 @@ export declare type ColumnHeader =
   | 'description'
   | 'action'
   | 'applied'
+  | 'status'
 
 export const importColumns = [
   '_id',
@@ -119,6 +122,7 @@ export const columnData: ITableColumn<ColumnHeader>[] = [
   // { id: 'teacher', label: 'Teacher' },
   { id: 'students', label: 'Student' },
   { id: 'applied', label: 'Applied' },
+  { id: 'status', label: 'Status' },
   { id: 'action', label: 'Action', align: 'right' },
 ]
 
@@ -153,6 +157,7 @@ export interface Data {
   applied: ReactElement
   grade: string
   teacher: string
+  status: ReactElement
   description: string
   createdBy: string
   action: ReactElement
@@ -167,6 +172,7 @@ export const createData = (
   applied: string,
   grade: string,
   teacher: string,
+  status: boolean,
   description: string,
   createdBy: string,
   privilege: any,
@@ -174,7 +180,9 @@ export const createData = (
   device: DeviceOptions,
   navigate: Function,
   setDialog: Function,
-  setGraduateDialog: Function
+  setGraduateDialog: Function,
+  onEnable: Function,
+  onDisable: Function
 ): Data => {
   let action = (
     <div style={{ float: 'right' }}>
@@ -228,6 +236,22 @@ export const createData = (
     </div>
   )
 
+  const statusButton = status 
+    ? <IconButton
+      onClick={() => onDisable(id)}
+      size='small'
+      style={{ color: theme.color.success }}
+    >
+      <ToggleOnIcon style={{ fontSize: 30 }} />
+    </IconButton>
+    : <IconButton
+      onClick={() => onEnable(id)}
+      size='small'
+      style={{ color: theme.color.error }}
+    >
+      <ToggleOffIcon style={{ fontSize: 30 }} />
+    </IconButton>
+
   return {
     id,
     name,
@@ -237,6 +261,7 @@ export const createData = (
     applied: <TextHighlight text={applied} color={theme.color.error} />,
     grade,
     teacher,
+    status: statusButton,
     description,
     createdBy,
     action: action,

@@ -24,19 +24,21 @@ export interface ITableColumn<Column> {
 }
 
 interface ITable {
+  pagination?: Boolean
   columns: ITableColumn<string>[]
   rows: any[]
   loading?: boolean
-  handleClick?: (id) => void,
+  handleClick?: (id) => void
   style?: React.CSSProperties
 }
 
 export const StickyTable = ({
+  pagination = true,
   columns,
   rows,
   loading,
   handleClick,
-  style
+  style,
 }: ITable) => {
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
@@ -76,7 +78,7 @@ export const StickyTable = ({
                 ))}
               </TableRow>
             </TableHead>
-            {!loading && (
+            {!loading && pagination ? (
               <TableBody>
                 {rows
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -96,11 +98,71 @@ export const StickyTable = ({
                           let value = row[column.id]
                           if (typeof value === 'boolean') {
                             value = value ? (
-                              <IconButton size='small' style={{ color: theme.color.success }}>
+                              <IconButton
+                                size='small'
+                                style={{ color: theme.color.success }}
+                              >
                                 <ToggleOnIcon style={{ fontSize: 30 }} />
                               </IconButton>
                             ) : (
-                              <IconButton size='small' style={{ color: theme.color.error }}>
+                              <IconButton
+                                size='small'
+                                style={{ color: theme.color.error }}
+                              >
+                                <ToggleOffIcon style={{ fontSize: 30 }} />
+                              </IconButton>
+                            )
+                          }
+
+                          return (
+                            <TableCell
+                              key={column.id}
+                              align={column.align}
+                              style={{
+                                minWidth: column.minWidth,
+                                maxWidth: column.maxWidth,
+                              }}
+                            >
+                              {column.format && typeof value === 'number'
+                                ? column.format(value)
+                                : value}
+                            </TableCell>
+                          )
+                        })}
+                      </TableRow>
+                    )
+                  })}
+              </TableBody>
+            ) : (
+              <TableBody>
+                {rows
+                  .map((row, index) => {
+                    return (
+                      <TableRow
+                        onClick={() => {
+                          handleClick && handleClick(row.id)
+                        }}
+                        hover
+                        role='checkbox'
+                        tabIndex={-1}
+                        key={row.id || index}
+                        style={{ cursor: handleClick ? 'pointer' : 'default' }}
+                      >
+                        {columns.map((column) => {
+                          let value = row[column.id]
+                          if (typeof value === 'boolean') {
+                            value = value ? (
+                              <IconButton
+                                size='small'
+                                style={{ color: theme.color.success }}
+                              >
+                                <ToggleOnIcon style={{ fontSize: 30 }} />
+                              </IconButton>
+                            ) : (
+                              <IconButton
+                                size='small'
+                                style={{ color: theme.color.error }}
+                              >
                                 <ToggleOffIcon style={{ fontSize: 30 }} />
                               </IconButton>
                             )
@@ -129,7 +191,7 @@ export const StickyTable = ({
           </Table>
         </TableContainer>
       </div>
-      {!loading && (
+      {!loading && pagination && (
         <CustomPagination styled={theme}>
           <TablePagination
             rowsPerPageOptions={[10, 25, 50, 100]}
