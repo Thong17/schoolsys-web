@@ -22,8 +22,6 @@ import {
 } from 'utils'
 import { IconButton } from '@mui/material'
 import { AverageHighlight } from 'components/shared/AverageHighlight'
-import ToggleOffIcon from '@mui/icons-material/ToggleOff'
-import ToggleOnIcon from '@mui/icons-material/ToggleOn'
 
 export interface IClassBody {
   name: Object
@@ -182,7 +180,6 @@ export const createData = (
   setDialog: Function,
   setGraduateDialog: Function,
   onEnable: Function,
-  onDisable: Function
 ): Data => {
   let action = (
     <div style={{ float: 'right' }}>
@@ -219,38 +216,41 @@ export const createData = (
           {privilege?.class?.delete && (
             <DeleteButton onClick={() => setDialog({ open: true, id })} />
           )}
-          <IconButton
-            onClick={() => setGraduateDialog({ open: true, id })}
-            size='small'
-            style={{
-              backgroundColor: `${theme.color.success}22`,
-              borderRadius: theme.radius.primary,
-              marginLeft: 5,
-              color: theme.color.success,
-            }}
-          >
-            <SchoolRoundedIcon fontSize='small' />
-          </IconButton>
+          {
+            status 
+              ? <IconButton
+                  onClick={() => setGraduateDialog({ open: true, id })}
+                  size='small'
+                  style={{
+                    backgroundColor: `${theme.color.success}22`,
+                    borderRadius: theme.radius.primary,
+                    marginLeft: 5,
+                    color: theme.color.success,
+                  }}
+                >
+                  <SchoolRoundedIcon fontSize='small' />
+                </IconButton> 
+              : <IconButton
+                  onClick={() => onEnable(id)}
+                  size='small'
+                  style={{
+                    backgroundColor: `${theme.color.success}22`,
+                    borderRadius: theme.radius.primary,
+                    marginLeft: 5,
+                    color: theme.color.success,
+                  }}
+                >
+                  <SchoolRoundedIcon fontSize='small' />
+                </IconButton>
+          }
         </>
       )}
     </div>
   )
 
   const statusButton = status 
-    ? <IconButton
-      onClick={() => onDisable(id)}
-      size='small'
-      style={{ color: theme.color.success }}
-    >
-      <ToggleOnIcon style={{ fontSize: 30 }} />
-    </IconButton>
-    : <IconButton
-      onClick={() => onEnable(id)}
-      size='small'
-      style={{ color: theme.color.error }}
-    >
-      <ToggleOffIcon style={{ fontSize: 30 }} />
-    </IconButton>
+    ? <TextHighlight text='In Progress' color={theme.color.success} />
+    : <TextHighlight text='Closed' color={theme.color.error} />
 
   return {
     id,

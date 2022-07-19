@@ -150,12 +150,13 @@ export const Classes = () => {
           url: `/operation/class/graduate/${graduateDialog.id}`,
         })
         .then((data) => {
-          notify(data?.data?.msg, 'success')
+          notify(data?.data?.data?.msg, 'success')
           dispatch(getListClass({ query: queryParams }))
+          handleCloseGraduateDialog()
         })
         .catch((err) => notify(err?.msg, 'error'))
       })
-      .catch()
+      .catch(() => {})
   }
 
   useEffect(() => {
@@ -217,8 +218,8 @@ export const Classes = () => {
 
     const handleEnableClass = (id) => {
       confirm({
-        title: 'Enable Class',
-        description: 'Are you sure you want to enable this class?',
+        title: 'Start Class',
+        description: 'Are you sure you want to start this class?',
         variant: 'info'
       }).then(() => {
         Axios({
@@ -230,25 +231,7 @@ export const Classes = () => {
             dispatch(getListClass({ query: queryParams }))
           })
           .catch((err) => notify(err?.response?.data?.msg, 'error'))
-      }).catch()
-    }
-
-    const handleDisableClass = (id) => {
-      confirm({
-        title: 'Disable Class',
-        description: 'Are you sure you want to disable this class?',
-        variant: 'error'
-      }).then(() => {
-        Axios({
-          method: 'PUT',
-          url: `/operation/class/disable/${id}`,
-        })
-          .then((data) => {
-            notify(data?.data?.msg, 'success')
-            dispatch(getListClass({ query: queryParams }))
-          })
-          .catch((err) => notify(err?.response?.data?.msg, 'error'))
-      }).catch()
+      }).catch(() => {})
     }
 
     const listClasses = classes.map((_class: any) => {
@@ -271,7 +254,6 @@ export const Classes = () => {
         setDialog,
         handleGraduateDialog,
         handleEnableClass,
-        handleDisableClass
       )
     })
     setRowData(listClasses)
@@ -343,7 +325,7 @@ export const Classes = () => {
                 fontWeight: theme.font.weight,
               }}
             >
-              {dateFullYear(_class.createdAt)} - {dateFullYear()}
+              {dateFullYear(_class.startedAt)} - {dateFullYear()}
             </span>
           </h3>
           <CSVLink
