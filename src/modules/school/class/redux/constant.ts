@@ -11,6 +11,7 @@ export const initialState: ClassState = {
   list: {
     data: [],
     status: 'INIT',
+    count: 0
   },
   subject: {
     data: [],

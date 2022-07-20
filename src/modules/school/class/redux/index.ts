@@ -77,6 +77,7 @@ export const classSlice = createSlice({
       .addCase(getListClass.fulfilled, (state, action) => {
         state.list.status = 'SUCCESS'
         state.list.data = action.payload.data
+        state.list.count = action.payload.length
       })
 
       // List Subject Of Class

@@ -13,7 +13,7 @@ export const Header = ({
   handleFilter,
   handleImport,
 }) => {
-  const [roles, setGrades] = useState([])
+  const [grades, setGrades] = useState([])
   const [sortObj, setSortObj] = useState({
     name: false,
     createdAt: false,
@@ -47,7 +47,7 @@ export const Header = ({
 
   return (
     <DefaultHeader
-      exportData={roles}
+      exportData={grades}
       styled={styled}
       navigate={navigate}
       handleSearch={handleSearch}
