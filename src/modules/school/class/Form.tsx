@@ -92,9 +92,8 @@ export const ClassForm = ({ defaultValues, id }: any) => {
   }
 
   useEffect(() => {
-    if (statusListGrade !== 'INIT') return
     dispatch(getListGrade({}))
-  }, [dispatch, statusListGrade])
+  }, [dispatch])
 
   useEffect(() => {
     const grade: any = listGrade.find((value: any) => value._id === gradeId)

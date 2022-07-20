@@ -71,7 +71,7 @@ export const Attendance = () => {
       path: '/operation/attendance',
     },
     {
-      title: `${_class?.name?.[lang] || _class?.name?.['English']}`,
+      title: `${_class?.name?.[lang] || _class?.name?.['English'] || '...'}`,
     },
     {
       title: dateFormat(),
@@ -142,12 +142,12 @@ export const Attendance = () => {
             })
             Axios({
               method: 'POST',
-              url: '/operation/attendance/checkInAll',
+              url: `/operation/attendance/checkInAll/${_class?._id}`,
               body
             })
               .then((data) => {
                 const query = new URLSearchParams()
-                query.append('classId', _class._id)
+                query.append('classId', _class?._id)
                 dispatch(getListAttendance({ query }))
                 notify(data?.data?.msg, 'success')
               })
@@ -165,7 +165,7 @@ export const Attendance = () => {
   useEffect(() => {
     if (status !== 'SUCCESS') return
     const query = new URLSearchParams()
-    query.append('classId', _class._id)
+    query.append('classId', _class?._id)
     dispatch(getListAttendance({ query }))
   }, [_class, status, dispatch])
   

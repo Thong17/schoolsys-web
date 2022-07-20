@@ -9,6 +9,6 @@ export const teacherSchema = yup.object().shape({
   contact: yup.string().optional(),
   grade: yup.string().optional(),
   subject: yup.string().optional(),
-  email: yup.string().optional(),
+  email: yup.string().required(),
   profile: yup.mixed().optional(),
 })
