@@ -65,19 +65,30 @@ export const currencyFormat = (value, currency) => {
   return <span>{symbol}{value.toFixed(decimal).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</span> 
 }
 
-export const dateFormat = (date) => {
+export const dateFormat = (date: any = null) => {
+  if (!date) return new Date().toDateString()
+
   const localDate = new Date(date).toDateString()
+  return localDate
+}
+
+export const timeFormat = (date) => {
+  if (!date) return new Date().toLocaleTimeString()
+  
+  const localDate = new Date(date).toLocaleTimeString()
   return localDate
 }
 
 export const dateFullYear = (date = null) => {
   if (!date) return new Date().getFullYear()
+
   const year = new Date(date).getFullYear()
   return year
 }
 
 export const inputDateFormat = (d) => {
   if (d === '') return d
+
   let date = new Date(d)
   let dd: any = date.getDate()
   let mm: any = date.getMonth()+1

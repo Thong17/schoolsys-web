@@ -13,5 +13,5 @@ export const initialState: AttendanceState = {
   detail: {
     data: {},
     status: 'INIT',
-  }
+  },
 }

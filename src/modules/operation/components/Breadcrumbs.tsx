@@ -1,16 +1,16 @@
 import Breadcrumb from 'components/shared/Breadcrumbs'
-import HomeWorkRoundedIcon from '@mui/icons-material/HomeWorkRounded'
+import FactCheckRoundedIcon from '@mui/icons-material/FactCheckRounded'
 import { FC } from 'react'
 import { stages } from './constant'
 
-declare type page = 'operation' | 'attendance' | 'attendanceCheck' | 'attendanceUpdate'
-
+declare type page = 'operation' | 'class' | 'attendance'
+ 
 interface IAdminBreadcrumbs {
   page: page
 }
 
 const AdminBreadcrumbs: FC<IAdminBreadcrumbs> = ({ page }) => {
-  return <Breadcrumb stages={stages[page]} title={<HomeWorkRoundedIcon />} />
+  return <Breadcrumb stages={stages[page]} title={<FactCheckRoundedIcon />} />
 }
 
 export default AdminBreadcrumbs

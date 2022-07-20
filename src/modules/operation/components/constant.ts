@@ -4,39 +4,13 @@ export const stages = {
         title: 'Operation',
       },
     ],
-    attendance: [
+    class: [
       {
         title: 'Operation',
         path: '/operation',
       },
       {
-        title: 'Attendance',
-      },
-    ],
-    attendanceCheck: [
-      {
-        title: 'Operation',
-        path: '/operation',
-      },
-      {
-        title: 'Attendance',
-        path: '/operation/check',
-      },
-      {
-        title: 'Check',
-      },
-    ],
-    attendanceUpdate: [
-      {
-        title: 'Operation',
-        path: '/operation',
-      },
-      {
-        title: 'Attendance',
-        path: '/operation/check',
-      },
-      {
-        title: 'Update',
+        title: 'Class',
       },
     ]
   }

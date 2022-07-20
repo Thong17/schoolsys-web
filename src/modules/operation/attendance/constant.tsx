@@ -1,160 +1,179 @@
 import { ReactElement } from 'react'
-import {
-  UpdateButton,
-  DeleteButton,
-  ViewButton,
-} from 'components/shared/table/ActionButton'
-import { DeviceOptions } from 'contexts/web/interface'
-import { MenuDialog } from 'components/shared/MenuDialog'
+import ArrowRightAltRoundedIcon from '@mui/icons-material/ArrowRightAltRounded'
+import PersonPinCircleRoundedIcon from '@mui/icons-material/PersonPinCircleRounded'
+import RestartAltRoundedIcon from '@mui/icons-material/RestartAltRounded'
 import { ITableColumn } from 'components/shared/table/StickyTable'
-import MenuList from '@mui/material/MenuList'
-import { dateFormat } from 'utils'
+import { IThemeStyle } from 'contexts/theme/interface'
+import { TextHighlight } from 'components/shared/TextHighlight'
+import { IconButton } from '@mui/material'
+import { CircleIcon } from 'components/shared/table/CustomIcon'
+import { capitalizeText, timeFormat } from 'utils'
 
-export interface IAttendanceBody {
-  lastName: string,
-  firstName: string,
-  gender: string,
-  birthDate: string,
-  address: string,
-  contact: string,
-  email: string,
-}
-
-export const initState = {
-  lastName: '',
-  firstName: '',
-  gender: '',
-  birthDate: '',
-  address: '',
-  contact: '',
-  email: ''
-}
-
-export declare type ColumnHeader = 'lastName' | 'firstName' | 'gender' | 'birthDate' | 'address' | 'contact' | 'email' | 'action'
-
-export const importColumns = ['_id', 'lastName', 'firstName', 'gender', 'birthDate', 'address', 'contact', 'email']
-
-export const headerColumns = [
-  {
-    label: '_id',
-    key: '_id'
-  },
-  {
-    label: 'lastName',
-    key: 'lastName'
-  },
-  {
-    label: 'firstName',
-    key: 'firstName'
-  },
-  {
-    label: 'gender',
-    key: 'gender'
-  },
-  {
-    label: 'birthDate',
-    key: 'birthDate'
-  },
-  {
-    label: 'address',
-    key: 'address'
-  },
-  {
-    label: 'contact',
-    key: 'contact'
-  },
-  {
-    label: 'email',
-    key: 'email'
-  },
-]
-
-export const importColumnData: ITableColumn<ColumnHeader>[] = [
-  { id: 'lastName', label: 'Last\u00a0Name' },
-  { id: 'firstName', label: 'First\u00a0Name' },
-  { id: 'gender', label: 'Gender' },
-  { id: 'birthDate', label: 'Birth\u00a0Date' },
-  { id: 'address', label: 'Address' },
-  { id: 'contact', label: 'Contact' },
-  { id: 'action', label: 'Remove' },
-]
-
-export const columnData: ITableColumn<ColumnHeader>[] = [
-  { id: 'lastName', label: 'Last\u00a0Name' },
-  { id: 'firstName', label: 'First\u00a0Name' },
-  { id: 'gender', label: 'Gender' },
-  { id: 'birthDate', label: 'Birth\u00a0Date' },
-  { id: 'address', label: 'Address' },
-  { id: 'contact', label: 'Contact' },
+export const columnData: ITableColumn<any>[] = [
+  { id: 'name', label: 'Class' },
+  { id: 'room', label: 'Room' },
+  { id: 'schedule', label: 'Schedule' },
+  { id: 'grade', label: 'Grade' },
+  { id: 'student', label: 'Student' },
+  { id: 'checkedIn', label: 'Checked\u00a0In' },
+  { id: 'checkedOut', label: 'Checked\u00a0Out' },
   { id: 'action', label: 'Action', align: 'right' },
 ]
+
 export interface Data {
   id: string
-  lastName: string
-  firstName: string
-  gender: string
-  birthDate: string
-  address: string
-  contact: string
-  createdBy: string
+  name: string
+  room: string
+  schedule: string
+  student: ReactElement
+  checkedIn: ReactElement
+  checkedOut: ReactElement
+  grade: string
+  teacher: string
   action: ReactElement
 }
 
 export const createData = (
   id: string,
-  lastName: string,
-  firstName: string,
-  gender: string,
-  birthDate: string,
-  address: string,
-  contact: string,
-  createdBy: string,
+  name: string,
+  room: string,
+  schedule: string,
+  student: number,
+  checkedIn: number,
+  checkedOut: number,
+  grade: string,
+  teacher: string,
   privilege: any,
-  device: DeviceOptions,
-  navigate: Function,
-  setDialog: Function
+  theme: IThemeStyle,
+  navigate: Function
 ): Data => {
   let action = (
     <div style={{ float: 'right' }}>
-      {device === 'mobile' ? (
-        privilege?.attendance?.detail && (
-          <MenuDialog label={<ViewButton />}>
-            <MenuList
-              component='div'
-              onClick={() => navigate(`/school/attendance/update/${id}`)}
-            >
-              Edit
-            </MenuList>
-            <MenuList
-              component='div'
-              onClick={() => setDialog({ open: true, id })}
-            >
-              Delete
-            </MenuList>
-            <MenuList
-              component='div'
-              onClick={() => navigate(`/school/attendance/detail/${id}`)}
-            >
-              View
-            </MenuList>
-          </MenuDialog>
-        )
-      ) : (
-        <>
-          {privilege?.attendance?.update && (
-            <UpdateButton
-              onClick={() => navigate(`/school/attendance/update/${id}`)}
-            />
-          )}
-          {privilege?.attendance?.delete && (
-            <DeleteButton onClick={() => setDialog({ open: true, id })} />
-          )}
-        </>
-      )}
+      <>
+        {privilege?.class?.update && (
+          <IconButton
+            onClick={() => navigate(`/operation/attendance/class/${id}`)}
+            size='small'
+            style={{
+              backgroundColor: `${theme.color.info}22`,
+              borderRadius: theme.radius.primary,
+              marginLeft: 5,
+              color: theme.color.info,
+            }}
+          >
+            <ArrowRightAltRoundedIcon fontSize='small' />
+          </IconButton>
+        )}
+      </>
     </div>
   )
 
-  const formattedBirthDate = dateFormat(birthDate)
+  return {
+    id,
+    name,
+    room,
+    schedule,
+    student: <TextHighlight text={student} color={theme.color.info} />,
+    checkedIn: <TextHighlight text={checkedIn} color={theme.color.error} />,
+    checkedOut: <TextHighlight text={checkedOut} color={theme.color.error} />,
+    grade,
+    teacher,
+    action: action,
+  }
+}
 
-  return { id, lastName, firstName, gender, birthDate: formattedBirthDate, address, contact, createdBy, action: action }
+export const attendanceColumnData: ITableColumn<any>[] = [
+  { id: 'ref', label: 'ID' },
+  { id: 'profile', label: 'Profile' },
+  { id: 'lastName', label: 'Last\u00a0Name' },
+  { id: 'firstName', label: 'First\u00a0Name' },
+  { id: 'gender', label: 'Gender' },
+  { id: 'checkedIn', label: 'Checked\u00a0In' },
+  { id: 'checkedOut', label: 'Checked\u00a0Out' },
+  { id: 'action', label: 'Action', align: 'right' },
+]
+
+export const createAttendanceData = (
+  monitor: string,
+  studentId: string,
+  id: string,
+  ref: string,
+  profile: string,
+  lastName: string,
+  firstName: string,
+  gender: string,
+  attendance: any,
+  privilege: any,
+  theme: IThemeStyle,
+  onCheckIn: Function,
+  onCheckOut: Function,
+  onReset: Function
+): any => {
+  let action = (
+    <div style={{ float: 'right' }}>
+      <>
+        {privilege?.class?.update && !attendance?.checkedOut ? (
+          attendance?.checkedIn ? (
+            <IconButton
+              onClick={() => onCheckOut(attendance?._id)}
+              size='small'
+              style={{
+                backgroundColor: `${theme.color.error}22`,
+                borderRadius: theme.radius.primary,
+                marginLeft: 5,
+                color: theme.color.error,
+              }}
+            >
+              <PersonPinCircleRoundedIcon fontSize='small' />
+            </IconButton>
+          ) : (
+            <IconButton
+              onClick={() => onCheckIn(id)}
+              size='small'
+              style={{
+                backgroundColor: `${theme.color.success}22`,
+                borderRadius: theme.radius.primary,
+                marginLeft: 5,
+                color: theme.color.success,
+              }}
+            >
+              <PersonPinCircleRoundedIcon fontSize='small' />
+            </IconButton>
+          )
+        ) : (
+          <IconButton
+            onClick={() => onReset(attendance?._id)}
+            size='small'
+            style={{
+              backgroundColor: `${theme.color.info}22`,
+              borderRadius: theme.radius.primary,
+              marginLeft: 5,
+              color: theme.color.info,
+            }}
+          >
+            <RestartAltRoundedIcon fontSize='small' />
+          </IconButton>
+        )}
+      </>
+    </div>
+  )
+
+  const profileImage =
+  studentId === monitor ? (
+      <CircleIcon star={true} icon={profile} />
+    ) : (
+      <CircleIcon icon={profile} />
+    )
+
+  return {
+    id,
+    ref,
+    profile: profileImage,
+    lastName,
+    firstName,
+    gender: capitalizeText(gender),
+    checkedIn: attendance?.checkedIn ? <TextHighlight text={timeFormat(attendance?.checkedIn)} color={theme.color.success} /> : '...',
+    checkedOut: attendance?.checkedOut ? <TextHighlight text={timeFormat(attendance?.checkedOut)} color={theme.color.error} /> : '...',
+    action: action,
+  }
 }

@@ -8,8 +8,42 @@ export const getListAttendance = createAsyncThunk(
   async ({ query }: { query?: URLSearchParams }) => {
     const response = await Axios({
       method: 'GET',
-      url: '/school/attendance',
+      url: '/operation/attendance',
       params: query
+    })
+    return response?.data
+  }
+)
+
+export const checkInAttendance = createAsyncThunk(
+  'attendance/checkIn',
+  async (body: Object) => {
+    const response = await Axios({
+      method: 'POST',
+      url: '/operation/attendance/checkIn',
+      body: body
+    })
+    return response?.data
+  }
+)
+
+export const checkOutAttendance = createAsyncThunk(
+  'attendance/checkOut',
+  async (id: string) => {
+    const response = await Axios({
+      method: 'PUT',
+      url: `/operation/attendance/checkOut/${id}`
+    })
+    return response?.data
+  }
+)
+
+export const resetAttendance = createAsyncThunk(
+  'attendance/reset',
+  async (id: string) => {
+    const response = await Axios({
+      method: 'PUT',
+      url: `/operation/attendance/reset/${id}`
     })
     return response?.data
   }
@@ -20,7 +54,7 @@ export const getAttendance = createAsyncThunk(
   async ({id, query, fields}: { id: string, query?: URLSearchParams, fields: Array<string> }) => {
     const response = await Axios({
       method: 'GET',
-      url: `/school/attendance/detail/${id}`
+      url: `/operation/attendance/detail/${id}`
     })
     let data = {}
     fields.forEach((field) => {
@@ -59,6 +93,42 @@ export const roleSlice = createSlice({
       .addCase(getAttendance.fulfilled, (state, action) => {
         state.detail.status = 'SUCCESS'
         state.detail.data = action.payload.data
+      })
+      
+      // Check In Attendance
+      .addCase(checkInAttendance.pending, (state) => {
+        state.list.status = 'LOADING'
+      })
+      .addCase(checkInAttendance.rejected, (state) => {
+        state.list.status = 'FAILED'
+      })
+      .addCase(checkInAttendance.fulfilled, (state, action) => {
+        state.list.status = 'SUCCESS'
+        state.list.data = [...state.list.data, action.payload.data]
+      })
+      
+      // Check Out Attendance
+      .addCase(checkOutAttendance.pending, (state) => {
+        state.list.status = 'LOADING'
+      })
+      .addCase(checkOutAttendance.rejected, (state) => {
+        state.list.status = 'FAILED'
+      })
+      .addCase(checkOutAttendance.fulfilled, (state, action) => {
+        state.list.status = 'SUCCESS'
+        state.list.data = state.list.data.map((data: any) => data._id === action.payload.data?._id ? action.payload.data : data)
+      })
+
+      // Reset Attendance
+      .addCase(resetAttendance.pending, (state) => {
+        state.list.status = 'LOADING'
+      })
+      .addCase(resetAttendance.rejected, (state) => {
+        state.list.status = 'FAILED'
+      })
+      .addCase(resetAttendance.fulfilled, (state, action) => {
+        state.list.status = 'SUCCESS'
+        state.list.data = state.list.data.filter((data: any) => data._id !== action.payload.data?._id)
       })
   },
 })

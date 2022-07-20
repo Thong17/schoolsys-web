@@ -8,7 +8,7 @@ import { Counter } from 'modules/counter/Counter'
 import Config from 'modules/config/Config'
 import NotFound from 'components/shared/NotFound'
 import { CreateStudent, CreateTeacher, DetailStudent, DetailTeacher, School, Students, Teachers, UpdateStudent, UpdateTeacher, DetailFormStudent, UpdateGrade, Grades, DetailGrade, CreateGrade, SubjectGrade, Classes, CreateClass, UpdateClass, DetailClass, StudentClass } from 'modules/school'
-import { Operation, CreateAttendance, DetailAttendance, Attendances, UpdateAttendance } from 'modules/operation'
+import { Operation, Classes as AttendanceClasses, Attendance } from 'modules/operation'
 
 const routes: RouteObject[] = [
   {
@@ -274,31 +274,15 @@ const routes: RouteObject[] = [
         path: 'attendance',
         element: (
           <AuthGuard role={{ route: 'user', action: 'list' }}>
-            <Attendances />
+            <AttendanceClasses />
           </AuthGuard>
         ),
       },
       {
-        path: 'attendance/check',
+        path: 'attendance/class/:id',
         element: (
           <AuthGuard role={{ route: 'user', action: 'create' }}>
-            <CreateAttendance />
-          </AuthGuard>
-        ),
-      },
-      {
-        path: 'attendance/update/:id',
-        element: (
-          <AuthGuard role={{ route: 'user', action: 'update' }}>
-            <UpdateAttendance />
-          </AuthGuard>
-        ),
-      },
-      {
-        path: 'attendance/detail/:id',
-        element: (
-          <AuthGuard role={{ route: 'user', action: 'detail' }}>
-            <DetailAttendance />
+            <Attendance />
           </AuthGuard>
         ),
       },
