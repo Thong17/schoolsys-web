@@ -78,6 +78,7 @@ export const Classes = () => {
         0,
         _class.grade?.name?.[lang] || _class.grade?.name?.['English'],
         `${_class.teacher?.lastName} ${_class.teacher?.firstName}`,
+        _class.isActive,
         user?.privilege,
         theme,
         navigate,

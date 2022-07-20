@@ -78,11 +78,67 @@ export const StickyTable = ({
                 ))}
               </TableRow>
             </TableHead>
-            {!loading && pagination ? (
-              <TableBody>
-                {rows
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row, index) => {
+            {rows?.length > 0 && (
+              !loading && pagination ? (
+                <TableBody>
+                  {rows
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((row, index) => {
+                      return (
+                        <TableRow
+                          onClick={() => {
+                            handleClick && handleClick(row.id)
+                          }}
+                          hover
+                          role='checkbox'
+                          tabIndex={-1}
+                          key={row.id || index}
+                          style={{
+                            cursor: handleClick ? 'pointer' : 'default',
+                          }}
+                        >
+                          {columns.map((column) => {
+                            let value = row[column.id]
+                            if (typeof value === 'boolean') {
+                              value = value ? (
+                                <IconButton
+                                  size='small'
+                                  style={{ color: theme.color.success }}
+                                >
+                                  <ToggleOnIcon style={{ fontSize: 30 }} />
+                                </IconButton>
+                              ) : (
+                                <IconButton
+                                  size='small'
+                                  style={{ color: theme.color.error }}
+                                >
+                                  <ToggleOffIcon style={{ fontSize: 30 }} />
+                                </IconButton>
+                              )
+                            }
+
+                            return (
+                              <TableCell
+                                key={column.id}
+                                align={column.align}
+                                style={{
+                                  minWidth: column.minWidth,
+                                  maxWidth: column.maxWidth,
+                                }}
+                              >
+                                {column.format && typeof value === 'number'
+                                  ? column.format(value)
+                                  : value}
+                              </TableCell>
+                            )
+                          })}
+                        </TableRow>
+                      )
+                    })}
+                </TableBody>
+              ) : (
+                <TableBody>
+                  {rows.map((row, index) => {
                     return (
                       <TableRow
                         onClick={() => {
@@ -132,61 +188,8 @@ export const StickyTable = ({
                       </TableRow>
                     )
                   })}
-              </TableBody>
-            ) : (
-              <TableBody>
-                {rows
-                  .map((row, index) => {
-                    return (
-                      <TableRow
-                        onClick={() => {
-                          handleClick && handleClick(row.id)
-                        }}
-                        hover
-                        role='checkbox'
-                        tabIndex={-1}
-                        key={row.id || index}
-                        style={{ cursor: handleClick ? 'pointer' : 'default' }}
-                      >
-                        {columns.map((column) => {
-                          let value = row[column.id]
-                          if (typeof value === 'boolean') {
-                            value = value ? (
-                              <IconButton
-                                size='small'
-                                style={{ color: theme.color.success }}
-                              >
-                                <ToggleOnIcon style={{ fontSize: 30 }} />
-                              </IconButton>
-                            ) : (
-                              <IconButton
-                                size='small'
-                                style={{ color: theme.color.error }}
-                              >
-                                <ToggleOffIcon style={{ fontSize: 30 }} />
-                              </IconButton>
-                            )
-                          }
-
-                          return (
-                            <TableCell
-                              key={column.id}
-                              align={column.align}
-                              style={{
-                                minWidth: column.minWidth,
-                                maxWidth: column.maxWidth,
-                              }}
-                            >
-                              {column.format && typeof value === 'number'
-                                ? column.format(value)
-                                : value}
-                            </TableCell>
-                          )
-                        })}
-                      </TableRow>
-                    )
-                  })}
-              </TableBody>
+                </TableBody>
+              )
             )}
           </Table>
         </TableContainer>

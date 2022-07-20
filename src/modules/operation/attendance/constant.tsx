@@ -14,6 +14,7 @@ export const columnData: ITableColumn<any>[] = [
   { id: 'room', label: 'Room' },
   { id: 'schedule', label: 'Schedule' },
   { id: 'grade', label: 'Grade' },
+  { id: 'status', label: 'Status' },
   { id: 'student', label: 'Student' },
   { id: 'checkedIn', label: 'Checked\u00a0In' },
   { id: 'checkedOut', label: 'Checked\u00a0Out' },
@@ -30,6 +31,7 @@ export interface Data {
   checkedOut: ReactElement
   grade: string
   teacher: string
+  status: ReactElement
   action: ReactElement
 }
 
@@ -43,6 +45,7 @@ export const createData = (
   checkedOut: number,
   grade: string,
   teacher: string,
+  status: boolean,
   privilege: any,
   theme: IThemeStyle,
   navigate: Function
@@ -52,13 +55,14 @@ export const createData = (
       <>
         {privilege?.class?.update && (
           <IconButton
+            disabled={!status}
             onClick={() => navigate(`/operation/attendance/class/${id}`)}
             size='small'
             style={{
-              backgroundColor: `${theme.color.info}22`,
+              backgroundColor: status ? `${theme.color.info}22` : `${theme.text.secondary}22`,
               borderRadius: theme.radius.primary,
               marginLeft: 5,
-              color: theme.color.info,
+              color: status ? theme.color.info : theme.text.secondary,
             }}
           >
             <ArrowRightAltRoundedIcon fontSize='small' />
@@ -67,6 +71,10 @@ export const createData = (
       </>
     </div>
   )
+
+  const statusButton = status 
+    ? <TextHighlight text='In Progress' color={theme.color.success} />
+    : <TextHighlight text='Closed' color={theme.color.error} />
 
   return {
     id,
@@ -78,6 +86,7 @@ export const createData = (
     checkedOut: <TextHighlight text={checkedOut} color={theme.color.error} />,
     grade,
     teacher,
+    status: statusButton,
     action: action,
   }
 }
@@ -158,8 +167,8 @@ export const createAttendanceData = (
     </div>
   )
 
-  const profileImage =
-  studentId === monitor ? (
+  const profileImage = studentId === monitor 
+    ? (
       <CircleIcon star={true} icon={profile} />
     ) : (
       <CircleIcon icon={profile} />
