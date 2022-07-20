@@ -98,4 +98,4 @@ export const Classes = () => {
   )
 }
 
-export { Attendance } from './Attendance'
+export { Attendances } from './Attendance'

@@ -46,7 +46,7 @@ const Header = ({ onSearch, stages, isCheckedIn, isCheckedOut, styled, onClick }
   </>
 }
 
-export const Attendance = () => {
+export const Attendances = () => {
   const confirm = useAlert()
   const { id } = useParams()
   const { lang } = useLanguage()
