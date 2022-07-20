@@ -27,8 +27,12 @@ interface ITable {
   pagination?: Boolean
   columns: ITableColumn<string>[]
   rows: any[]
+  count?: number
+  skip?: number
+  limit?: number
   loading?: boolean
   handleClick?: (id) => void
+  setQuery?: (id) => void
   style?: React.CSSProperties
 }
 
@@ -36,26 +40,41 @@ export const StickyTable = ({
   pagination = true,
   columns,
   rows,
+  count,
+  skip = 0,
+  limit = 10,
   loading,
   handleClick,
+  setQuery,
   style,
 }: ITable) => {
-  const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(10)
+  const [page, setPage] = React.useState(skip || 0)
+  const [rowsPerPage, setRowsPerPage] = React.useState(limit || 10)
   const { theme } = useTheme()
   const { device } = useWeb()
 
+  React.useEffect(() => {
+    setPage(skip)
+  }, [skip])
+  
+  React.useEffect(() => {
+    setRowsPerPage(limit)
+  }, [limit])
+
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage)
+    setQuery && setQuery({ page: newPage })
   }
 
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setRowsPerPage(+event.target.value)
+    const limit = event.target.value
+    setRowsPerPage(+limit)
     setPage(0)
+    setQuery && setQuery({ limit })
   }
-
+  
   return (
     <CustomTableContainer styled={theme} device={device} style={style}>
       <div className='table-container'>
@@ -82,7 +101,7 @@ export const StickyTable = ({
               !loading && pagination ? (
                 <TableBody>
                   {rows
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .slice(0, page * rowsPerPage + rowsPerPage)
                     .map((row, index) => {
                       return (
                         <TableRow
@@ -197,9 +216,9 @@ export const StickyTable = ({
       {!loading && pagination && (
         <CustomPagination styled={theme}>
           <TablePagination
-            rowsPerPageOptions={[10, 25, 50, 100]}
+            rowsPerPageOptions={[1, 10, 25, 50, 100, { value: -1, label: 'All' }]}
             component='div'
-            count={rows.length}
+            count={count || rows.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

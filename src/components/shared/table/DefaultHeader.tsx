@@ -1,11 +1,11 @@
 import { SearchField } from 'components/shared/table/SearchField'
 import { FilterButton } from 'components/shared/table/FilterButton'
 // import { OptionButton } from 'components/shared/table/OptionButton'
-import { MenuList } from '@mui/material'
+// import { MenuList } from '@mui/material'
 import { CustomButton } from 'styles'
 // import { CSVLink } from 'react-csv'
 
-export const DefaultHeader = ({ exportComponent, importComponent, downloadComponent, exportData, styled, navigate, handleSearch, handleImport, breadcrumb, filename, createUrl, createText, excelHeader, children }: any) => {    
+export const DefaultHeader = ({ exportComponent, importComponent, downloadComponent, exportData, styled, navigate, handleSearch, handleImport, breadcrumb, filename, createUrl, createText, excelHeader, filterOption, children }: any) => {    
   return (
       <>
         {breadcrumb}
@@ -13,8 +13,7 @@ export const DefaultHeader = ({ exportComponent, importComponent, downloadCompon
           <SearchField onChange={handleSearch} />
           {children}
           <FilterButton style={{ marginLeft: 10 }}>
-            <MenuList>Sort By Name</MenuList>
-            <MenuList>Sort By Date</MenuList>
+            {filterOption}
           </FilterButton>
           {/* <OptionButton style={{ marginLeft: 10 }}>
             {
