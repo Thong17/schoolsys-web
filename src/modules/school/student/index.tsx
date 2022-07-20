@@ -1,4 +1,3 @@
-
 import Container from 'components/shared/Container'
 import useLanguage from 'hooks/useLanguage'
 import useAuth from 'hooks/useAuth'
@@ -15,7 +14,13 @@ import { capitalizeText, debounce } from 'utils'
 import { useSearchParams } from 'react-router-dom'
 import useTheme from 'hooks/useTheme'
 import { Header } from './Header'
-import { Data, createData, columnData, importColumnData, importColumns } from './constant'
+import {
+  Data,
+  createData,
+  columnData,
+  importColumnData,
+  importColumns,
+} from './constant'
 import { ImportExcel } from 'constants/functions/Excels'
 import useAlert from 'hooks/useAlert'
 import { AlertDialog } from 'components/shared/table/AlertDialog'
@@ -33,20 +38,46 @@ export const Students = () => {
   const { device } = useWeb()
   const { user } = useAuth()
   const [rowData, setRowData] = useState<Data[]>([])
-  const { data: students } = useAppSelector(selectListStudent)
+  const { data: students, count, status } = useAppSelector(selectListStudent)
   const [dialog, setDialog] = useState({ open: false, id: null })
   const [queryParams, setQueryParams] = useSearchParams()
-  const [loading, setLoading] = useState(true)
   const [importDialog, setImportDialog] = useState({ open: false, data: [] })
 
   const updateQuery = debounce((value) => {
-    setLoading(false)
-    setQueryParams({ search: value })
+    handleQuery({ search: value })
   }, 300)
 
   const handleSearch = (e) => {
     updateQuery(e.target.value)
   }
+
+  const handleFilter = (option) => {
+    handleQuery({ filter: option.filter, sort: option.asc ? 'asc' : 'desc' })
+  }
+
+  const handleQuery = (data) => {
+    let { limit, search } = data
+
+    let query = {}
+    const _limit = queryParams.get('limit')
+    const _page = queryParams.get('page')
+    const _search = queryParams.get('search')
+    const _filter = queryParams.get('filter')
+    const _sort = queryParams.get('sort')
+
+    if (_limit) query = { limit: _limit, ...query }
+    if (_page) query = { page: _page, ...query }
+    if (_search) query = { search: _search, ...query }
+    if (_filter) query = { filter: _filter, ...query }
+    if (_sort) query = { sort: _sort, ...query }
+
+    if (limit || search) return setQueryParams({...query, ...data, page: 0})
+    setQueryParams({...query, ...data})
+  }
+
+  useEffect(() => {
+    dispatch(getListStudent({ query: queryParams }))
+  }, [dispatch, queryParams])
 
   const handleImport = (e) => {
     const response = ImportExcel(
@@ -59,13 +90,16 @@ export const Students = () => {
       const importList = data.data.data.map((importData) => {
         const ImportAction = ({ no }) => (
           <IconButton
-            onClick={
-              () => {
-                setImportDialog((prevData) => {
-                  return { ...prevData, data: prevData.data.filter((prevItem: any) => prevItem.no !== no) }
-                })
-              }
-            }
+            onClick={() => {
+              setImportDialog((prevData) => {
+                return {
+                  ...prevData,
+                  data: prevData.data.filter(
+                    (prevItem: any) => prevItem.no !== no
+                  ),
+                }
+              })
+            }}
             style={{ color: theme.text.secondary }}
           >
             <CloseRoundedIcon />
@@ -82,8 +116,9 @@ export const Students = () => {
     confirm({
       title: 'Discard Import',
       description: 'Do you want to discard all the change?',
-      variant: 'error'
-    }).then(() => setImportDialog({ ...importDialog, open: false }))
+      variant: 'error',
+    })
+      .then(() => setImportDialog({ ...importDialog, open: false }))
       .catch(() => setImportDialog({ ...importDialog }))
   }
 
@@ -91,7 +126,7 @@ export const Students = () => {
     const response = Axios({
       method: 'POST',
       url: '/school/student/batch',
-      body: importDialog.data
+      body: importDialog.data,
     })
     loadify(response)
     response.then(() => {
@@ -112,11 +147,6 @@ export const Students = () => {
   }
 
   useEffect(() => {
-    dispatch(getListStudent({ query: queryParams }))
-    setLoading(false)
-  }, [dispatch, queryParams])
-
-  useEffect(() => {
     const listStudents = students.map((student: any) => {
       return createData(
         student._id,
@@ -129,8 +159,12 @@ export const Students = () => {
         student.nationality,
         student.address,
         student.contact,
-        student.application?.appliedClass?.name?.[lang] || student.application?.appliedClass?.name?.['English'] || '...',
-        student.currentAcademy?.class?.name?.[lang] || student.currentAcademy?.class?.name?.['English'] || '...',
+        student.application?.appliedClass?.name?.[lang] ||
+          student.application?.appliedClass?.name?.['English'] ||
+          '...',
+        student.currentAcademy?.class?.name?.[lang] ||
+          student.currentAcademy?.class?.name?.['English'] ||
+          '...',
         student.createdBy?.username || '...',
         user?.privilege,
         device,
@@ -149,13 +183,18 @@ export const Students = () => {
           styled={theme}
           navigate={navigate}
           handleSearch={handleSearch}
+          handleFilter={handleFilter}
           handleImport={handleImport}
         />
       }
     >
       <AlertDialog isOpen={importDialog.open} handleClose={handleCloseImport}>
         <div style={{ position: 'relative' }}>
-          <StickyTable columns={importColumnData} rows={importDialog.data} loading={loading} style={{ maxWidth: '90vw' }} />
+          <StickyTable
+            columns={importColumnData}
+            rows={importDialog.data}
+            style={{ maxWidth: '90vw' }}
+          />
         </div>
         <DialogActions>
           <Button onClick={handleCloseImport}>Cancel</Button>
@@ -169,9 +208,9 @@ export const Students = () => {
             onClick={handleConfirmImport}
             autoFocus
           >
-            Import 
+            Import
           </CustomButton>
-        </DialogActions> 
+        </DialogActions>
       </AlertDialog>
       <DeleteDialog
         id={dialog.id}
@@ -179,7 +218,14 @@ export const Students = () => {
         handleConfirm={handleConfirmDelete}
         handleClose={() => setDialog({ open: false, id: null })}
       ></DeleteDialog>
-      <StickyTable columns={columnData} rows={rowData} loading={loading} />
+      <StickyTable
+        columns={columnData}
+        rows={rowData}
+        setQuery={handleQuery}
+        count={count}
+        limit={parseInt(queryParams.get('limit') || '10')}
+        skip={status === 'SUCCESS' ? parseInt(queryParams.get('page') || '0') : 0}
+      />
     </Container>
   )
 }

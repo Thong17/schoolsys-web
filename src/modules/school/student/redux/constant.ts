@@ -10,6 +10,7 @@ export const initialState: StudentState = {
   list: {
     data: [],
     status: 'INIT',
+    count: 0
   },
   applied: {
     data: [],
