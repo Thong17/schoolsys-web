@@ -9,6 +9,7 @@ export const initialState: TeacherState = {
   list: {
     data: [],
     status: 'INIT',
+    count: 0
   },
   detail: {
     data: {},
