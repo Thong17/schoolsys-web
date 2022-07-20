@@ -1,4 +1,3 @@
-
 import Container from 'components/shared/Container'
 import useLanguage from 'hooks/useLanguage'
 import useAuth from 'hooks/useAuth'
@@ -33,20 +32,46 @@ export const Grades = () => {
   const { device } = useWeb()
   const { user } = useAuth()
   const [rowData, setRowData] = useState<Data[]>([])
-  const { data: grades } = useAppSelector(selectListGrade)
+  const { data: grades, count, status } = useAppSelector(selectListGrade)
   const [dialog, setDialog] = useState({ open: false, id: null })
   const [queryParams, setQueryParams] = useSearchParams()
-  const [loading, setLoading] = useState(true)
   const [importDialog, setImportDialog] = useState({ open: false, data: [] })
 
   const updateQuery = debounce((value) => {
-    setLoading(false)
-    setQueryParams({ search: value })
+    handleQuery({ search: value })
   }, 300)
 
   const handleSearch = (e) => {
     updateQuery(e.target.value)
   }
+
+  const handleFilter = (option) => {
+    handleQuery({ filter: option.filter, sort: option.asc ? 'asc' : 'desc' })
+  }
+
+  const handleQuery = (data) => {
+    let { limit, search } = data
+
+    let query = {}
+    const _limit = queryParams.get('limit')
+    const _page = queryParams.get('page')
+    const _search = queryParams.get('search')
+    const _filter = queryParams.get('filter')
+    const _sort = queryParams.get('sort')
+
+    if (_limit) query = { limit: _limit, ...query }
+    if (_page) query = { page: _page, ...query }
+    if (_search) query = { search: _search, ...query }
+    if (_filter) query = { filter: _filter, ...query }
+    if (_sort) query = { sort: _sort, ...query }
+
+    if (limit || search) return setQueryParams({...query, ...data, page: 0})
+    setQueryParams({...query, ...data})
+  }
+
+  useEffect(() => {
+    dispatch(getListGrade({ query: queryParams }))
+  }, [dispatch, queryParams])
 
   const handleImport = (e) => {
     const response = ImportExcel(
@@ -112,11 +137,6 @@ export const Grades = () => {
   }
 
   useEffect(() => {
-    dispatch(getListGrade({ query: queryParams }))
-    setLoading(false)
-  }, [dispatch, queryParams])
-
-  useEffect(() => {
     const listGrades = grades.map((grade: any) => {
       return createData(
         grade._id,
@@ -142,13 +162,14 @@ export const Grades = () => {
           styled={theme}
           navigate={navigate}
           handleSearch={handleSearch}
+          handleFilter={handleFilter}
           handleImport={handleImport}
         />
       }
     >
       <AlertDialog isOpen={importDialog.open} handleClose={handleCloseImport}>
         <div style={{ position: 'relative' }}>
-          <StickyTable columns={importColumnData} rows={importDialog.data} loading={loading} style={{ maxWidth: '90vw' }} />
+          <StickyTable columns={importColumnData} rows={importDialog.data} style={{ maxWidth: '90vw' }} />
         </div>
         <DialogActions>
           <Button onClick={handleCloseImport}>Cancel</Button>
@@ -172,7 +193,14 @@ export const Grades = () => {
         handleConfirm={handleConfirmDelete}
         handleClose={() => setDialog({ open: false, id: null })}
       ></DeleteDialog>
-      <StickyTable columns={columnData} rows={rowData} loading={loading} />
+      <StickyTable 
+        columns={columnData} 
+        rows={rowData}        
+        setQuery={handleQuery}
+        count={count}
+        limit={parseInt(queryParams.get('limit') || '10')}
+        skip={status === 'SUCCESS' ? parseInt(queryParams.get('page') || '0') : 0} 
+      />
     </Container>
   )
 }

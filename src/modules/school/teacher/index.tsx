@@ -204,7 +204,8 @@ export const Teachers = () => {
         setQuery={handleQuery}
         count={count}
         limit={parseInt(queryParams.get('limit') || '10')}
-        skip={status === 'SUCCESS' ? parseInt(queryParams.get('page') || '0') : 0} />
+        skip={status === 'SUCCESS' ? parseInt(queryParams.get('page') || '0') : 0} 
+      />
     </Container>
   )
 }

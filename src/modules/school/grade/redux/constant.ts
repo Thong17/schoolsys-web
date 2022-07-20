@@ -9,6 +9,7 @@ export const initialState: GradeState = {
   list: {
     data: [],
     status: 'INIT',
+    count: 0
   },
   detail: {
     data: {},
