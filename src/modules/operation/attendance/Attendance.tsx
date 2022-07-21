@@ -26,6 +26,8 @@ import useAlert from 'hooks/useAlert'
 const Header = ({ onSearch, stages, isCheckedIn, isCheckedOut, styled, onClick, handleFilter }) => {
   const [sortObj, setSortObj] = useState({
     ref: false,
+    checkedInOn: false,
+    checkedOutOn: false,
     lastName: false,
     firstName: false,
     gender: false,
@@ -42,6 +44,8 @@ const Header = ({ onSearch, stages, isCheckedIn, isCheckedOut, styled, onClick, 
       <SearchField onChange={(e) => onSearch(e)} />
       <FilterButton style={{ marginLeft: 10 }}>
         <MenuItem onClick={() => handleChangeFilter({ filter: 'ref' })}><SortIcon asc={sortObj.ref} /> By Id</MenuItem>
+        <MenuItem onClick={() => handleChangeFilter({ filter: 'checkedInOn' })}><SortIcon asc={sortObj.checkedInOn} /> By Checked In</MenuItem>
+        <MenuItem onClick={() => handleChangeFilter({ filter: 'checkedOutOn' })}><SortIcon asc={sortObj.ref} /> By Checked out</MenuItem>
         <MenuItem onClick={() => handleChangeFilter({ filter: 'lastName' })}><SortIcon asc={sortObj.lastName} /> By LastName</MenuItem>
         <MenuItem onClick={() => handleChangeFilter({ filter: 'firstName' })}><SortIcon asc={sortObj.firstName} /> By FirstName</MenuItem>
         <MenuItem onClick={() => handleChangeFilter({ filter: 'gender' })}><SortIcon asc={sortObj.gender} /> By Gender</MenuItem>

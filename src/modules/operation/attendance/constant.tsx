@@ -185,6 +185,8 @@ export const createAttendanceData = (
     gender: capitalizeText(gender),
     checkedIn: attendance?.checkedIn ? <TextHighlight text={timeFormat(attendance?.checkedIn)} color={theme.color.success} /> : '...',
     checkedOut: attendance?.checkedOut ? <TextHighlight text={timeFormat(attendance?.checkedOut)} color={theme.color.error} /> : '...',
+    checkedInOn: attendance?.checkedIn,
+    checkedOutOn: attendance?.checkedOut,
     action: action,
   }
 }
