@@ -327,6 +327,7 @@ export const createRequestData = (
 }
 
 export const createStudentData = (
+  tags: string,
   monitor: string,
   id: string,
   ref: string,
@@ -363,6 +364,7 @@ export const createStudentData = (
   let averageText = <AverageHighlight calculatedAverage={calculatedAverage} />
 
   return {
+    tags,
     id,
     ref,
     profile: profileImage,
@@ -371,7 +373,7 @@ export const createStudentData = (
     gender: capitalizeText(gender),
     score: calculateTotalScore(scores),
     average: averageText,
-    action: action,
+    action: action
   }
 }
 

@@ -2,7 +2,7 @@ import Breadcrumb from 'components/shared/Breadcrumbs'
 import GroupAddRoundedIcon from '@mui/icons-material/GroupAddRounded'
 import BallotIcon from '@mui/icons-material/Ballot'
 import HomeWorkRoundedIcon from '@mui/icons-material/HomeWorkRounded'
-import { useParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 import Container from 'components/shared/Container'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { getClass, getListStudentOfClass, removeStudent, selectClass } from './redux'
@@ -20,12 +20,38 @@ import useWeb from 'hooks/useWeb'
 import Axios from 'constants/functions/Axios'
 import useNotify from 'hooks/useNotify'
 import { DeleteDialog } from 'components/shared/table/DeleteDialog'
+import { SearchField } from 'components/shared/table/SearchField'
+import { FilterButton } from 'components/shared/table/FilterButton'
+import { MenuItem } from '@mui/material'
+import { SortIcon } from 'components/shared/icons/SortIcon'
+import { debounce } from 'utils'
 
-const Header = ({ stages, styled, onOpenRequest, onOpenAchievement, totalRequest }) => {
+const Header = ({ stages, styled, onOpenRequest, onOpenAchievement, totalRequest, onSearch, onFilter }) => {
+  const [sortObj, setSortObj] = useState({
+    ref: false,
+    lastName: false,
+    firstName: false,
+    gender: false,
+    score: false,
+  })
+
+  const handleChangeFilter = ({ filter }) => {
+    setSortObj({ ...sortObj, [filter]: !sortObj[filter] })
+    return onFilter({ filter, asc: sortObj[filter] })
+  }
+
   return (
     <>
       <Breadcrumb stages={stages} title={<HomeWorkRoundedIcon />} />
-      <div>
+      <div style={{ display: 'flex' }}>
+        <SearchField onChange={(e) => onSearch(e)} />
+        <FilterButton style={{ marginLeft: 10 }}>
+          <MenuItem onClick={() => handleChangeFilter({ filter: 'score' })}><SortIcon asc={sortObj.score} /> By Score</MenuItem>
+          <MenuItem onClick={() => handleChangeFilter({ filter: 'ref' })}><SortIcon asc={sortObj.ref} /> By Id</MenuItem>
+          <MenuItem onClick={() => handleChangeFilter({ filter: 'lastName' })}><SortIcon asc={sortObj.lastName} /> By LastName</MenuItem>
+          <MenuItem onClick={() => handleChangeFilter({ filter: 'firstName' })}><SortIcon asc={sortObj.firstName} /> By FirstName</MenuItem>
+          <MenuItem onClick={() => handleChangeFilter({ filter: 'gender' })}><SortIcon asc={sortObj.gender} /> By Gender</MenuItem>
+        </FilterButton>
         <CustomButton
           style={{
             marginLeft: 10,
@@ -79,6 +105,7 @@ export const StudentClass = () => {
   const { theme } = useTheme()
   const { data: _class, status: statusClass } = useAppSelector(selectClass)
   const { data: appliedStudents, status: statusAppliedStudents } = useAppSelector(selectListApplied)
+  const [queryParams, setQueryParams] = useSearchParams()
   const [studentData, setStudentData] = useState([])
   const [requestDialog, setRequestDialog] = useState<any>({
     open: false,
@@ -88,6 +115,31 @@ export const StudentClass = () => {
     open: false,
   })
   const [deleteDialog, setDeleteDialog] = useState({ open: false, id: null })
+
+  const updateQuery = debounce((value) => {
+    handleQuery({ search: value })
+  }, 300)
+
+  const handleSearch = (e) => {
+    updateQuery(e.target.value)
+  }
+
+  const handleFilter = (option) => {
+    handleQuery({ filter: option.filter, sort: option.asc ? 'asc' : 'desc' })
+  }
+
+  const handleQuery = (data) => {
+    let query = {}
+    const _search = queryParams.get('search')
+    const _filter = queryParams.get('filter')
+    const _sort = queryParams.get('sort')
+
+    if (_search) query = { search: _search, ...query }
+    if (_filter) query = { filter: _filter, ...query }
+    if (_sort) query = { sort: _sort, ...query }
+
+    setQueryParams({...query, ...data})
+  }
   
   const handleOpenRequest = () => {
     setRequestDialog({ ...requestDialog, open: true })
@@ -134,9 +186,14 @@ export const StudentClass = () => {
 
   useEffect(() => {
     if (statusClass !== 'SUCCESS') return
+    const _search = new RegExp(queryParams.get('search') || '', "i")
+    const _filter = queryParams.get('filter') || 'createdAt'
+    const _sort = queryParams.get('sort') || 'asc'
 
     const studentData = _class?.students?.map((student) => {
+      const tags = `${JSON.stringify(student.firstName)}${student.lastName}${student.gender}${student.ref}`.replace(/ /g,'')
       return createStudentData(
+        tags,
         _class.monitor,
         student?._id,
         student?.ref,
@@ -151,9 +208,22 @@ export const StudentClass = () => {
         setDeleteDialog
       )
     })
+    
+    const filteredAttendances = studentData?.filter((elem) => _search.test(elem.tags))
+    
+    setStudentData(filteredAttendances.sort((a, b) => {
+      if (_sort === 'desc') {
+        if (b[_filter] < a[_filter]) return -1
+        if (b[_filter] > a[_filter]) return 1
+        return 0
+      } else {
+        if (a[_filter] < b[_filter]) return -1
+        if (a[_filter] > b[_filter]) return 1
+        return 0
+      }
+    }))
 
-    setStudentData(studentData || [])
-  }, [statusClass, _class, device, user, theme, notify, dispatch, setDeleteDialog])
+  }, [statusClass, _class, device, user, theme, queryParams, notify, dispatch, setDeleteDialog])
 
   const actionLink =
     action === 'create' ? '/school/class/create' : `/school/class/update/${id}`
@@ -187,6 +257,8 @@ export const StudentClass = () => {
           onOpenRequest={handleOpenRequest}
           onOpenAchievement={handleOpenAchievement}
           totalRequest={appliedStudents?.length || 0}
+          onFilter={handleFilter}
+          onSearch={handleSearch}
         />
       }
     >

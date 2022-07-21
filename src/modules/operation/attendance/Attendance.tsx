@@ -244,9 +244,13 @@ export const Attendances = () => {
     
     setRowData(filteredAttendances.sort((a, b) => {
       if (_sort === 'desc') {
-        return b[_filter] < a[_filter] ? -1 : 1
+        if (b[_filter] < a[_filter]) return -1
+        if (b[_filter] > a[_filter]) return 1
+        return 0
       } else {
-        return a[_filter] - b[_filter] ? -1 : 1
+        if (a[_filter] < b[_filter]) return -1
+        if (a[_filter] > b[_filter]) return 1
+        return 0
       }
     }))
 
