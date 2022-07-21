@@ -103,6 +103,7 @@ export const attendanceColumnData: ITableColumn<any>[] = [
 ]
 
 export const createAttendanceData = (
+  tags: string,
   monitor: string,
   studentId: string,
   id: string,
@@ -175,6 +176,7 @@ export const createAttendanceData = (
     )
 
   return {
+    tags,
     id,
     ref,
     profile: profileImage,

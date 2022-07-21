@@ -214,7 +214,7 @@ export const StudentClass = () => {
         setDialog={setAchievementDialog}
         rowData={[]}
       />
-      <StickyTable columns={studentColumnData} rows={studentData} />
+      <StickyTable columns={studentColumnData} rows={studentData} pagination={false} />
     </Container>
   )
 }
