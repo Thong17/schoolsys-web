@@ -22,6 +22,7 @@ import { CustomButton } from 'styles'
 import Axios from 'constants/functions/Axios'
 import useNotify from 'hooks/useNotify'
 import useAlert from 'hooks/useAlert'
+import { PermissionForm } from './PermissionForm'
 
 const Header = ({ onSearch, stages, isCheckedIn, isCheckedOut, styled, onClick, handleFilter }) => {
   const [sortObj, setSortObj] = useState({
@@ -79,6 +80,12 @@ export const Attendances = () => {
   const [queryParams, setQueryParams] = useSearchParams()
   const [isCheckedIn, setIsCheckedIn] = useState(false)
   const [isCheckedOut, setIsCheckedOut] = useState(false)
+  const [permissionDialog, setPermissionDialog] = useState({
+    open: false,
+    studentId: null,
+    attendanceId: null,
+    classId: null
+  })
 
   const stages = [
     {
@@ -223,6 +230,15 @@ export const Attendances = () => {
       dispatch(resetAttendance(id))
     }
 
+    const handlePermission = (id, attendanceId) => {
+      setPermissionDialog({
+        studentId: id,
+        attendanceId,
+        open: true,
+        classId: _class?._id
+      })
+    }
+
     const mappedAttendances = _class?.students?.map((student: any) => {
       const tags = `${JSON.stringify(student.firstName)}${student.lastName}${student.gender}${student.ref}`.replace(/ /g,'')
       const attendance: any = attendances.find((attendance: any) => attendance.user === student.authenticate)
@@ -241,7 +257,8 @@ export const Attendances = () => {
         theme,
         handleCheckIn,
         handleCheckOut,
-        handleReset
+        handleReset,
+        handlePermission
       )
     })
     const filteredAttendances = mappedAttendances?.filter((elem) => _search.test(elem.tags))
@@ -276,6 +293,12 @@ export const Attendances = () => {
     <Container
       header={<Header stages={stages} onSearch={handleSearch} styled={theme} isCheckedIn={isCheckedIn} isCheckedOut={isCheckedOut} onClick={handleClick} handleFilter={handleFilter} />}
     >
+      <PermissionForm
+        dialog={permissionDialog}
+        setDialog={setPermissionDialog}
+        defaultValues={{}}
+        theme={theme}
+      />
       <StickyTable columns={attendanceColumnData} rows={rowData} pagination={false} />
     </Container>
   )

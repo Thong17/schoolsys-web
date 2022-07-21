@@ -49,6 +49,18 @@ export const resetAttendance = createAsyncThunk(
   }
 )
 
+export const permissionAttendance = createAsyncThunk(
+  'attendance/permission',
+  async (body: Object) => {
+    const response = await Axios({
+      method: 'POST',
+      url: `/operation/attendance/permission`,
+      body
+    })
+    return response?.data
+  }
+)
+
 export const getAttendance = createAsyncThunk(
   'attendance/detail',
   async ({id, query, fields}: { id: string, query?: URLSearchParams, fields: Array<string> }) => {
@@ -129,6 +141,18 @@ export const roleSlice = createSlice({
       .addCase(resetAttendance.fulfilled, (state, action) => {
         state.list.status = 'SUCCESS'
         state.list.data = state.list.data.filter((data: any) => data._id !== action.payload.data?._id)
+      })
+
+      // Permission Attendance
+      .addCase(permissionAttendance.pending, (state) => {
+        state.list.status = 'LOADING'
+      })
+      .addCase(permissionAttendance.rejected, (state) => {
+        state.list.status = 'FAILED'
+      })
+      .addCase(permissionAttendance.fulfilled, (state, action) => {
+        state.list.status = 'SUCCESS'
+        state.list.data = [...state.list.data, action.payload.data]
       })
   },
 })

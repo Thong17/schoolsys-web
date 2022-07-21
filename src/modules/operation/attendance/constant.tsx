@@ -1,6 +1,8 @@
 import { ReactElement } from 'react'
 import ArrowRightAltRoundedIcon from '@mui/icons-material/ArrowRightAltRounded'
 import PersonPinCircleRoundedIcon from '@mui/icons-material/PersonPinCircleRounded'
+import NotListedLocationRoundedIcon from '@mui/icons-material/NotListedLocationRounded'
+import WhereToVoteRoundedIcon from '@mui/icons-material/WhereToVoteRounded'
 import RestartAltRoundedIcon from '@mui/icons-material/RestartAltRounded'
 import { ITableColumn } from 'components/shared/table/StickyTable'
 import { IThemeStyle } from 'contexts/theme/interface'
@@ -117,39 +119,59 @@ export const createAttendanceData = (
   theme: IThemeStyle,
   onCheckIn: Function,
   onCheckOut: Function,
-  onReset: Function
+  onReset: Function,
+  onPermission: Function
 ): any => {
   let action = (
     <div style={{ float: 'right' }}>
       <>
         {privilege?.class?.update && !attendance?.checkedOut ? (
-          attendance?.checkedIn ? (
+          <>
+            {
+              attendance?.checkedIn ? (
+                <IconButton
+                  onClick={() => onCheckOut(attendance?._id)}
+                  size='small'
+                  style={{
+                    backgroundColor: `${theme.color.success}22`,
+                    borderRadius: theme.radius.primary,
+                    marginLeft: 5,
+                    color: theme.color.success,
+                  }}
+                >
+                  <WhereToVoteRoundedIcon fontSize='small' />
+                </IconButton>
+              ) : (
+                <>
+                  <IconButton
+                    onClick={() => onCheckIn(id)}
+                    size='small'
+                    style={{
+                      backgroundColor: `${theme.color.info}22`,
+                      borderRadius: theme.radius.primary,
+                      marginLeft: 5,
+                      color: theme.color.info,
+                    }}
+                  >
+                    <PersonPinCircleRoundedIcon fontSize='small' />
+                  </IconButton>
+                </>
+              )
+            }
             <IconButton
-              onClick={() => onCheckOut(attendance?._id)}
+              disabled={attendance?.checkedIn ? true : false}
+              onClick={() => onPermission(id, attendance?._id)}
               size='small'
               style={{
-                backgroundColor: `${theme.color.error}22`,
+                backgroundColor: `${attendance?.checkedIn ? `${theme.text.secondary}22` : `${theme.color.error}22`}`,
                 borderRadius: theme.radius.primary,
                 marginLeft: 5,
-                color: theme.color.error,
+                color: attendance?.checkedIn ? theme.text.secondary : theme.color.error,
               }}
             >
-              <PersonPinCircleRoundedIcon fontSize='small' />
+              <NotListedLocationRoundedIcon fontSize='small' />
             </IconButton>
-          ) : (
-            <IconButton
-              onClick={() => onCheckIn(id)}
-              size='small'
-              style={{
-                backgroundColor: `${theme.color.success}22`,
-                borderRadius: theme.radius.primary,
-                marginLeft: 5,
-                color: theme.color.success,
-              }}
-            >
-              <PersonPinCircleRoundedIcon fontSize='small' />
-            </IconButton>
-          )
+          </>
         ) : (
           <IconButton
             onClick={() => onReset(attendance?._id)}
@@ -175,6 +197,28 @@ export const createAttendanceData = (
       <CircleIcon icon={profile} />
     )
 
+  const checkedInText = attendance?.permissionType ? attendance?.permissionType : timeFormat(attendance?.checkedIn)
+  const checkedOutText = attendance?.permissionType ? attendance?.permissionType : timeFormat(attendance?.checkedOut)
+
+  let attendanceColor
+  switch (attendance?.permissionType) {
+    case 'Annual Leave':
+      attendanceColor = theme.color.info
+      break
+    case 'Sick Leave':
+      attendanceColor = theme.color.warning
+      break
+    case 'Urgent Leave':
+      attendanceColor = theme.color.warning
+      break
+    case 'Absent':
+      attendanceColor = theme.color.error
+      break
+    default:
+      attendanceColor = theme.color.success
+      break
+  }
+
   return {
     tags,
     id,
@@ -183,8 +227,8 @@ export const createAttendanceData = (
     lastName,
     firstName,
     gender: capitalizeText(gender),
-    checkedIn: attendance?.checkedIn ? <TextHighlight text={timeFormat(attendance?.checkedIn)} color={theme.color.success} /> : '...',
-    checkedOut: attendance?.checkedOut ? <TextHighlight text={timeFormat(attendance?.checkedOut)} color={theme.color.error} /> : '...',
+    checkedIn: attendance?.checkedIn ? <TextHighlight text={checkedInText} color={attendanceColor} /> : '...',
+    checkedOut: attendance?.checkedOut ? <TextHighlight text={checkedOutText} color={attendanceColor} /> : '...',
     checkedInOn: attendance?.checkedIn,
     checkedOutOn: attendance?.checkedOut,
     action: action,

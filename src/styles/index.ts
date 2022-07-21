@@ -339,7 +339,7 @@ export const CustomInput = styled('div')(
       width: '100%',
       overflow: 'hidden',
     },
-    '& input[type="date"]::-webkit-calendar-picker-indicator': {
+    '& input[type="date"]::-webkit-calendar-picker-indicator, & input[type="datetime-local"]::-webkit-calendar-picker-indicator': {
       filter: 'invert(0.5)'
     },
     '& input': {
