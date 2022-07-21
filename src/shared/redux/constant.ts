@@ -9,6 +9,9 @@ export interface IListRole {
 
 export interface ShareState {
   listRole: IBody<IListRole[]>,
+  listClass: IBody<IListRole[]>,
+  listGrade: IBody<IListRole[]>,
+  listTeacher: IBody<IListRole[]>,
   privilege: IBody<Object>,
   preRole: IBody<Object>
   operationDashboard: IBody<any>
@@ -16,6 +19,18 @@ export interface ShareState {
 
 export const initialState: ShareState = {
   listRole: {
+    data: [],
+    status: 'INIT',
+  },
+  listClass: {
+    data: [],
+    status: 'INIT',
+  },
+  listGrade: {
+    data: [],
+    status: 'INIT',
+  },
+  listTeacher: {
     data: [],
     status: 'INIT',
   },

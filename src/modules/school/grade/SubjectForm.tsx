@@ -18,7 +18,7 @@ import { TextTitle } from 'components/shared/TextTitle'
 import { getGrade } from './redux'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { IOptions } from 'components/shared/form/SelectField'
-import { getListTeacher, selectListTeacher } from '../teacher/redux'
+import { getListTeacher, selectListTeacher } from 'shared/redux'
 
 export const SubjectForm = ({
   dialog,
@@ -45,7 +45,7 @@ export const SubjectForm = ({
   const [teacher, setTeacher] = useState('')
   const teacherId = watch('teacher')
   useEffect(() => {
-    dispatch(getListTeacher({}))
+    dispatch(getListTeacher())
   }, [dispatch])
 
   useEffect(() => {

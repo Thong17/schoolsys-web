@@ -14,7 +14,7 @@ import { getStudent } from '../redux'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { IOptions } from 'components/shared/form/SelectField'
 import useLanguage from 'hooks/useLanguage'
-import { selectListClass, getListClass } from 'modules/school/class/redux'
+import { selectListClass, getListClass } from 'shared/redux'
 
 export const ApplicationForm = ({ studentId, defaultValues }) => {
   const { data: listClass, status: statusListClass } = useAppSelector(selectListClass)
@@ -43,7 +43,7 @@ export const ApplicationForm = ({ studentId, defaultValues }) => {
 
   useEffect(() => {
     if (statusListClass !== 'INIT') return
-    dispatch(getListClass({}))
+    dispatch(getListClass())
   }, [dispatch, statusListClass])
 
   useEffect(() => {

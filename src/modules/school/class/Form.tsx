@@ -14,10 +14,10 @@ import useNotify from 'hooks/useNotify'
 import { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { IOptions } from 'components/shared/form/SelectField'
-import { getListGrade, selectListGrade } from 'modules/school/grade/redux'
+import { getListGrade, selectListGrade } from 'shared/redux'
 import useLanguage from 'hooks/useLanguage'
 import { useNavigate } from 'react-router-dom'
-import { getListTeacher, selectListTeacher } from 'modules/school/teacher/redux'
+import { getListTeacher, selectListTeacher } from 'shared/redux'
 
 const listSchedule = [
   { label: 'Morning', value: 'morning' },
@@ -71,7 +71,7 @@ export const ClassForm = ({ defaultValues, id }: any) => {
   const teacherId = watch('teacher')
   useEffect(() => {
     if (statusListTeacher !== 'INIT') return
-    dispatch(getListTeacher({}))
+    dispatch(getListTeacher())
   }, [dispatch, statusListTeacher])
 
   useEffect(() => {
@@ -92,7 +92,7 @@ export const ClassForm = ({ defaultValues, id }: any) => {
   }
 
   useEffect(() => {
-    dispatch(getListGrade({}))
+    dispatch(getListGrade())
   }, [dispatch])
 
   useEffect(() => {

@@ -47,6 +47,39 @@ export const getOperationDashboard = createAsyncThunk(
   }
 )
 
+export const getListTeacher = createAsyncThunk(
+  'teacher/all',
+  async () => {
+    const response = await Axios({
+      method: 'GET',
+      url: '/school/teacher/list'
+    })
+    return response?.data
+  }
+)
+
+export const getListGrade = createAsyncThunk(
+  'grade/all',
+  async () => {
+    const response = await Axios({
+      method: 'GET',
+      url: '/school/grade/list'
+    })
+    return response?.data
+  }
+)
+
+export const getListClass = createAsyncThunk(
+  'class/all',
+  async () => {
+    const response = await Axios({
+      method: 'GET',
+      url: '/school/class/list'
+    })
+    return response?.data
+  }
+)
+
 export const sharedSlice = createSlice({
   name: 'shared',
   initialState,
@@ -63,6 +96,42 @@ export const sharedSlice = createSlice({
       .addCase(getListRole.fulfilled, (state, action) => {
         state.listRole.status = 'SUCCESS'
         state.listRole.data = action.payload.data
+      })
+
+      // Get List Class from API
+      .addCase(getListClass.pending, (state) => {
+        state.listClass.status = 'LOADING'
+      })
+      .addCase(getListClass.rejected, (state) => {
+        state.listClass.status = 'FAILED'
+      })
+      .addCase(getListClass.fulfilled, (state, action) => {
+        state.listClass.status = 'SUCCESS'
+        state.listClass.data = action.payload.data
+      })
+
+      // Get List Grade from API
+      .addCase(getListGrade.pending, (state) => {
+        state.listGrade.status = 'LOADING'
+      })
+      .addCase(getListGrade.rejected, (state) => {
+        state.listGrade.status = 'FAILED'
+      })
+      .addCase(getListGrade.fulfilled, (state, action) => {
+        state.listGrade.status = 'SUCCESS'
+        state.listGrade.data = action.payload.data
+      })
+
+      // Get List Teacher from API
+      .addCase(getListTeacher.pending, (state) => {
+        state.listTeacher.status = 'LOADING'
+      })
+      .addCase(getListTeacher.rejected, (state) => {
+        state.listTeacher.status = 'FAILED'
+      })
+      .addCase(getListTeacher.fulfilled, (state, action) => {
+        state.listTeacher.status = 'SUCCESS'
+        state.listTeacher.data = action.payload.data
       })
 
       // Get Privilege from API
@@ -104,6 +173,9 @@ export const sharedSlice = createSlice({
 })
 
 export const selectListRole = (state: RootState) => state.shared.listRole
+export const selectListClass = (state: RootState) => state.shared.listClass
+export const selectListGrade = (state: RootState) => state.shared.listGrade
+export const selectListTeacher = (state: RootState) => state.shared.listTeacher
 export const selectPrivilege = (state: RootState) => state.shared.privilege
 export const selectPreRole = (state: RootState) => state.shared.preRole
 export const selectOperationDashboard = (state: RootState) => state.shared.operationDashboard
