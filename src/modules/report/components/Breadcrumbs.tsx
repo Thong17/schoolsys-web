@@ -1,6 +1,7 @@
 import Breadcrumb from 'components/shared/Breadcrumbs'
 import { FC } from 'react'
 import { IBreadcrumbs } from 'constants/interfaces/Breadcrumbs'
+import BarChartRoundedIcon from '@mui/icons-material/BarChartRounded'
 
 const stages = {
   report: [
@@ -11,8 +12,8 @@ const stages = {
 }
 declare type page = 'report'
 
-const ReportBreadcrumbs: FC<IBreadcrumbs<page>> = ({ page, title }) => {
-  return <Breadcrumb stages={stages[page]} title={title} />
+const ReportBreadcrumbs: FC<IBreadcrumbs<page>> = ({ page }) => {
+  return <Breadcrumb stages={stages[page]} title={<BarChartRoundedIcon />} />
 }
 
 export default ReportBreadcrumbs

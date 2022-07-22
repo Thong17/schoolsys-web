@@ -1,7 +1,7 @@
 import useTheme from 'hooks/useTheme'
 import MilitaryTechRoundedIcon from '@mui/icons-material/MilitaryTechRounded'
 
-export const CircleIcon = ({ icon, star = false }) => {
+export const CircleIcon = ({ icon, star = false, height = 30, width = 30 }) => {
   const { theme } = useTheme()
   return (
     <div style={{ position: 'relative', width: 'fit-content' }}>
@@ -14,8 +14,8 @@ export const CircleIcon = ({ icon, star = false }) => {
         style={{
           minWidth: 30,
           minHeight: 30,
-          width: 30,
-          height: 30,
+          width: height,
+          height: width,
           borderRadius: theme.radius.circle,
           overflow: 'hidden',
           border: star ? '1px solid #FFD70099' : theme.border.tertiary,

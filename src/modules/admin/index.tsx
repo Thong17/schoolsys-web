@@ -9,13 +9,12 @@ import SecurityRoundedIcon from '@mui/icons-material/SecurityRounded'
 import AdminPanelSettingsRoundedIcon from '@mui/icons-material/AdminPanelSettingsRounded'
 import LocalPoliceRoundedIcon from '@mui/icons-material/LocalPoliceRounded'
 import useTheme from 'hooks/useTheme'
-import { TextEllipsis } from 'components/shared/TextEllipsis'
-import useWeb from 'hooks/useWeb'
 import { CustomPieChart } from 'components/shared/charts/PieChart'
 import { useEffect, useState } from 'react'
 import { getAdminDashboard, selectAdminDashboard } from 'shared/redux'
 import useLanguage from 'hooks/useLanguage'
 import { useLocation } from 'react-router-dom'
+import { ChartContainer } from 'components/shared/container/ChartContainer'
 
 const Header = () => {
   return (
@@ -28,7 +27,6 @@ const Header = () => {
 export const Admin = () => {
   const outlet = useOutlet()
   const { theme } = useTheme()
-  const { device } = useWeb()
   const { lang } = useLanguage()
   const [totalRole, setTotalRole] = useState(0)
   const [totalUser, setTotalUser] = useState(0)
@@ -112,66 +110,20 @@ export const Admin = () => {
                 icon={<LocalPoliceRoundedIcon style={{ fontSize: 40 }} />}
               />
             </div>
-            <div
-              style={{
-                background: theme.background.secondary,
-                width: '100%',
-                borderRadius: theme.radius.secondary,
-                gridArea: 'role',
-                position: 'relative',
-                display: 'flex',
-                justifyContent: 'center',
-                boxShadow: theme.shadow.container,
-                paddingTop: 20,
-              }}
-            >
-              <TextEllipsis
-                style={{
-                  textAlign: 'center',
-                  position: 'absolute',
-                  top: 15,
-                  width: '100%',
-                  fontSize: theme.responsive[device]?.text.h3,
-                }}
-              >
-                Role Privilege
-              </TextEllipsis>
+            <ChartContainer title={<>Role Privilege</>} style={{ gridArea: 'role' }}>
               <CustomPieChart
                 data={roles}
                 fill={'#7B7D7D'}
                 color={theme.text.secondary}
               />
-            </div>
-            <div
-              style={{
-                background: theme.background.secondary,
-                width: '100%',
-                borderRadius: theme.radius.secondary,
-                gridArea: 'user',
-                position: 'relative',
-                display: 'flex',
-                justifyContent: 'center',
-                boxShadow: theme.shadow.container,
-                paddingTop: 20,
-              }}
-            >
-              <TextEllipsis
-                style={{
-                  textAlign: 'center',
-                  position: 'absolute',
-                  top: 15,
-                  width: '100%',
-                  fontSize: theme.responsive[device]?.text.h3,
-                }}
-              >
-                User Privilege
-              </TextEllipsis>
+            </ChartContainer>
+            <ChartContainer title={<>User Privilege</>} style={{ gridArea: 'user' }}>
               <CustomPieChart
                 data={users}
                 fill={'#7B7D7D'}
                 color={theme.text.secondary}
               />
-            </div>
+            </ChartContainer>
           </div>
         </Container>
       )}

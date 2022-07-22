@@ -12,13 +12,12 @@ import HotelRoundedIcon from '@mui/icons-material/HotelRounded'
 import WrongLocationRoundedIcon from '@mui/icons-material/WrongLocationRounded'
 import SailingRoundedIcon from '@mui/icons-material/SailingRounded'
 import { dateFormat } from 'utils'
-import { TextEllipsis } from 'components/shared/TextEllipsis'
-import useWeb from 'hooks/useWeb'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { getOperationDashboard, selectOperationDashboard } from 'shared/redux'
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import useLanguage from 'hooks/useLanguage'
+import { ChartContainer } from 'components/shared/container/ChartContainer'
 
 const Header = () => {
   return (
@@ -32,7 +31,6 @@ export const Operation = () => {
   const outlet = useOutlet()
   const { lang } = useLanguage()
   const { theme } = useTheme()
-  const { device } = useWeb()
   const location = useLocation()
   const dispatch = useAppDispatch()
   const { data: dashboard } = useAppSelector(selectOperationDashboard)
@@ -92,46 +90,20 @@ export const Operation = () => {
               <DetailSection title='Annual Leave' data={dashboard?.annualLeave} icon={<SailingRoundedIcon style={{ fontSize: 40 }} />} />
               <DetailSection title='Sick Leave' data={dashboard?.sickLeave} icon={<HotelRoundedIcon style={{ fontSize: 40 }} />} />
             </div>
-            <div
-              style={{
-                background: theme.background.secondary,
-                width: '100%',
-                borderRadius: theme.radius.secondary,
-                gridArea: 'student',
-                position: 'relative',
-                display: 'flex',
-                justifyContent: 'center',
-                boxShadow: theme.shadow.container,
-                paddingTop: 20
-              }}
-            >
-              <TextEllipsis style={{ textAlign: 'center', position: 'absolute', top: 15, width: '100%', fontSize: theme.responsive[device]?.text.h3 }}>Checked In: <span style={{ color: theme.text.tertiary }}>{dateFormat()}</span></TextEllipsis>
+            <ChartContainer title={<>Checked In: <span style={{ color: theme.text.tertiary }}>{dateFormat()}</span></>} style={{ gridArea: 'student' }}>
               <CustomPieChart
                 data={checkedIn}
                 fill={'#7B7D7D'}
                 color={theme.text.secondary}
               />
-            </div>
-            <div
-              style={{
-                background: theme.background.secondary,
-                width: '100%',
-                borderRadius: theme.radius.secondary,
-                gridArea: 'teacher',
-                position: 'relative',
-                display: 'flex',
-                justifyContent: 'center',
-                boxShadow: theme.shadow.container,
-                paddingTop: 20
-              }}
-            >
-              <TextEllipsis style={{ textAlign: 'center', position: 'absolute', top: 15, width: '100%', fontSize: theme.responsive[device]?.text.h3 }}>Checked Out: <span style={{ color: theme.text.tertiary }}>{dateFormat()}</span></TextEllipsis>
+            </ChartContainer>
+            <ChartContainer title={<>Checked Out: <span style={{ color: theme.text.tertiary }}>{dateFormat()}</span></>} style={{ gridArea: 'teacher' }}>
               <CustomPieChart
                 data={checkedOut}
                 fill={'#7B7D7D'}
                 color={theme.text.secondary}
               />
-            </div>
+            </ChartContainer>
           </div>
         </Container>
       )}

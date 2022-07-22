@@ -69,6 +69,18 @@ export const getSchoolDashboard = createAsyncThunk(
   }
 )
 
+export const getReportDashboard = createAsyncThunk(
+  'dashboard/report',
+  async (query?: URLSearchParams) => {
+    const response = await Axios({
+      method: 'GET',
+      url: '/dashboard/report',
+      params: query
+    })
+    return response?.data
+  }
+)
+
 export const getListTeacher = createAsyncThunk(
   'teacher/all',
   async () => {
@@ -215,6 +227,18 @@ export const sharedSlice = createSlice({
         state.schoolDashboard.status = 'SUCCESS'
         state.schoolDashboard.data = action.payload.data
       })
+
+      // Get Report Dashboard from API
+      .addCase(getReportDashboard.pending, (state) => {
+        state.reportDashboard.status = 'LOADING'
+      })
+      .addCase(getReportDashboard.rejected, (state) => {
+        state.reportDashboard.status = 'FAILED'
+      })
+      .addCase(getReportDashboard.fulfilled, (state, action) => {
+        state.reportDashboard.status = 'SUCCESS'
+        state.reportDashboard.data = action.payload.data
+      })
   },
 })
 
@@ -227,5 +251,6 @@ export const selectPreRole = (state: RootState) => state.shared.preRole
 export const selectOperationDashboard = (state: RootState) => state.shared.operationDashboard
 export const selectAdminDashboard = (state: RootState) => state.shared.adminDashboard
 export const selectSchoolDashboard = (state: RootState) => state.shared.schoolDashboard
+export const selectReportDashboard = (state: RootState) => state.shared.reportDashboard
 
 export default sharedSlice.reducer

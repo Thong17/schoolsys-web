@@ -11,8 +11,6 @@ import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded'
 import SchoolRoundedIcon from '@mui/icons-material/SchoolRounded'
 import HourglassBottomRoundedIcon from '@mui/icons-material/HourglassBottomRounded'
 import useTheme from 'hooks/useTheme'
-import { TextEllipsis } from 'components/shared/TextEllipsis'
-import useWeb from 'hooks/useWeb'
 import { CustomPieChart } from 'components/shared/charts/PieChart'
 import { useEffect, useState } from 'react'
 import { getSchoolDashboard, selectSchoolDashboard } from 'shared/redux'
@@ -20,6 +18,7 @@ import useLanguage from 'hooks/useLanguage'
 import { useLocation, useNavigate } from 'react-router-dom'
 import ArrowRightAltRoundedIcon from '@mui/icons-material/ArrowRightAltRounded'
 import { IconButton } from '@mui/material'
+import { ChartContainer } from 'components/shared/container/ChartContainer'
 
 const Header = () => {
   return (
@@ -33,7 +32,6 @@ export const School = () => {
   const outlet = useOutlet()
   const navigate = useNavigate()
   const { theme } = useTheme()
-  const { device } = useWeb()
   const { lang } = useLanguage()
   const [classes, setClasses] = useState([])
   const [grades, setGrades] = useState([])
@@ -120,66 +118,20 @@ export const School = () => {
                 action={<IconButton style={{ color: theme.text.secondary }} onClick={() => navigate('/school/class')}><ArrowRightAltRoundedIcon /></IconButton>}
               />
             </div>
-            <div
-              style={{
-                background: theme.background.secondary,
-                width: '100%',
-                borderRadius: theme.radius.secondary,
-                gridArea: 'role',
-                position: 'relative',
-                display: 'flex',
-                justifyContent: 'center',
-                boxShadow: theme.shadow.container,
-                paddingTop: 20,
-              }}
-            >
-              <TextEllipsis
-                style={{
-                  textAlign: 'center',
-                  position: 'absolute',
-                  top: 15,
-                  width: '100%',
-                  fontSize: theme.responsive[device]?.text.h3,
-                }}
-              >
-                Class
-              </TextEllipsis>
+            <ChartContainer title={<>Class</>} style={{ gridArea: 'role' }}>
               <CustomPieChart
                 data={classes}
                 fill={'#7B7D7D'}
                 color={theme.text.secondary}
               />
-            </div>
-            <div
-              style={{
-                background: theme.background.secondary,
-                width: '100%',
-                borderRadius: theme.radius.secondary,
-                gridArea: 'user',
-                position: 'relative',
-                display: 'flex',
-                justifyContent: 'center',
-                boxShadow: theme.shadow.container,
-                paddingTop: 20,
-              }}
-            >
-              <TextEllipsis
-                style={{
-                  textAlign: 'center',
-                  position: 'absolute',
-                  top: 15,
-                  width: '100%',
-                  fontSize: theme.responsive[device]?.text.h3,
-                }}
-              >
-                Grade
-              </TextEllipsis>
+            </ChartContainer>
+            <ChartContainer title={<>Grade</>} style={{ gridArea: 'user' }}>
               <CustomPieChart
                 data={grades}
                 fill={'#7B7D7D'}
                 color={theme.text.secondary}
               />
-            </div>
+            </ChartContainer>
           </div>
         </Container>
       )}

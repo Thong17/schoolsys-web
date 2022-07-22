@@ -811,6 +811,14 @@ export const CustomOptionButton = styled('div')(
   })
 )
 
+export const CustomDropdownButton = styled('div')(
+  ({ styled }: { styled: IThemeStyle }) => ({
+    '& button': {
+      color: styled.text.secondary,
+    },
+  })
+)
+
 export const CustomHeaderButton = styled('div')(
   ({ styled }: { styled: IThemeStyle }) => ({
     position: 'relative',
