@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { DetailSection } from 'components/shared/container/DetailSection'
 import SecurityRoundedIcon from '@mui/icons-material/SecurityRounded'
 import AdminPanelSettingsRoundedIcon from '@mui/icons-material/AdminPanelSettingsRounded'
+import LocalPoliceRoundedIcon from '@mui/icons-material/LocalPoliceRounded'
 import useTheme from 'hooks/useTheme'
 import { TextEllipsis } from 'components/shared/TextEllipsis'
 import useWeb from 'hooks/useWeb'
@@ -31,6 +32,7 @@ export const Admin = () => {
   const { lang } = useLanguage()
   const [totalRole, setTotalRole] = useState(0)
   const [totalUser, setTotalUser] = useState(0)
+  const [totalPrivilege, setTotalPrivilege] = useState(0)
   const [roles, setRoles] = useState([])
   const [users, setUsers] = useState([])
   const dispatch = useAppDispatch()
@@ -43,6 +45,8 @@ export const Admin = () => {
         name: role.name?.[lang],
         value: role.value,
         title: role.title,
+        detail: `Privilege ${role.detail}`,
+        fill: role.detail === role.value ? theme.color.success : theme.color.info
       }
     })
     setRoles(mappedRole)
@@ -52,12 +56,14 @@ export const Admin = () => {
         name: role.name?.[lang],
         value: role.value,
         title: role.title,
+        detail: `Privilege ${role.detail}`
       }
     })
     setUsers(mappedUser)
     setTotalRole(dashboard?.totalRole)
     setTotalUser(dashboard?.totalUser)
-  }, [dashboard, lang])
+    setTotalPrivilege(dashboard?.totalPrivilege)
+  }, [dashboard, lang, theme])
 
 
   useEffect(() => {
@@ -99,6 +105,11 @@ export const Admin = () => {
                 title='Total User'
                 data={totalUser}
                 icon={<AdminPanelSettingsRoundedIcon style={{ fontSize: 40 }} />}
+              />
+              <DetailSection
+                title='Total Privilege'
+                data={totalPrivilege}
+                icon={<LocalPoliceRoundedIcon style={{ fontSize: 40 }} />}
               />
             </div>
             <div
