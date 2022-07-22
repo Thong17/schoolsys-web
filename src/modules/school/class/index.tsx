@@ -256,6 +256,14 @@ export const Classes = () => {
       }).catch(() => {})
     }
 
+    const handleOpenRequest = (id) => {
+      navigate(`/school/class/update/${id}/student?request=1`)
+    }
+
+    const handleOpenStudent = (id) => {
+      navigate(`/school/class/update/${id}/student`)
+    }
+
     const listClasses = classes.map((_class: any) => {
       return createData(
         _class._id,
@@ -276,6 +284,8 @@ export const Classes = () => {
         setDialog,
         handleGraduateDialog,
         handleEnableClass,
+        handleOpenRequest,
+        handleOpenStudent
       )
     })
     setRowData(listClasses)

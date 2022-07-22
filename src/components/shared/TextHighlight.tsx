@@ -1,4 +1,4 @@
-export const TextHighlight = ({ text, color }: any) => {
+export const TextHighlight = ({ text, color, size }: any) => {
   return (
     <div
       style={{
@@ -9,7 +9,8 @@ export const TextHighlight = ({ text, color }: any) => {
         display: 'flex',
         alignItems: 'center',
         width: 'fit-content',
-        borderRadius: 5
+        borderRadius: 5,
+        fontSize: size || 13
       }}
     >
       {text}

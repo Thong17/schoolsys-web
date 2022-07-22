@@ -69,8 +69,8 @@ const Header = ({ stages, styled, onOpenRequest, onOpenAchievement, totalRequest
               padding: '0 7px',
               height: 21,
               borderRadius: styled.radius.secondary,
-              backgroundColor: `${styled.color.error}66`,
-              color: styled.color.error,
+              backgroundColor: styled.color.error,
+              color: styled.text.secondary,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center'
@@ -175,10 +175,9 @@ export const StudentClass = () => {
 
   useEffect(() => {
     if (statusAppliedStudents !== 'SUCCESS') return
-    setRequestDialog((prevData) => { 
-      return { ...prevData, students: appliedStudents }
-     })
-  }, [statusAppliedStudents, appliedStudents])
+    const _request = queryParams.get('request')
+    setRequestDialog({ students: appliedStudents, open: _request === '1' ? true : false })
+  }, [statusAppliedStudents, appliedStudents, queryParams])
   
   useEffect(() => {
     if (statusClass !== 'SUCCESS' || !_class?._id) return

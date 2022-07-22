@@ -118,9 +118,9 @@ export const columnData: ITableColumn<ColumnHeader>[] = [
   { id: 'schedule', label: 'Schedule' },
   { id: 'grade', label: 'Grade' },
   // { id: 'teacher', label: 'Teacher' },
-  { id: 'students', label: 'Student' },
-  { id: 'applied', label: 'Applied' },
   { id: 'status', label: 'Status' },
+  { id: 'students', label: 'Student' },
+  { id: 'applied', label: 'Pending' },
   { id: 'action', label: 'Action', align: 'right' },
 ]
 
@@ -180,6 +180,8 @@ export const createData = (
   setDialog: Function,
   setGraduateDialog: Function,
   onEnable: Function,
+  onOpenRequest: Function,
+  onOpenStudent: Function
 ): Data => {
   let action = (
     <div style={{ float: 'right' }}>
@@ -257,8 +259,8 @@ export const createData = (
     name,
     room,
     schedule,
-    students: <TextHighlight text={students} color={theme.color.info} />,
-    applied: <TextHighlight text={applied} color={theme.color.error} />,
+    students: <IconButton onClick={() => onOpenStudent(id)}>{<TextHighlight text={students} color={theme.color.info} />}</IconButton>,
+    applied: <IconButton onClick={() => onOpenRequest(id)}>{<TextHighlight text={applied} color={theme.color.error} />}</IconButton>,
     grade,
     teacher,
     status: statusButton,
