@@ -41,23 +41,23 @@ export const Operation = () => {
 
   useEffect(() => {
     const mappedCheckedIn = dashboard?.checkedIn?.map(chkIn => {
-      const percent = chkIn.percentage * 100
+      const totalCheckedIn = chkIn.checkedIn
       return {
         name: chkIn.name?.[lang],
         value: chkIn.value,
         title: chkIn.title,
-        percent: `${percent.toFixed(2)}%`,
-        fill: percent > 50 ? theme.color.info : theme.color.error
+        detail: `${totalCheckedIn} Checked In`,
+        fill: totalCheckedIn === chkIn.value ? theme.color.success : totalCheckedIn > 0 ? theme.color.info : theme.text.quaternary
       }
     })
     const mappedCheckedOut = dashboard?.checkedOut?.map(chkOut => {
-      const percent = chkOut.percentage * 100
+      const totalCheckedOut = chkOut.checkedOut
       return {
         name: chkOut.name?.[lang],
         value: chkOut.value,
         title: chkOut.title,
-        percent: `${percent.toFixed(2)}%`,
-        fill: percent > 50 ? theme.color.info : theme.color.error
+        detail: `${totalCheckedOut} Checked Out`,
+        fill: totalCheckedOut === chkOut.value ? theme.color.success : totalCheckedOut > 0 ? theme.color.info : theme.text.quaternary
       }
     })
     setCheckedOut(mappedCheckedOut)

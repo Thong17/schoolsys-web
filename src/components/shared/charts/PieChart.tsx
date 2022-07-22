@@ -14,7 +14,7 @@ const renderActiveShape = (props: any) => {
     fill,
     color,
     payload,
-    percent,
+    detail,
     value,
   } = props
   
@@ -70,7 +70,7 @@ const renderActiveShape = (props: any) => {
         textAnchor={textAnchor}
         fill={color}
       >
-        {percent}
+        {detail}
       </text>
     </g>
   )
