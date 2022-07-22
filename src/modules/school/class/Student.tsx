@@ -69,7 +69,8 @@ const Header = ({ stages, styled, onOpenRequest, onOpenAchievement, totalRequest
               padding: '0 7px',
               height: 21,
               borderRadius: styled.radius.secondary,
-              backgroundColor: styled.color.error,
+              backgroundColor: `${styled.color.error}66`,
+              color: styled.color.error,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center'
@@ -202,7 +203,7 @@ export const StudentClass = () => {
         student?.firstName,
         student?.gender,
         student?.currentAcademy?.scores,
-        _class?.grade?.subjects?.length,
+        _class?.grade?.subjects,
         user?.privilege,
         device,
         setDeleteDialog

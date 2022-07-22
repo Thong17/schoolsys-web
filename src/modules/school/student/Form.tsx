@@ -81,7 +81,6 @@ export const StudentForm = ({ defaultValues, id }: any) => {
       .then((data) => {
         setProfile(data?.data?.data[0])
         setValue('profile', data?.data?.data[0]?._id)
-        notify(data?.data?.msg, 'success')
       })
       .catch((err) => notify(err?.response?.data?.msg, 'error'))
       .finally(() => setLoading(false))

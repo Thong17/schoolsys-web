@@ -108,9 +108,9 @@ export const RequestDialog = ({
         </FlexBetween>
       </div>
       <div style={{ width: '95vw', height: '75vh', marginBottom: 10, position: 'relative', overflowY: 'auto' }}>
-        <StickyTable columns={requestColumnData} rows={requestData} />
+        <StickyTable columns={requestColumnData} rows={requestData} pagination={false} />
       </div>
-      <DialogActions style={{ position: 'absolute', bottom: 5, left: 10 }}>
+      <DialogActions style={{ position: 'absolute', bottom: 5, right: 10 }}>
         <Button onClick={handleCloseDialog} variant='contained'>Close</Button>
       </DialogActions>
     </AlertDialog>

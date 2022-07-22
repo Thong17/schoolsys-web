@@ -5,8 +5,11 @@ import Container from 'components/shared/Container'
 import AdminBreadcrumbs from './components/Breadcrumbs'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { DetailSection } from 'components/shared/container/DetailSection'
-import SecurityRoundedIcon from '@mui/icons-material/SecurityRounded'
-import AdminPanelSettingsRoundedIcon from '@mui/icons-material/AdminPanelSettingsRounded'
+import LocalLibraryRoundedIcon from '@mui/icons-material/LocalLibraryRounded'
+import GroupsRoundedIcon from '@mui/icons-material/GroupsRounded'
+import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded'
+import SchoolRoundedIcon from '@mui/icons-material/SchoolRounded'
+import HourglassBottomRoundedIcon from '@mui/icons-material/HourglassBottomRounded'
 import useTheme from 'hooks/useTheme'
 import { TextEllipsis } from 'components/shared/TextEllipsis'
 import useWeb from 'hooks/useWeb'
@@ -14,7 +17,9 @@ import { CustomPieChart } from 'components/shared/charts/PieChart'
 import { useEffect, useState } from 'react'
 import { getSchoolDashboard, selectSchoolDashboard } from 'shared/redux'
 import useLanguage from 'hooks/useLanguage'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
+import ArrowRightAltRoundedIcon from '@mui/icons-material/ArrowRightAltRounded'
+import { IconButton } from '@mui/material'
 
 const Header = () => {
   return (
@@ -26,34 +31,37 @@ const Header = () => {
 
 export const School = () => {
   const outlet = useOutlet()
+  const navigate = useNavigate()
   const { theme } = useTheme()
   const { device } = useWeb()
   const { lang } = useLanguage()
-  const [roles, setRoles] = useState([])
-  const [users, setUsers] = useState([])
+  const [classes, setClasses] = useState([])
+  const [grades, setGrades] = useState([])
   const dispatch = useAppDispatch()
   const location = useLocation()
   const { data: dashboard } = useAppSelector(selectSchoolDashboard)
 
   useEffect(() => {
-    const mappedRole = dashboard?.roles?.map((role) => {
+    const mappedClass = dashboard?.classes?.map((cl) => {
       return {
-        name: role.name?.[lang],
-        value: role.value,
-        title: role.title,
+        name: cl.name,
+        value: cl.value,
+        title: cl.title,
+        fill: cl.name === 'Closed' ? theme.color.error : theme.color.success
       }
     })
-    setRoles(mappedRole)
+    setClasses(mappedClass)
 
-    const mappedUser = dashboard?.users?.map((role) => {
+    const mappedGrade = dashboard?.grades?.map((grade) => {
       return {
-        name: role.name?.[lang],
-        value: role.value,
-        title: role.title,
+        name: grade.name?.[lang],
+        value: grade.value,
+        title: grade.title,
+        detail: `Level ${grade.detail}`
       }
     })
-    setUsers(mappedUser)
-  }, [dashboard, lang])
+    setGrades(mappedGrade)
+  }, [dashboard, lang, theme])
 
   useEffect(() => {
     if (location.pathname !== '/school') return
@@ -86,14 +94,30 @@ export const School = () => {
               }}
             >
               <DetailSection
-                title='Total Role'
-                data={dashboard?.roles}
-                icon={<SecurityRoundedIcon style={{ fontSize: 40 }} />}
+                title='Total Class'
+                data={dashboard?.totalClass}
+                icon={<LocalLibraryRoundedIcon style={{ fontSize: 40 }} />}
               />
               <DetailSection
-                title='Total User'
-                data={dashboard?.users}
-                icon={<AdminPanelSettingsRoundedIcon style={{ fontSize: 40 }} />}
+                title='Total Grade'
+                data={dashboard?.totalGrade}
+                icon={<SchoolRoundedIcon style={{ fontSize: 40 }} />}
+              />
+              <DetailSection
+                title='Total Student'
+                data={dashboard?.totalStudent}
+                icon={<GroupsRoundedIcon style={{ fontSize: 40 }} />}
+              />
+              <DetailSection
+                title='Total Teacher'
+                data={dashboard?.totalTeacher}
+                icon={<PeopleRoundedIcon style={{ fontSize: 40 }} />}
+              />
+              <DetailSection
+                title='Pending Application'
+                data={dashboard?.pendingApplication}
+                icon={<HourglassBottomRoundedIcon style={{ fontSize: 40 }} />}
+                action={<IconButton style={{ color: theme.text.secondary }} onClick={() => navigate('/school/class')}><ArrowRightAltRoundedIcon /></IconButton>}
               />
             </div>
             <div
@@ -118,10 +142,10 @@ export const School = () => {
                   fontSize: theme.responsive[device]?.text.h3,
                 }}
               >
-                Role Privilege
+                Class
               </TextEllipsis>
               <CustomPieChart
-                data={roles}
+                data={classes}
                 fill={'#7B7D7D'}
                 color={theme.text.secondary}
               />
@@ -148,10 +172,10 @@ export const School = () => {
                   fontSize: theme.responsive[device]?.text.h3,
                 }}
               >
-                User Privilege
+                Grade
               </TextEllipsis>
               <CustomPieChart
-                data={users}
+                data={grades}
                 fill={'#7B7D7D'}
                 color={theme.text.secondary}
               />

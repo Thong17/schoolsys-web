@@ -22,6 +22,7 @@ const listGender = [
 
 export const TeacherForm = ({ defaultValues, id }: any) => {
   const {
+    reset,
     watch,
     register,
     getValues,
@@ -49,6 +50,10 @@ export const TeacherForm = ({ defaultValues, id }: any) => {
     })
       .then((data) => {
         notify(data?.data?.msg, 'success')
+        if (!id) {
+          setProfile(undefined)
+          reset()
+        }
       })
       .catch((err) => notify(err?.response?.data?.msg, 'error'))
       .finally(() => setLoading(false))
@@ -70,7 +75,6 @@ export const TeacherForm = ({ defaultValues, id }: any) => {
       .then((data) => {
         setProfile(data?.data?.data[0])
         setValue('profile', data?.data?.data[0]?._id)
-        notify(data?.data?.msg, 'success')
       })
       .catch((err) => notify(err?.response?.data?.msg, 'error'))
       .finally(() => setLoading(false))

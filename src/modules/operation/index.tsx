@@ -7,7 +7,7 @@ import { CustomPieChart } from 'components/shared/charts/PieChart'
 import useTheme from 'hooks/useTheme'
 import { DetailSection } from 'components/shared/container/DetailSection'
 import GroupsRoundedIcon from '@mui/icons-material/GroupsRounded'
-import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded'
+import InventoryRoundedIcon from '@mui/icons-material/InventoryRounded';
 import HotelRoundedIcon from '@mui/icons-material/HotelRounded'
 import WrongLocationRoundedIcon from '@mui/icons-material/WrongLocationRounded'
 import SailingRoundedIcon from '@mui/icons-material/SailingRounded'
@@ -87,7 +87,7 @@ export const Operation = () => {
           >
             <div style={{ gridArea: 'header', display: 'flex', alignItems: 'center', gap: 20, overflowX: 'auto', padding: 20 }}>
               <DetailSection title='Total Student' data={dashboard?.students} icon={<GroupsRoundedIcon style={{ fontSize: 40 }} />} />
-              <DetailSection title='Attendance' data={dashboard?.attendances} icon={<PeopleRoundedIcon style={{ fontSize: 40 }} />} />
+              <DetailSection title='Attendance' data={dashboard?.attendances} icon={<InventoryRoundedIcon style={{ fontSize: 40 }} />} />
               <DetailSection title='Absent' data={dashboard?.absent} icon={<WrongLocationRoundedIcon style={{ fontSize: 40 }} />} />
               <DetailSection title='Annual Leave' data={dashboard?.annualLeave} icon={<SailingRoundedIcon style={{ fontSize: 40 }} />} />
               <DetailSection title='Sick Leave' data={dashboard?.sickLeave} icon={<HotelRoundedIcon style={{ fontSize: 40 }} />} />

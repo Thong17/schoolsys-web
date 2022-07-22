@@ -336,7 +336,7 @@ export const createStudentData = (
   firstName: string,
   gender: string,
   scores: Array<any>,
-  average: number,
+  subjects: Array<any>,
   privilege: any,
   device: DeviceOptions,
   onRemove: Function
@@ -358,10 +358,10 @@ export const createStudentData = (
       )}
     </div>
   )
-  const calculatedAverage = calculateAverageScore(scores, average)
+  const calculatedAverage = calculateAverageScore(scores, subjects.length)
   
   const profileImage = id === monitor ? <CircleIcon star={true} icon={profile} /> : <CircleIcon icon={profile} />
-  let averageText = <AverageHighlight calculatedAverage={calculatedAverage} />
+  let averageText = <AverageHighlight calculatedAverage={calculatedAverage} subjects={subjects} />
 
   return {
     tags,
