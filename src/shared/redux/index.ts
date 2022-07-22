@@ -47,6 +47,28 @@ export const getOperationDashboard = createAsyncThunk(
   }
 )
 
+export const getAdminDashboard = createAsyncThunk(
+  'dashboard/admin',
+  async () => {
+    const response = await Axios({
+      method: 'GET',
+      url: '/dashboard/admin'
+    })
+    return response?.data
+  }
+)
+
+export const getSchoolDashboard = createAsyncThunk(
+  'dashboard/school',
+  async () => {
+    const response = await Axios({
+      method: 'GET',
+      url: '/dashboard/school'
+    })
+    return response?.data
+  }
+)
+
 export const getListTeacher = createAsyncThunk(
   'teacher/all',
   async () => {
@@ -158,7 +180,7 @@ export const sharedSlice = createSlice({
         state.preRole.data = action.payload.data
       })
 
-      // Get Pre Role from API
+      // Get Operation Dashboard from API
       .addCase(getOperationDashboard.pending, (state) => {
         state.operationDashboard.status = 'LOADING'
       })
@@ -168,6 +190,30 @@ export const sharedSlice = createSlice({
       .addCase(getOperationDashboard.fulfilled, (state, action) => {
         state.operationDashboard.status = 'SUCCESS'
         state.operationDashboard.data = action.payload.data
+      })
+
+      // Get Admin Dashboard from API
+      .addCase(getAdminDashboard.pending, (state) => {
+        state.adminDashboard.status = 'LOADING'
+      })
+      .addCase(getAdminDashboard.rejected, (state) => {
+        state.adminDashboard.status = 'FAILED'
+      })
+      .addCase(getAdminDashboard.fulfilled, (state, action) => {
+        state.adminDashboard.status = 'SUCCESS'
+        state.adminDashboard.data = action.payload.data
+      })
+
+      // Get School Dashboard from API
+      .addCase(getSchoolDashboard.pending, (state) => {
+        state.schoolDashboard.status = 'LOADING'
+      })
+      .addCase(getSchoolDashboard.rejected, (state) => {
+        state.schoolDashboard.status = 'FAILED'
+      })
+      .addCase(getSchoolDashboard.fulfilled, (state, action) => {
+        state.schoolDashboard.status = 'SUCCESS'
+        state.schoolDashboard.data = action.payload.data
       })
   },
 })
@@ -179,5 +225,7 @@ export const selectListTeacher = (state: RootState) => state.shared.listTeacher
 export const selectPrivilege = (state: RootState) => state.shared.privilege
 export const selectPreRole = (state: RootState) => state.shared.preRole
 export const selectOperationDashboard = (state: RootState) => state.shared.operationDashboard
+export const selectAdminDashboard = (state: RootState) => state.shared.adminDashboard
+export const selectSchoolDashboard = (state: RootState) => state.shared.schoolDashboard
 
 export default sharedSlice.reducer

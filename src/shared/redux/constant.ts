@@ -15,6 +15,8 @@ export interface ShareState {
   privilege: IBody<Object>,
   preRole: IBody<Object>
   operationDashboard: IBody<any>
+  adminDashboard: IBody<any>
+  schoolDashboard: IBody<any>
 }
 
 export const initialState: ShareState = {
@@ -43,6 +45,14 @@ export const initialState: ShareState = {
     status: 'INIT',
   },
   operationDashboard: {
+    data: {},
+    status: 'INIT',
+  },
+  adminDashboard: {
+    data: {},
+    status: 'INIT',
+  },
+  schoolDashboard: {
     data: {},
     status: 'INIT',
   },

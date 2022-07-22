@@ -216,7 +216,7 @@ export const StickyTable = ({
       {!loading && pagination && (
         <CustomPagination styled={theme}>
           <TablePagination
-            rowsPerPageOptions={[1, 10, 25, 50, 100, { value: -1, label: 'All' }]}
+            rowsPerPageOptions={[10, 25, 50, 100]}
             component='div'
             count={count || rows.length}
             rowsPerPage={rowsPerPage}
