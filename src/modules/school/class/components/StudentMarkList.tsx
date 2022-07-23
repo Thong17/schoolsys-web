@@ -108,6 +108,7 @@ export const ScoreForm = ({ defaultValue, onSubmit, student, academy, option, on
         borderRadius: 3,
         display: 'flex',
         alignItems: 'center',
+        paddingLeft: 10
       }}
     >
       <MiniSelectField

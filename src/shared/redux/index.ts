@@ -83,10 +83,11 @@ export const getReportDashboard = createAsyncThunk(
 
 export const getListTeacher = createAsyncThunk(
   'teacher/all',
-  async () => {
+  async (query?: URLSearchParams) => {
     const response = await Axios({
       method: 'GET',
-      url: '/school/teacher/list'
+      url: '/school/teacher/list',
+      params: query
     })
     return response?.data
   }

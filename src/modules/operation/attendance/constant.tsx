@@ -10,6 +10,7 @@ import { TextHighlight } from 'components/shared/TextHighlight'
 import { IconButton } from '@mui/material'
 import { CircleIcon } from 'components/shared/table/CustomIcon'
 import { capitalizeText, timeFormat } from 'utils'
+import { MiniSelectField } from 'components/shared/form'
 
 export const columnData: ITableColumn<any>[] = [
   { id: 'name', label: 'Class' },
@@ -223,6 +224,140 @@ export const createAttendanceData = (
     tags,
     id,
     ref,
+    profile: profileImage,
+    lastName,
+    firstName,
+    gender: capitalizeText(gender),
+    checkedIn: attendance?.checkedIn ? <TextHighlight text={checkedInText} color={attendanceColor} /> : '...',
+    checkedOut: attendance?.checkedOut ? <TextHighlight text={checkedOutText} color={attendanceColor} /> : '...',
+    checkedInOn: attendance?.checkedIn,
+    checkedOutOn: attendance?.checkedOut,
+    action: action,
+  }
+}
+
+export const createTeacherAttendanceData = (
+  tags: string,
+  teacherId: string,
+  id: string,
+  profile: string,
+  lastName: string,
+  firstName: string,
+  gender: string,
+  teacherOption: any[],
+  attendance: any,
+  privilege: any,
+  theme: IThemeStyle,
+  onCheckIn: Function,
+  onCheckOut: Function,
+  onReset: Function,
+  onPermission: Function,
+  onChangeTeacher: Function
+): any => {
+  let action = (
+    <div style={{ float: 'right' }}>
+      <>
+        {privilege?.class?.update && !attendance?.checkedOut ? (
+          <>
+            {
+              attendance?.checkedIn ? (
+                <IconButton
+                  onClick={() => onCheckOut(attendance?._id)}
+                  size='small'
+                  style={{
+                    backgroundColor: `${theme.color.success}22`,
+                    borderRadius: theme.radius.primary,
+                    marginLeft: 5,
+                    color: theme.color.success,
+                  }}
+                >
+                  <WhereToVoteRoundedIcon fontSize='small' />
+                </IconButton>
+              ) : (
+                <>
+                  <IconButton
+                    onClick={() => onCheckIn(id)}
+                    size='small'
+                    style={{
+                      backgroundColor: `${theme.color.info}22`,
+                      borderRadius: theme.radius.primary,
+                      marginLeft: 5,
+                      color: theme.color.info,
+                    }}
+                  >
+                    <PersonPinCircleRoundedIcon fontSize='small' />
+                  </IconButton>
+                </>
+              )
+            }
+            <IconButton
+              disabled={attendance?.checkedIn ? true : false}
+              onClick={() => onPermission(id, attendance?._id)}
+              size='small'
+              style={{
+                backgroundColor: `${attendance?.checkedIn ? `${theme.text.secondary}22` : `${theme.color.error}22`}`,
+                borderRadius: theme.radius.primary,
+                marginLeft: 5,
+                color: attendance?.checkedIn ? theme.text.secondary : theme.color.error,
+              }}
+            >
+              <NotListedLocationRoundedIcon fontSize='small' />
+            </IconButton>
+          </>
+        ) : (
+          <IconButton
+            onClick={() => onReset(attendance?._id)}
+            size='small'
+            style={{
+              backgroundColor: `${theme.color.info}22`,
+              borderRadius: theme.radius.primary,
+              marginLeft: 5,
+              color: theme.color.info,
+            }}
+          >
+            <RestartAltRoundedIcon fontSize='small' />
+          </IconButton>
+        )}
+      </>
+    </div>
+  )
+
+  const profileImage = <CircleIcon master={true} icon={profile} />
+
+  const checkedInText = attendance?.permissionType ? attendance?.permissionType : timeFormat(attendance?.checkedIn)
+  const checkedOutText = attendance?.permissionType ? attendance?.permissionType : timeFormat(attendance?.checkedOut)
+
+  let attendanceColor
+  switch (attendance?.permissionType) {
+    case 'Annual Leave':
+      attendanceColor = theme.color.info
+      break
+    case 'Sick Leave':
+      attendanceColor = theme.color.warning
+      break
+    case 'Urgent Leave':
+      attendanceColor = theme.color.warning
+      break
+    case 'Absent':
+      attendanceColor = theme.color.error
+      break
+    default:
+      attendanceColor = theme.color.success
+      break
+  }
+
+  const mappedOption = teacherOption.map(teacher => ({ label: teacher.ref, value: teacher._id }))
+  const selectRef = <MiniSelectField
+    name='teacher'
+    options={mappedOption}
+    value={mappedOption.length ? teacherId : ''}
+    onChange={(event) => onChangeTeacher(event)}
+  />
+
+  return {
+    tags,
+    id,
+    ref: selectRef,
     profile: profileImage,
     lastName,
     firstName,

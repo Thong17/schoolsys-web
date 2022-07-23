@@ -13,12 +13,13 @@ export const CustomMiniSelect = styled('div')(
     active: any
   }) => ({
     minWidth: 70,
-    padding: '0',
+    padding: 0,
     position: 'relative',
     '& .MuiSelect-select, & .MuiList-root li': {
       fontFamily: `${styled.font.family} !important`,
       fontWeight: `${styled.font.weight} !important`,
-      fontSize: `${styled.responsive[device].text.primary} !important`,
+      fontSize: `13px !important`,
+      padding: 0
     },
     '& div': {
       zIndex: 10,

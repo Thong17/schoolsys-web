@@ -1,4 +1,3 @@
-
 import Container from 'components/shared/Container'
 import { StickyTable } from 'components/shared/table/StickyTable'
 import { useParams } from 'react-router-dom'
@@ -6,7 +5,7 @@ import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { useEffect, useState } from 'react'
 import { dateFormat, debounce } from 'utils'
 import { useSearchParams } from 'react-router-dom'
-import { Data, createAttendanceData, attendanceColumnData } from './constant'
+import { Data, createAttendanceData, attendanceColumnData, createTeacherAttendanceData } from './constant'
 import { getClass, selectClass } from 'modules/school/class/redux'
 import FactCheckRoundedIcon from '@mui/icons-material/FactCheckRounded'
 import useLanguage from 'hooks/useLanguage'
@@ -23,6 +22,7 @@ import Axios from 'constants/functions/Axios'
 import useNotify from 'hooks/useNotify'
 import useAlert from 'hooks/useAlert'
 import { PermissionForm } from './PermissionForm'
+import { getListTeacher, selectListTeacher } from 'shared/redux'
 
 const Header = ({ onSearch, stages, isCheckedIn, isCheckedOut, styled, onClick, handleFilter }) => {
   const [sortObj, setSortObj] = useState({
@@ -77,9 +77,12 @@ export const Attendances = () => {
   const [rowData, setRowData] = useState<Data[]>([])
   const { data: _class, status } = useAppSelector(selectClass)
   const { data: attendances, status: statusAttendance } = useAppSelector(selectListAttendance)
+  const { data: listTeacher, status: statusListTeacher } = useAppSelector(selectListTeacher)
   const [queryParams, setQueryParams] = useSearchParams()
   const [isCheckedIn, setIsCheckedIn] = useState(false)
   const [isCheckedOut, setIsCheckedOut] = useState(false)
+  const [teacherOption, setTeacherOption] = useState<any[]>([])
+  const [teacher, setTeacher] = useState<any>(_class?.teacher)
   const [permissionDialog, setPermissionDialog] = useState({
     open: false,
     studentId: null,
@@ -210,6 +213,10 @@ export const Attendances = () => {
     const query = new URLSearchParams()
     query.append('classId', _class?._id)
     dispatch(getListAttendance({ query }))
+
+    const teacherQuery = new URLSearchParams()
+    teacherQuery.append('fields', 'ref')
+    dispatch(getListTeacher(teacherQuery))
   }, [_class, status, dispatch])
   
   useEffect(() => {
@@ -262,8 +269,39 @@ export const Attendances = () => {
       )
     })
     const filteredAttendances = mappedAttendances?.filter((elem) => _search.test(elem.tags))
+
+    const handleChangeTeacher = (event) => {
+      Axios({
+        method: 'GET',
+        url: `/school/teacher/detail/${event.target.value}`
+      })
+        .then((data) => {
+          setTeacher(data?.data?.data)
+        })
+        .catch((err) => notify(err?.response?.data?.msg, 'error'))
+    }
+    const teacherTags = `${JSON.stringify(teacher?.firstName)}${teacher?.lastName}${teacher?.gender}${teacher?.ref}`.replace(/ /g,'')
+    const teacherAttendance: any = attendances.find((attendance: any) => attendance.user === teacher?.authenticate)
+    const mappedTeacher = createTeacherAttendanceData(
+      teacherTags,
+      teacher?._id,
+      teacher?.authenticate,
+      teacher?.profile?.filename,
+      teacher?.lastName,
+      teacher?.firstName,
+      teacher?.gender,
+      teacherOption,
+      teacherAttendance,
+      user?.privilege,
+      theme,
+      handleCheckIn,
+      handleCheckOut,
+      handleReset,
+      handlePermission,
+      handleChangeTeacher
+    )
     
-    setRowData(filteredAttendances.sort((a, b) => {
+    setRowData([mappedTeacher, ...filteredAttendances.sort((a, b) => {
       if (_sort === 'desc') {
         if (b[_filter] < a[_filter]) return -1
         if (b[_filter] > a[_filter]) return 1
@@ -273,7 +311,7 @@ export const Attendances = () => {
         if (a[_filter] > b[_filter]) return 1
         return 0
       }
-    }))
+    })])
 
     let checkedOut = true
     attendances?.forEach((attendance: any) => {
@@ -287,7 +325,17 @@ export const Attendances = () => {
       setIsCheckedIn(false)
       setIsCheckedOut(false)
     }  
-  }, [attendances, statusAttendance, _class, theme, user, queryParams, dispatch])
+  }, [attendances, statusAttendance, _class, theme, user, queryParams, teacherOption, teacher, dispatch, notify])
+
+  useEffect(() => {
+    setTeacher(_class?.teacher)
+  }, [_class])
+  
+  useEffect(() => {
+    if (statusListTeacher !== 'SUCCESS') return 
+    setTeacherOption(listTeacher)
+    
+  }, [statusListTeacher, listTeacher])
 
   return (
     <Container
