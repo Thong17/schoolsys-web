@@ -1,3 +1,4 @@
+import logo from '../../assets/logo.jpg'
 import useAuth from 'hooks/useAuth'
 import useTheme from 'hooks/useTheme'
 import { Link } from 'react-router-dom'
@@ -68,11 +69,22 @@ const Navbar = ({ children }) => {
           toggleSidebar={openNavbar}
         ></MenuBar>
       ) : (
-        <MenuBar
-          theme={theme}
-          open={sidebar}
-          toggleSidebar={toggleSidebar}
-        ></MenuBar>
+        <div style={{ display: 'flex' }}>
+          <MenuBar
+            theme={theme}
+            open={sidebar}
+            toggleSidebar={toggleSidebar}
+          ></MenuBar>
+          <div style={{ display: 'flex', alignItems: 'center', marginLeft: 10 }}>
+            <div style={{ borderRadius: '50%', overflow: 'hidden', width: 32, height: 32, margin: '0 10px' }}>
+              <img src={logo} alt="logo" style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <span style={{ color: theme.text.secondary }}>EMAAN</span>
+              <span style={{ color: theme.text.quaternary, fontSize: 9 }}>INTERNATIONAL SCHOOL</span>
+            </div>
+          </div>
+        </div>
       )}
       {device === 'mobile' ? (
         <Dialog display={navbar}>
