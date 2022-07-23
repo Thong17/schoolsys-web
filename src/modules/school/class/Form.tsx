@@ -16,7 +16,6 @@ import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { IOptions } from 'components/shared/form/SelectField'
 import { getListGrade, selectListGrade } from 'shared/redux'
 import useLanguage from 'hooks/useLanguage'
-import { useNavigate } from 'react-router-dom'
 import { getListTeacher, selectListTeacher } from 'shared/redux'
 
 const listSchedule = [
@@ -26,8 +25,8 @@ const listSchedule = [
 ]
 
 export const ClassForm = ({ defaultValues, id }: any) => {
-  const navigate = useNavigate()
   const {
+    reset,
     watch,
     register,
     setValue,
@@ -124,7 +123,9 @@ export const ClassForm = ({ defaultValues, id }: any) => {
     })
       .then((data) => {
         notify(data?.data?.msg, 'success')
-        !id && navigate(`/school/class/create/${data?.data?.data?._id}/student`)
+        if (!id) {
+          reset()
+        }
       })
       .catch((err) => {
         if (err?.response?.status === 422) return notify(err?.response?.data?.[0]?.path, 'error')
