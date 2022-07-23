@@ -8,10 +8,7 @@ export const generateHash = async (
   data?: object
 ) => {
   const str =
-    JSON.stringify(data) +
-    process.env.REACT_APP_HASH_SECRET +
-    ts +
-    token
+    JSON.stringify(data) + process.env.REACT_APP_HASH_SECRET + ts + token
   const hash = sha256.hex(str).toString()
   return hash
 }
@@ -62,7 +59,12 @@ export const debounce = (cb, delay = 1000) => {
 export const currencyFormat = (value, currency) => {
   const symbol = currency === 'USD' ? <>&#xFF04;</> : <>&#x17DB;</>
   const decimal = currency === 'USD' ? 2 : 0
-  return <span>{symbol}{value.toFixed(decimal).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}</span> 
+  return (
+    <span>
+      {symbol}
+      {value.toFixed(decimal).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}
+    </span>
+  )
 }
 
 export const dateFormat = (date: any = null) => {
@@ -74,7 +76,7 @@ export const dateFormat = (date: any = null) => {
 
 export const timeFormat = (date) => {
   if (!date) return new Date().toLocaleTimeString()
-  
+
   const localDate = new Date(date).toLocaleTimeString()
   return localDate
 }
@@ -91,11 +93,15 @@ export const inputDateFormat = (d) => {
 
   let date = new Date(d)
   let dd: any = date.getDate()
-  let mm: any = date.getMonth()+1
+  let mm: any = date.getMonth() + 1
   let yyyy = date.getFullYear()
-  if(dd<10){dd='0'+dd} 
-  if(mm<10){mm='0'+mm}
-  return d = yyyy+'-'+mm+'-'+dd
+  if (dd < 10) {
+    dd = '0' + dd
+  }
+  if (mm < 10) {
+    mm = '0' + mm
+  }
+  return (d = yyyy + '-' + mm + '-' + dd)
 }
 
 export const capitalizeText = (text) => {
@@ -105,13 +111,12 @@ export const capitalizeText = (text) => {
 export const calculateTotalScore = (scores, subject = null) => {
   let total = 0
   if (subject) {
-    scores?.forEach(score => {
-      if (score.subject === subject)
-      total += score.score
+    scores?.forEach((score) => {
+      if (score.subject === subject) total += score.score
     })
     return total
   } else {
-    scores?.forEach(score => {
+    scores?.forEach((score) => {
       total += score.score
     })
     return total
@@ -120,7 +125,7 @@ export const calculateTotalScore = (scores, subject = null) => {
 
 export const calculateAverageScore = (scores, number) => {
   let total = 0
-  scores?.forEach(score => {
+  scores?.forEach((score) => {
     total += score.score
   })
 
@@ -133,11 +138,11 @@ export const calculateGraduateResult = (scores, subjects) => {
   let passScore = 0
   let fullScore = 0
 
-  scores?.forEach(score => {
+  scores?.forEach((score) => {
     totalScore += score.score
   })
 
-  subjects?.forEach(subject => {
+  subjects?.forEach((subject) => {
     passScore += subject.passScore
     fullScore += subject.fullScore
   })
@@ -147,10 +152,10 @@ export const calculateGraduateResult = (scores, subjects) => {
   const fullAverage = fullScore / subjects?.length
 
   const gradeF = passAverage
-  const gradeE = passAverage + ((fullAverage - passAverage) / 4)
-  const gradeD = gradeE + ((fullAverage - passAverage) / 4)
-  const gradeC = gradeD + ((fullAverage - passAverage) / 4)
-  const gradeB = gradeD + ((fullAverage - passAverage) / 3)
+  const gradeE = passAverage + (fullAverage - passAverage) / 4
+  const gradeD = gradeE + (fullAverage - passAverage) / 4
+  const gradeC = gradeD + (fullAverage - passAverage) / 4
+  const gradeB = gradeD + (fullAverage - passAverage) / 3
   const gradeA = fullAverage
 
   switch (true) {
@@ -169,3 +174,11 @@ export const calculateGraduateResult = (scores, subjects) => {
   }
 }
 
+export const generateColor = () => {
+  let letters = '456789AB'
+  let color = '#'
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 8)]
+  }
+  return color
+}

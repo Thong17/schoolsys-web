@@ -162,7 +162,7 @@ export const Report = () => {
               />
             </div>
             <ChartContainer title={<>Charts<div style={{ position: 'absolute', right: 10, top: 7 }}><ListGrade value={selectedGradeChart} grades={gradeOption} name='_chartData' onChange={handleChangeGrande} /></div></>} style={{ gridArea: 'charts' }}>
-              <CustomLineChart height={370} />
+              <CustomLineChart data={dashboard.chartData} height={370} />
             </ChartContainer>
           </div>
         </Container>
