@@ -104,17 +104,19 @@ export const AttendanceTeacher = () => {
                 percent={`${calculatePercentage(totalAL, 10)}%`}
                 color={`${theme.color.info}ee`}
                 title='Annual Leave'
+                limit={totalAL > 10 ? totalAL : 10}
               />
               <FillBarChart
                 percent={`${calculatePercentage(totalSL, 10)}%`}
                 color={`${theme.color.warning}aa`}
                 title='Sick Leave'
+                limit={totalSL > 10 ? totalSL : 10}
               />
               <FillBarChart
                 percent={`${calculatePercentage(totalAb, 5)}%`}
                 color={`${theme.color.error}dd`}
                 title='Absent'
-                limit={5}
+                limit={totalAb > 5 ? totalAb : 5}
               />
             </div>
           </DetailContainer>
