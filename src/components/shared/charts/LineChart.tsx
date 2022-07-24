@@ -24,8 +24,8 @@ export const CustomLineChart = ({ width = '100%', height = 300, data }) => {
         data={data?.subjects}
         margin={{
           top: 25,
-          right: 30,
-          left: 10,
+          right: 40,
+          left: 0,
           bottom: 10,
         }}
       >

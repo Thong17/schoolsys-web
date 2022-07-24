@@ -21,7 +21,7 @@ export const sideNav = [
     icon: <AdminPanelSettingsIcon />,
   },
   {
-    route: '/report',
+    route: '/report/school',
     title: 'REPORT',
     icon: <BarChartRoundedIcon />,
   },

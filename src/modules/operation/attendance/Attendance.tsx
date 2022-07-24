@@ -1,6 +1,6 @@
 import Container from 'components/shared/Container'
 import { StickyTable } from 'components/shared/table/StickyTable'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { useEffect, useState } from 'react'
 import { dateFormat, debounce } from 'utils'
@@ -67,6 +67,7 @@ const Header = ({ onSearch, stages, isCheckedIn, isCheckedOut, styled, onClick, 
 }
 
 export const Attendances = () => {
+  const navigate = useNavigate()
   const confirm = useAlert()
   const { id } = useParams()
   const { lang } = useLanguage()
@@ -250,6 +251,14 @@ export const Attendances = () => {
       })
     }
 
+    const handleStudentDetail = (id) => {
+      navigate(`/operation/attendance/class/${_class._id}/student/${id}`)
+    }
+
+    const handleTeacherDetail = (id) => {
+      navigate(`/operation/attendance/class/${_class._id}/teacher/${id}`)
+    }
+
     const mappedAttendances = _class?.students?.map((student: any) => {
       const tags = `${JSON.stringify(student.firstName)}${student.lastName}${student.gender}${student.ref}`.replace(/ /g,'')
       const attendance: any = attendances.find((attendance: any) => attendance.user === student.authenticate)
@@ -266,6 +275,7 @@ export const Attendances = () => {
         attendance,
         user?.privilege,
         theme,
+        handleStudentDetail,
         handleCheckIn,
         handleCheckOut,
         handleReset,
@@ -312,6 +322,7 @@ export const Attendances = () => {
         teacherAttendance,
         user?.privilege,
         theme,
+        handleTeacherDetail,
         handleCheckIn,
         handleCheckOut,
         handleReset,
@@ -335,7 +346,7 @@ export const Attendances = () => {
       setIsCheckedIn(false)
       setIsCheckedOut(false)
     }  
-  }, [attendances, statusAttendance, _class, theme, user, queryParams, teacherOption, teacher, dispatch, notify])
+  }, [attendances, statusAttendance, _class, theme, user, queryParams, teacherOption, teacher, dispatch, notify, navigate])
 
   useEffect(() => {
     setTeacher(_class?.teacher)

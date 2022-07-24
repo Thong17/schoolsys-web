@@ -134,6 +134,10 @@ export const calculateAverageScore = (scores, number) => {
   return (total / number).toFixed(2)
 }
 
+export const calculatePercentage = (value, limit) => {
+  return value / limit * 100 || 0
+}
+
 export const calculateGraduateResult = (scores, subjects) => {
   let totalScore = 0
   let passScore = 0

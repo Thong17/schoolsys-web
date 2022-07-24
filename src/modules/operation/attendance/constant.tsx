@@ -4,6 +4,7 @@ import PersonPinCircleRoundedIcon from '@mui/icons-material/PersonPinCircleRound
 import NotListedLocationRoundedIcon from '@mui/icons-material/NotListedLocationRounded'
 import WhereToVoteRoundedIcon from '@mui/icons-material/WhereToVoteRounded'
 import RestartAltRoundedIcon from '@mui/icons-material/RestartAltRounded'
+import BarChartRoundedIcon from '@mui/icons-material/BarChartRounded'
 import { ITableColumn } from 'components/shared/table/StickyTable'
 import { IThemeStyle } from 'contexts/theme/interface'
 import { TextHighlight } from 'components/shared/TextHighlight'
@@ -118,6 +119,7 @@ export const createAttendanceData = (
   attendance: any,
   privilege: any,
   theme: IThemeStyle,
+  onDetail: Function,
   onCheckIn: Function,
   onCheckOut: Function,
   onReset: Function,
@@ -187,6 +189,18 @@ export const createAttendanceData = (
             <RestartAltRoundedIcon fontSize='small' />
           </IconButton>
         )}
+        <IconButton
+          onClick={() => onDetail(id)}
+          size='small'
+          style={{
+            backgroundColor: `${theme.color.info}22`,
+            borderRadius: theme.radius.primary,
+            marginLeft: 5,
+            color: theme.color.info
+          }}
+        >
+          <BarChartRoundedIcon fontSize='small' />
+        </IconButton>
       </>
     </div>
   )
@@ -248,6 +262,7 @@ export const createTeacherAttendanceData = (
   attendance: any,
   privilege: any,
   theme: IThemeStyle,
+  onDetail: Function,
   onCheckIn: Function,
   onCheckOut: Function,
   onReset: Function,
@@ -318,6 +333,18 @@ export const createTeacherAttendanceData = (
             <RestartAltRoundedIcon fontSize='small' />
           </IconButton>
         )}
+        <IconButton
+          onClick={() => onDetail(id)}
+          size='small'
+          style={{
+            backgroundColor: `${theme.color.info}22`,
+            borderRadius: theme.radius.primary,
+            marginLeft: 5,
+            color: theme.color.info
+          }}
+        >
+          <BarChartRoundedIcon fontSize='small' />
+        </IconButton>
       </>
     </div>
   )

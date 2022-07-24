@@ -111,4 +111,4 @@ export const Operation = () => {
   )
 }
 
-export { Classes, Attendances } from './attendance'
+export { Classes, Attendances, AttendanceStudent, AttendanceTeacher } from './attendance'

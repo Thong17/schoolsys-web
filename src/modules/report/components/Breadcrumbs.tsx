@@ -4,13 +4,18 @@ import { IBreadcrumbs } from 'constants/interfaces/Breadcrumbs'
 import BarChartRoundedIcon from '@mui/icons-material/BarChartRounded'
 
 const stages = {
-  report: [
+  schoolReport: [
     {
-      title: 'Report',
+      title: 'School Report',
+    },
+  ],
+  attendanceReport: [
+    {
+      title: 'Attendance Report',
     },
   ],
 }
-declare type page = 'report'
+declare type page = 'schoolReport' | 'attendanceReport'
 
 const ReportBreadcrumbs: FC<IBreadcrumbs<page>> = ({ page }) => {
   return <Breadcrumb stages={stages[page]} title={<BarChartRoundedIcon />} />

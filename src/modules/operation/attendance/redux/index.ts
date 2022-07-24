@@ -61,19 +61,16 @@ export const permissionAttendance = createAsyncThunk(
   }
 )
 
-export const getAttendance = createAsyncThunk(
+export const getUserAttendance = createAsyncThunk(
   'attendance/detail',
-  async ({id, query, fields}: { id: string, query?: URLSearchParams, fields: Array<string> }) => {
+  async ({ userId, query }: { userId: string, query?: URLSearchParams }) => {
     const response = await Axios({
       method: 'GET',
-      url: `/operation/attendance/detail/${id}`
-    })
-    let data = {}
-    fields.forEach((field) => {
-      data[field] = response?.data?.data?.[field]
+      url: `/operation/attendance/detail/${userId}`,
+      params: query
     })
     
-    return { ...response?.data, data }
+    return response?.data
   }
 )
 
@@ -96,15 +93,15 @@ export const roleSlice = createSlice({
       })
 
       // Detail Attendance
-      .addCase(getAttendance.pending, (state) => {
-        state.detail.status = 'LOADING'
+      .addCase(getUserAttendance.pending, (state) => {
+        state.userAttendance.status = 'LOADING'
       })
-      .addCase(getAttendance.rejected, (state) => {
-        state.detail.status = 'FAILED'
+      .addCase(getUserAttendance.rejected, (state) => {
+        state.userAttendance.status = 'FAILED'
       })
-      .addCase(getAttendance.fulfilled, (state, action) => {
-        state.detail.status = 'SUCCESS'
-        state.detail.data = action.payload.data
+      .addCase(getUserAttendance.fulfilled, (state, action) => {
+        state.userAttendance.status = 'SUCCESS'
+        state.userAttendance.data = action.payload.data
       })
       
       // Check In Attendance
@@ -157,7 +154,7 @@ export const roleSlice = createSlice({
   },
 })
 
-export const selectAttendance = (state: RootState) => state.attendance.detail
+export const selectUserAttendance = (state: RootState) => state.attendance.userAttendance
 export const selectListAttendance = (state: RootState) => state.attendance.list
 
 export default roleSlice.reducer
