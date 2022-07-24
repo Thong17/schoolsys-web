@@ -17,11 +17,22 @@ const CustomizedDot: FC<any> = (props: any) => {
   )
 }
 
-export const CustomLineChart = ({ width = '100%', height = 300, data }) => {
+export interface ILabelChart {
+  name: string,
+  profile: string
+}
+
+export interface IDataChart {
+  name: string,
+  title: string,
+  data: Object
+}
+
+export const CustomLineChart = ({ width = '100%', height = 300, labels, data }) => {  
   return (
     <ResponsiveContainer width={width} height={height}>
       <LineChart
-        data={data?.subjects}
+        data={data}
         margin={{
           top: 25,
           right: 40,
@@ -32,7 +43,7 @@ export const CustomLineChart = ({ width = '100%', height = 300, data }) => {
         <Tooltip />
         <YAxis />
         <XAxis dataKey='title' />
-        {data?.students?.map((item, key) => {
+        {labels?.map((item, key) => {
           return (
             <Line
               key={key}

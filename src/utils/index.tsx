@@ -88,6 +88,18 @@ export const dateFullYear = (date = null) => {
   return year
 }
 
+export const formatAttendanceDate = (dayString) => {
+  const today = new Date()
+  const year = today.getFullYear().toString()
+  let month = (today.getMonth() + 1).toString()
+
+  if (month.length === 1) {
+    month = '0' + month
+  }
+
+  return dayString.replace('YEAR', year).replace('MONTH', month)
+}
+
 export const inputDateFormat = (d) => {
   if (d === '') return d
 

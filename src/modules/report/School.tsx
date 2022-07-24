@@ -203,7 +203,7 @@ export const SchoolReport = () => {
             style={{ gridArea: 'charts' }}
           >
             {statusDashboard === 'SUCCESS' && (
-              <CustomLineChart data={dashboard.chartData} height={370} />
+              <CustomLineChart data={dashboard.chartData?.subjects} labels={dashboard.chartData?.students} height={370} />
             )}
           </ChartContainer>
         </div>
