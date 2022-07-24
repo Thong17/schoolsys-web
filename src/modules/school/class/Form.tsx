@@ -33,7 +33,7 @@ export const ClassForm = ({ defaultValues, id }: any) => {
     getValues,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(classSchema), defaultValues: { ...defaultValues, grade: defaultValues?.grade?._id }})
+  } = useForm({ resolver: yupResolver(classSchema), defaultValues: { ...defaultValues, grade: defaultValues?.grade?._id, teacher: defaultValues?.teacher?._id }})
   const dispatch = useAppDispatch()
   const { device } = useWeb()
   const { notify } = useNotify()

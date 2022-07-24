@@ -34,13 +34,14 @@ export const CustomLineChart = ({ width = '100%', height = 300, data }) => {
         <XAxis dataKey='title' />
         {data?.students?.map((item, key) => {
           return (
-              <Line
-                key={key}
-                type='monotone'
-                dataKey={item.name}
-                stroke={generateColor()}
-                dot={<CustomizedDot icon={item.profile} />}
-              />
+            <Line
+              key={key}
+              type='monotone'
+              dataKey={item.name}
+              stroke={generateColor()}
+              dot={<CustomizedDot icon={item.profile} />}
+              strokeDasharray='3 3'
+            />
           )
         })}
       </LineChart>

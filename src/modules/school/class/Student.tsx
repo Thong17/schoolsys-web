@@ -108,6 +108,7 @@ export const StudentClass = () => {
   const { data: appliedStudents, status: statusAppliedStudents } = useAppSelector(selectListApplied)
   const [queryParams, setQueryParams] = useSearchParams()
   const [studentData, setStudentData] = useState([])
+  const [loading, setLoading] = useState(true)
   const [requestDialog, setRequestDialog] = useState<any>({
     open: false,
     students: []
@@ -182,6 +183,9 @@ export const StudentClass = () => {
   useEffect(() => {
     if (statusClass !== 'SUCCESS' || !_class?._id) return
     dispatch(getListApplied({ id: _class._id }))
+    setTimeout(() => {
+      setLoading(false)
+    }, 300)
   }, [dispatch, statusClass, _class])
 
   useEffect(() => {
@@ -286,7 +290,7 @@ export const StudentClass = () => {
         setDialog={setAchievementDialog}
         rowData={[]}
       />
-      <StickyTable columns={studentColumnData} rows={studentData} pagination={false} />
+      <StickyTable columns={studentColumnData} rows={studentData} pagination={false} loading={loading} />
     </Container>
   )
 }

@@ -77,8 +77,8 @@ export const StickyTable = ({
   
   return (
     <CustomTableContainer styled={theme} device={device} style={style}>
+      {loading && <Loading />}
       <div className='table-container'>
-        {loading && <Loading />}
         <TableContainer className='table'>
           <Table stickyHeader>
             <TableHead>
@@ -156,7 +156,7 @@ export const StickyTable = ({
                     })}
                 </TableBody>
               ) : (
-                <TableBody>
+                !loading && <TableBody>
                   {rows.map((row, index) => {
                     return (
                       <TableRow

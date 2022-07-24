@@ -89,6 +89,7 @@ export const Attendances = () => {
     attendanceId: null,
     classId: null
   })
+  const [loading, setLoading] = useState(true)
 
   const stages = [
     {
@@ -215,8 +216,11 @@ export const Attendances = () => {
     dispatch(getListAttendance({ query }))
 
     const teacherQuery = new URLSearchParams()
-    teacherQuery.append('fields', 'ref')
+    teacherQuery.append('fields', 'ref lastName firstName')
     dispatch(getListTeacher(teacherQuery))
+    setTimeout(() => {
+      setLoading(false)
+    }, 300)
   }, [_class, status, dispatch])
   
   useEffect(() => {
@@ -280,28 +284,8 @@ export const Attendances = () => {
         })
         .catch((err) => notify(err?.response?.data?.msg, 'error'))
     }
-    const teacherTags = `${JSON.stringify(teacher?.firstName)}${teacher?.lastName}${teacher?.gender}${teacher?.ref}`.replace(/ /g,'')
-    const teacherAttendance: any = attendances.find((attendance: any) => attendance.user === teacher?.authenticate)
-    const mappedTeacher = createTeacherAttendanceData(
-      teacherTags,
-      teacher?._id,
-      teacher?.authenticate,
-      teacher?.profile?.filename,
-      teacher?.lastName,
-      teacher?.firstName,
-      teacher?.gender,
-      teacherOption,
-      teacherAttendance,
-      user?.privilege,
-      theme,
-      handleCheckIn,
-      handleCheckOut,
-      handleReset,
-      handlePermission,
-      handleChangeTeacher
-    )
-    
-    setRowData([mappedTeacher, ...filteredAttendances.sort((a, b) => {
+
+    const sortedData = filteredAttendances.sort((a, b) => {
       if (_sort === 'desc') {
         if (b[_filter] < a[_filter]) return -1
         if (b[_filter] > a[_filter]) return 1
@@ -311,7 +295,33 @@ export const Attendances = () => {
         if (a[_filter] > b[_filter]) return 1
         return 0
       }
-    })])
+    })
+
+    if (teacher) {
+      const teacherTags = `${JSON.stringify(teacher?.firstName)}${teacher?.lastName}${teacher?.gender}${teacher?.ref}`.replace(/ /g,'')
+      const teacherAttendance: any = attendances.find((attendance: any) => attendance.user === teacher?.authenticate)
+      const mappedTeacher = createTeacherAttendanceData(
+        teacherTags,
+        teacher?._id,
+        teacher?.authenticate,
+        teacher?.profile?.filename,
+        teacher?.lastName,
+        teacher?.firstName,
+        teacher?.gender,
+        teacherOption,
+        teacherAttendance,
+        user?.privilege,
+        theme,
+        handleCheckIn,
+        handleCheckOut,
+        handleReset,
+        handlePermission,
+        handleChangeTeacher
+      )
+      setRowData([mappedTeacher, ...sortedData])
+    } else {
+      setRowData(sortedData)
+    }
 
     let checkedOut = true
     attendances?.forEach((attendance: any) => {
@@ -347,7 +357,7 @@ export const Attendances = () => {
         defaultValues={{}}
         theme={theme}
       />
-      <StickyTable columns={attendanceColumnData} rows={rowData} pagination={false} />
+      <StickyTable columns={attendanceColumnData} rows={rowData} pagination={false} loading={loading} />
     </Container>
   )
 }
