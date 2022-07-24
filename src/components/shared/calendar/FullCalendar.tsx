@@ -17,7 +17,7 @@ const renderEventContent = (eventInfo, theme) => {
     case 'Annual Leave':
       return (
         <div style={{ display: 'flex', alignItems: 'center', padding: '0 5px' }}>
-          <CancelRoundedIcon style={{ color: 'yellow', fontSize: 17, marginRight: 3 }} />
+          <CancelRoundedIcon style={{ color: theme.color.info, fontSize: 17, marginRight: 3 }} />
           <p style={{ color: theme.text.ternary }}>{eventInfo.timeText}</p>
           <p style={{ color: theme.text.secondary }}>{eventInfo.event.title}</p>
         </div>
@@ -25,7 +25,7 @@ const renderEventContent = (eventInfo, theme) => {
     case 'Sick Leave':
       return (
         <div style={{ display: 'flex', alignItems: 'center', padding: '0 5px' }}>
-          <CancelRoundedIcon style={{ color: 'red', fontSize: 17, marginRight: 3 }} />
+          <CancelRoundedIcon style={{ color: theme.color.warning, fontSize: 17, marginRight: 3 }} />
           <p style={{ color: theme.text.ternary }}>{eventInfo.timeText}</p>
           <p style={{ color: theme.text.secondary }}>{eventInfo.event.title}</p>
         </div>
@@ -33,7 +33,7 @@ const renderEventContent = (eventInfo, theme) => {
     case 'Urgent Leave':
       return (
         <div style={{ display: 'flex', alignItems: 'center', padding: '0 5px' }}>
-          <CancelRoundedIcon style={{ color: 'red', fontSize: 17, marginRight: 3 }} />
+          <CancelRoundedIcon style={{ color: theme.color.warning, fontSize: 17, marginRight: 3 }} />
           <p style={{ color: theme.text.ternary }}>{eventInfo.timeText}</p>
           <p style={{ color: theme.text.secondary }}>{eventInfo.event.title}</p>
         </div>
@@ -41,7 +41,7 @@ const renderEventContent = (eventInfo, theme) => {
     case 'Absent':
       return (
         <div style={{ display: 'flex', alignItems: 'center', padding: '0 5px' }}>
-          <CancelRoundedIcon style={{ color: 'red', fontSize: 17, marginRight: 3 }} />
+          <CancelRoundedIcon style={{ color: theme.color.error, fontSize: 17, marginRight: 3 }} />
           <p style={{ color: theme.text.ternary }}>{eventInfo.timeText}</p>
           <p style={{ color: theme.text.secondary }}>{eventInfo.event.title}</p>
         </div>
@@ -49,7 +49,7 @@ const renderEventContent = (eventInfo, theme) => {
     default:
       return (
         <div style={{ display: 'flex', alignItems: 'center', padding: '0 5px' }}>
-          <CheckCircleRoundedIcon style={{ color: 'green', fontSize: 17, marginRight: 3 }} />
+          <CheckCircleRoundedIcon style={{ color: theme.color.success, fontSize: 17, marginRight: 3 }} />
           <p style={{ color: theme.text.ternary }}>{eventInfo.timeText}</p>
           <p style={{ color: theme.text.secondary }}>{eventInfo.event.title}</p>
         </div>
