@@ -39,7 +39,7 @@ export const SearchField = ({ ...props }) => {
             <KeyboardCommandKeyIcon style={{ fontSize: 15 }} />
           }
         >
-          <MenuList>Hello</MenuList>
+          <MenuList disabledItemsFocusable={true}>No Options</MenuList>
         </MenuDialog> 
         <input ref={searchField} type='text' placeholder='Search' {...props} />
       </div>

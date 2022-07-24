@@ -3,7 +3,7 @@ import AuthGuard from '../auth/AuthGuard'
 import { Login } from 'modules/auth/Login'
 import { Register } from 'modules/auth/Register'
 import { Admin, Roles, CreateRole, UpdateRole, DetailRole, Users, CreateUser, UpdateUser, DetailUser } from 'modules/admin'
-import { SchoolReport, AttendanceReport } from 'modules/report'
+import { SchoolReport, AttendanceReport, AttendanceDetail } from 'modules/report'
 import { Counter } from 'modules/counter/Counter'
 import Config from 'modules/config/Config'
 import NotFound from 'components/shared/NotFound'
@@ -311,6 +311,10 @@ const routes: RouteObject[] = [
   {
     path: '/report/attendance',
     element: <AttendanceReport />,
+  },
+  {
+    path: '/report/attendance/:type/:userId',
+    element: <AttendanceDetail />,
   },
   {
     path: '/config',

@@ -8,9 +8,9 @@ import MilitaryTechRoundedIcon from '@mui/icons-material/MilitaryTechRounded'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import {
   getListGrade,
-  getReportDashboard,
+  getReportSchoolDashboard,
   selectListGrade,
-  selectReportDashboard,
+  selectReportSchoolDashboard,
 } from 'shared/redux'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
@@ -43,8 +43,8 @@ export const SchoolReport = () => {
   const { lang } = useLanguage()
   const { theme } = useTheme()
   const dispatch = useAppDispatch()
-  const { data: dashboard, status: statusDashboard } = useAppSelector(
-    selectReportDashboard
+  const { data: dashboard } = useAppSelector(
+    selectReportSchoolDashboard
   )
   const { data: listGrade } = useAppSelector(selectListGrade)
   const [gradeOption, setGradeOption] = useState<any[]>([])
@@ -95,7 +95,7 @@ export const SchoolReport = () => {
   }, [dispatch])
 
   useEffect(() => {
-    dispatch(getReportDashboard(queryParams))
+    dispatch(getReportSchoolDashboard(queryParams))
   }, [dispatch, queryParams])
 
   return (
@@ -202,9 +202,7 @@ export const SchoolReport = () => {
             }
             style={{ gridArea: 'charts' }}
           >
-            {statusDashboard === 'SUCCESS' && (
-              <CustomLineChart data={dashboard.chartData?.subjects} labels={dashboard.chartData?.students} height={370} />
-            )}
+            <CustomLineChart data={dashboard.chartData?.subjects} labels={dashboard.chartData?.students} height={370} />
           </ChartContainer>
         </div>
       </Container>
