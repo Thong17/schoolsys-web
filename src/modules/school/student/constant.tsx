@@ -33,7 +33,7 @@ export const initState = {
   contact: '',
 }
 
-export declare type ColumnHeader = 'appliedClass' | 'currentClass' | 'profile' | 'lastName' | 'firstName' | 'gender' | 'dateOfBirth' | 'placeOfBirth' | 'nationality' | 'address' | 'contact' | 'action'
+export declare type ColumnHeader = 'appliedClass' | 'currentClass' | 'profile' | 'ref' | 'username' | 'lastName' | 'firstName' | 'gender' | 'dateOfBirth' | 'placeOfBirth' | 'nationality' | 'address' | 'contact' | 'action'
 
 export const importColumns = ['_id', 'lastName', 'firstName', 'gender', 'dateOfBirth', 'placeOfBirth', 'nationality', 'address', 'contact']
 
@@ -93,9 +93,9 @@ export const importColumnData: ITableColumn<ColumnHeader>[] = [
 ]
 
 export const columnData: ITableColumn<ColumnHeader>[] = [
+  { id: 'ref', label: 'ID' },
   { id: 'profile', label: 'Profile' },
-  { id: 'lastName', label: 'Last\u00a0Name' },
-  { id: 'firstName', label: 'First\u00a0Name' },
+  { id: 'username', label: 'Username' },
   { id: 'gender', label: 'Gender' },
   // { id: 'dateOfBirth', label: 'Date\u00a0Of\u00a0Birth' },
   // { id: 'placeOfBirth', label: 'Place\u00a0Of\u00a0Birth' },
@@ -107,10 +107,10 @@ export const columnData: ITableColumn<ColumnHeader>[] = [
   { id: 'action', label: 'Action', align: 'right' },
 ]
 export interface Data {
+  ref: string
   id: string
   profile: ReactElement
-  lastName: string
-  firstName: string
+  username: string
   gender: string
   dateOfBirth: string
   placeOfBirth: string
@@ -124,6 +124,7 @@ export interface Data {
 }
 
 export const createData = (
+  ref: string,
   id: string,
   profile: any,
   lastName: string,
@@ -185,5 +186,5 @@ export const createData = (
   const formattedBirthDate = dateFormat(dateOfBirth)
   const profileImage = <CircleIcon icon={profile?.filename} />
 
-  return { id, profile: profileImage, lastName, firstName, gender, dateOfBirth: formattedBirthDate, placeOfBirth, nationality, address, contact, appliedClass, currentClass, createdBy, action: action }
+  return { ref, id, profile: profileImage, username: `${lastName} ${firstName}`, gender, dateOfBirth: formattedBirthDate, placeOfBirth, nationality, address, contact, appliedClass, currentClass, createdBy, action: action }
 }

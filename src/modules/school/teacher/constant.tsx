@@ -35,7 +35,7 @@ export const initState = {
   email: ''
 }
 
-export declare type ColumnHeader = 'profile' | 'lastName' | 'firstName' | 'gender' | 'birthDate' | 'address' | 'contact' | 'grade' | 'subject' | 'email' | 'action'
+export declare type ColumnHeader = 'profile' | 'lastName' | 'username' | 'ref' | 'firstName' | 'gender' | 'birthDate' | 'address' | 'contact' | 'grade' | 'subject' | 'email' | 'action'
 
 export const importColumns = ['_id', 'lastName', 'firstName', 'gender', 'birthDate', 'address', 'contact', 'email', 'grade', 'subject']
 
@@ -100,9 +100,9 @@ export const importColumnData: ITableColumn<ColumnHeader>[] = [
 ]
 
 export const columnData: ITableColumn<ColumnHeader>[] = [
+  { id: 'ref', label: 'ID' },
   { id: 'profile', label: 'Profile' },
-  { id: 'lastName', label: 'Last Name' },
-  { id: 'firstName', label: 'First Name' },
+  { id: 'username', label: 'Username' },
   { id: 'gender', label: 'Gender' },
   { id: 'birthDate', label: 'Date Of Birth' },
   // { id: 'address', label: 'Address' },
@@ -112,10 +112,10 @@ export const columnData: ITableColumn<ColumnHeader>[] = [
   { id: 'action', label: 'Action', align: 'right' },
 ]
 export interface Data {
+  ref: string
   id: string
   profile: ReactElement
-  lastName: string
-  firstName: string
+  username: string
   gender: string
   birthDate: string
   address: string
@@ -127,6 +127,7 @@ export interface Data {
 }
 
 export const createData = (
+  ref: string,
   id: string,
   profile: any,
   lastName: string,
@@ -186,5 +187,5 @@ export const createData = (
   const formattedBirthDate = dateFormat(birthDate)
   const profileImage = <CircleIcon icon={profile?.filename} />
 
-  return { id, profile: profileImage, lastName, firstName, gender: capitalizeText(gender), birthDate: formattedBirthDate, address, contact, grade, subject, createdBy, action: action }
+  return { ref, id, profile: profileImage, username: `${lastName} ${firstName}`, gender: capitalizeText(gender), birthDate: formattedBirthDate, address, contact, grade, subject, createdBy, action: action }
 }
