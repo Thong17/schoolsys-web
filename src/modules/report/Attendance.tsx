@@ -1,6 +1,4 @@
-import { Layout } from 'components/layouts/Layout'
 import Container from 'components/shared/Container'
-import ReportNavbar from './components/ReportNavbar'
 import ReportBreadcrumbs from './components/Breadcrumbs'
 import { StickyTable } from 'components/shared/table/StickyTable'
 import { columnData, createData } from './constant'
@@ -176,28 +174,26 @@ export const AttendanceReport = () => {
   }
 
   return (
-    <Layout navbar={<ReportNavbar />}>
-      <Container
-        header={
-          <Header
-            handleFilter={handleFilter}
-            onSearch={handleSearch}
-            onChangeType={handleChangeType}
-            type={type}
-          />
-        }
-      >
-        <StickyTable
-          columns={columnData}
-          rows={rowData}
-          setQuery={handleQuery}
-          count={count}
-          limit={parseInt(queryParams.get('limit') || '10')}
-          skip={
-            status === 'SUCCESS' ? parseInt(queryParams.get('page') || '0') : 0
-          }
+    <Container
+      header={
+        <Header
+          handleFilter={handleFilter}
+          onSearch={handleSearch}
+          onChangeType={handleChangeType}
+          type={type}
         />
-      </Container>
-    </Layout>
+      }
+    >
+      <StickyTable
+        columns={columnData}
+        rows={rowData}
+        setQuery={handleQuery}
+        count={count}
+        limit={parseInt(queryParams.get('limit') || '10')}
+        skip={
+          status === 'SUCCESS' ? parseInt(queryParams.get('page') || '0') : 0
+        }
+      />
+    </Container>
   )
 }
