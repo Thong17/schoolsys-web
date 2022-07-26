@@ -154,6 +154,7 @@ export const Login = () => {
             style={{
               marginTop: 30,
               backgroundColor: theme.background.secondary,
+              color: theme.text.secondary,
             }}
             variant='contained'
             type='submit'
