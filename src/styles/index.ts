@@ -115,7 +115,6 @@ export const SideNavContainer = styled('div')(
 export const CustomFooter = styled(Stack)(
   ({ styled }: { styled: IThemeMode }) => ({
     width: '100%',
-    backgroundColor: styled.background.primary,
     color: styled.text.primary,
     height: 70,
   })
