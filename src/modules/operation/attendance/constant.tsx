@@ -57,7 +57,7 @@ export const createData = (
   let action = (
     <div style={{ float: 'right' }}>
       <>
-        {privilege?.class?.update && (
+        {privilege?.attendance?.checkIn && (
           <IconButton
             disabled={!status}
             onClick={() => navigate(`/operation/attendance/class/${id}`)}
@@ -130,11 +130,11 @@ export const createAttendanceData = (
   let action = (
     <div style={{ float: 'right' }}>
       <>
-        {privilege?.class?.update && !attendance?.checkedOut ? (
+        {!attendance?.checkedOut ? (
           <>
             {
               attendance?.checkedIn ? (
-                <IconButton
+                privilege?.attendance?.checkOut && <IconButton
                   onClick={() => onCheckOut(attendance?._id)}
                   size='small'
                   style={{
@@ -147,23 +147,21 @@ export const createAttendanceData = (
                   <WhereToVoteRoundedIcon fontSize='small' />
                 </IconButton>
               ) : (
-                <>
-                  <IconButton
-                    onClick={() => onCheckIn(id)}
-                    size='small'
-                    style={{
-                      backgroundColor: `${theme.color.info}22`,
-                      borderRadius: theme.radius.primary,
-                      marginLeft: 5,
-                      color: theme.color.info,
-                    }}
-                  >
-                    <PersonPinCircleRoundedIcon fontSize='small' />
-                  </IconButton>
-                </>
+                privilege?.attendance?.checkIn && <IconButton
+                  onClick={() => onCheckIn(id)}
+                  size='small'
+                  style={{
+                    backgroundColor: `${theme.color.info}22`,
+                    borderRadius: theme.radius.primary,
+                    marginLeft: 5,
+                    color: theme.color.info,
+                  }}
+                >
+                  <PersonPinCircleRoundedIcon fontSize='small' />
+                </IconButton>
               )
             }
-            <IconButton
+            {privilege?.attendance?.permission && <IconButton
               disabled={attendance?.checkedIn ? true : false}
               onClick={() => onPermission(id, attendance?._id)}
               size='small'
@@ -175,10 +173,10 @@ export const createAttendanceData = (
               }}
             >
               <NotListedLocationRoundedIcon fontSize='small' />
-            </IconButton>
+            </IconButton>}
           </>
         ) : (
-          <IconButton
+          privilege?.attendance?.reset && <IconButton
             onClick={() => onReset(attendance?._id)}
             size='small'
             style={{
@@ -191,7 +189,7 @@ export const createAttendanceData = (
             <RestartAltRoundedIcon fontSize='small' />
           </IconButton>
         )}
-        <IconButton
+        {privilege?.attendance?.report && <IconButton
           onClick={() => onDetail(id)}
           size='small'
           style={{
@@ -202,7 +200,7 @@ export const createAttendanceData = (
           }}
         >
           <BarChartRoundedIcon fontSize='small' />
-        </IconButton>
+        </IconButton>}
       </>
     </div>
   )
@@ -276,11 +274,11 @@ export const createTeacherAttendanceData = (
   let action = (
     <div style={{ float: 'right' }}>
       <>
-        {privilege?.class?.update && !attendance?.checkedOut ? (
+        {!attendance?.checkedOut ? (
           <>
             {
               attendance?.checkedIn ? (
-                <IconButton
+                privilege?.attendance?.checkOut && <IconButton
                   onClick={() => onCheckOut(attendance?._id)}
                   size='small'
                   style={{
@@ -293,23 +291,21 @@ export const createTeacherAttendanceData = (
                   <WhereToVoteRoundedIcon fontSize='small' />
                 </IconButton>
               ) : (
-                <>
-                  <IconButton
-                    onClick={() => onCheckIn(id)}
-                    size='small'
-                    style={{
-                      backgroundColor: `${theme.color.info}22`,
-                      borderRadius: theme.radius.primary,
-                      marginLeft: 5,
-                      color: theme.color.info,
-                    }}
-                  >
-                    <PersonPinCircleRoundedIcon fontSize='small' />
-                  </IconButton>
-                </>
+                privilege?.attendance?.checkIn && <IconButton
+                  onClick={() => onCheckIn(id)}
+                  size='small'
+                  style={{
+                    backgroundColor: `${theme.color.info}22`,
+                    borderRadius: theme.radius.primary,
+                    marginLeft: 5,
+                    color: theme.color.info,
+                  }}
+                >
+                  <PersonPinCircleRoundedIcon fontSize='small' />
+                </IconButton>
               )
             }
-            <IconButton
+            {privilege?.attendance?.permission && <IconButton
               disabled={attendance?.checkedIn ? true : false}
               onClick={() => onPermission(id, attendance?._id)}
               size='small'
@@ -321,10 +317,10 @@ export const createTeacherAttendanceData = (
               }}
             >
               <NotListedLocationRoundedIcon fontSize='small' />
-            </IconButton>
+            </IconButton>}
           </>
         ) : (
-          <IconButton
+          privilege?.attendance?.reset && <IconButton
             onClick={() => onReset(attendance?._id)}
             size='small'
             style={{
@@ -337,7 +333,7 @@ export const createTeacherAttendanceData = (
             <RestartAltRoundedIcon fontSize='small' />
           </IconButton>
         )}
-        <IconButton
+        {privilege?.attendance?.report && <IconButton
           onClick={() => onDetail(id)}
           size='small'
           style={{
@@ -348,7 +344,7 @@ export const createTeacherAttendanceData = (
           }}
         >
           <BarChartRoundedIcon fontSize='small' />
-        </IconButton>
+        </IconButton>}
       </>
     </div>
   )
@@ -377,8 +373,10 @@ export const createTeacherAttendanceData = (
       break
   }
 
-  const mappedOption = teacherOption.map(teacher => ({ label: teacher.ref, value: teacher._id }))
+  const mappedOption = teacherOption.map(teacher => ({ label: teacher.ref, value: teacher._id, tags: `${teacher.tags}` }))
+
   const selectRef = <MiniSelectField
+    search={true}
     name='teacher'
     options={mappedOption}
     value={mappedOption.length ? teacherId : ''}

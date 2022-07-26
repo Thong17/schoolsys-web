@@ -29,6 +29,7 @@ const Header = () => {
 const ListGrade = ({ grades, name, value = '', onChange }) => {
   return (
     <MiniSelectField
+      search={true}
       name={name}
       value={value}
       options={grades}

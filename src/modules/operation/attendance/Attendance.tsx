@@ -223,7 +223,7 @@ export const Attendances = () => {
     dispatch(getListAttendance({ query }))
 
     const teacherQuery = new URLSearchParams()
-    teacherQuery.append('fields', 'ref lastName firstName')
+    teacherQuery.append('fields', 'ref lastName firstName tags')
     dispatch(getListTeacher(teacherQuery))
     setTimeout(() => {
       setLoading(false)

@@ -185,28 +185,39 @@ export const createData = (
   let action = (
     <div style={{ float: 'right' }}>
       {device === 'mobile' ? (
-        privilege?.class?.detail && (
-          <MenuDialog label={<ViewButton />}>
+        <MenuDialog label={<ViewButton />}>
+          {privilege?.class?.update && (
             <MenuItem
               component='div'
               onClick={() => navigate(`/school/class/update/${id}`)}
             >
               Edit
             </MenuItem>
+          )}
+          {privilege?.class?.delete && (
             <MenuItem
               component='div'
               onClick={() => setDialog({ open: true, id })}
             >
               Delete
             </MenuItem>
-            <MenuItem
+          )}
+          {status ? (
+            privilege?.class?.graduate && <MenuItem
               component='div'
-              onClick={() => status ? setGraduateDialog({ open: true, id }) : onEnable(id)}
+              onClick={() => setGraduateDialog({ open: true, id })}
             >
-              { status ? 'Graduate' : 'Enable' }
+              Graduate
             </MenuItem>
-          </MenuDialog>
-        )
+          ) : (
+            privilege?.class?.start && <MenuItem
+              component='div'
+              onClick={() =>onEnable(id)}
+            >
+              Enable
+            </MenuItem>
+          )}
+        </MenuDialog>
       ) : (
         <>
           {privilege?.class?.update && (
@@ -217,49 +228,59 @@ export const createData = (
           {privilege?.class?.delete && (
             <DeleteButton onClick={() => setDialog({ open: true, id })} />
           )}
-          {
-            status 
-              ? <IconButton
-                  onClick={() => setGraduateDialog({ open: true, id })}
-                  size='small'
-                  style={{
-                    backgroundColor: `${theme.color.success}22`,
-                    borderRadius: theme.radius.primary,
-                    marginLeft: 5,
-                    color: theme.color.success,
-                  }}
-                >
-                  <SchoolRoundedIcon fontSize='small' />
-                </IconButton> 
-              : <IconButton
-                  onClick={() => onEnable(id)}
-                  size='small'
-                  style={{
-                    backgroundColor: `${theme.color.success}22`,
-                    borderRadius: theme.radius.primary,
-                    marginLeft: 5,
-                    color: theme.color.success,
-                  }}
-                >
-                  <SchoolRoundedIcon fontSize='small' />
-                </IconButton>
-          }
+          {status ? (
+            privilege?.class?.graduate && <IconButton
+              onClick={() => setGraduateDialog({ open: true, id })}
+              size='small'
+              style={{
+                backgroundColor: `${theme.color.success}22`,
+                borderRadius: theme.radius.primary,
+                marginLeft: 5,
+                color: theme.color.success,
+              }}
+            >
+              <SchoolRoundedIcon fontSize='small' />
+            </IconButton>
+          ) : (
+            privilege?.class?.start && <IconButton
+              onClick={() => onEnable(id)}
+              size='small'
+              style={{
+                backgroundColor: `${theme.color.success}22`,
+                borderRadius: theme.radius.primary,
+                marginLeft: 5,
+                color: theme.color.success,
+              }}
+            >
+              <SchoolRoundedIcon fontSize='small' />
+            </IconButton>
+          )}
         </>
       )}
     </div>
   )
 
-  const statusButton = status 
-    ? <TextHighlight text='In Progress' color={theme.color.success} />
-    : <TextHighlight text='Closed' color={theme.color.error} />
+  const statusButton = status ? (
+    <TextHighlight text='In Progress' color={theme.color.success} />
+  ) : (
+    <TextHighlight text='Closed' color={theme.color.error} />
+  )
 
   return {
     id,
     name,
     room,
     schedule,
-    students: <IconButton onClick={() => onOpenStudent(id)}>{<TextHighlight text={students} color={theme.color.info} />}</IconButton>,
-    applied: <IconButton onClick={() => onOpenRequest(id)}>{<TextHighlight text={applied} color={theme.color.error} />}</IconButton>,
+    students: (
+      <IconButton onClick={() => onOpenStudent(id)}>
+        {<TextHighlight text={students} color={theme.color.info} />}
+      </IconButton>
+    ),
+    applied: (
+      <IconButton onClick={() => onOpenRequest(id)}>
+        {<TextHighlight text={applied} color={theme.color.error} />}
+      </IconButton>
+    ),
     grade,
     teacher,
     status: statusButton,
@@ -286,7 +307,7 @@ export const createRequestData = (
   let action = (
     <div style={{ float: 'right' }}>
       {device === 'mobile' ? (
-        privilege?.class?.detail && (
+        privilege?.class?.update && (
           <MenuDialog label={<ViewButton />}>
             <MenuItem component='div' onClick={() => onAccept(id)}>
               Edit
@@ -301,7 +322,7 @@ export const createRequestData = (
         )
       ) : (
         <>
-          {privilege?.class?.delete && (
+          {privilege?.class?.update && (
             <RejectButton onClick={() => setDialog({ open: true, id })} />
           )}
           {privilege?.class?.update && (
@@ -345,7 +366,7 @@ export const createStudentData = (
   let action = (
     <div style={{ float: 'right' }}>
       {device === 'mobile' ? (
-        privilege?.class?.detail && (
+        privilege?.class?.delete && (
           <MenuDialog label={<ViewButton />}>
             <MenuItem component='div'>Reject</MenuItem>
           </MenuDialog>
@@ -360,9 +381,19 @@ export const createStudentData = (
     </div>
   )
   const calculatedAverage = calculateAverageScore(scores, subjects.length)
-  
-  const profileImage = id === monitor ? <CircleIcon star={true} icon={profile} /> : <CircleIcon icon={profile} />
-  let averageText = <AverageHighlight calculatedAverage={calculatedAverage} subjects={subjects} />
+
+  const profileImage =
+    id === monitor ? (
+      <CircleIcon star={true} icon={profile} />
+    ) : (
+      <CircleIcon icon={profile} />
+    )
+  let averageText = (
+    <AverageHighlight
+      calculatedAverage={calculatedAverage}
+      subjects={subjects}
+    />
+  )
 
   return {
     tags,
@@ -374,7 +405,7 @@ export const createStudentData = (
     gender: capitalizeText(gender),
     score: calculateTotalScore(scores),
     average: averageText,
-    action: action
+    action: action,
   }
 }
 
@@ -403,11 +434,24 @@ export const graduateExportColumnData = [
   'Grade',
 ]
 
-export const createGraduateData = (profile, ref, lastName, firstName, gender, scores, subjects) => {
+export const createGraduateData = (
+  profile,
+  ref,
+  lastName,
+  firstName,
+  gender,
+  scores,
+  subjects
+) => {
   const profileImage = <CircleIcon icon={profile} />
-  const calculatedAverage = calculateAverageScore(scores, subjects?.length)  
-  let averageText = <AverageHighlight calculatedAverage={calculatedAverage} subjects={subjects} />
-  
+  const calculatedAverage = calculateAverageScore(scores, subjects?.length)
+  let averageText = (
+    <AverageHighlight
+      calculatedAverage={calculatedAverage}
+      subjects={subjects}
+    />
+  )
+
   return {
     profile: profileImage,
     ref,
@@ -418,6 +462,6 @@ export const createGraduateData = (profile, ref, lastName, firstName, gender, sc
     score: calculateTotalScore(scores),
     average: averageText,
     averageText: calculatedAverage,
-    result: calculateGraduateResult(scores, subjects)
+    result: calculateGraduateResult(scores, subjects),
   }
 }

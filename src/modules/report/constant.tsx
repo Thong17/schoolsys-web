@@ -25,7 +25,7 @@ export const createData = (
 ) => {
   let action = (
     <div style={{ float: 'right' }}>
-      {privilege?.grade?.detail && (
+      {privilege?.attendance?.detail && (
         <IconButton
           onClick={() => navigate(`/report/attendance/${type}/${id}`)}
           size='small'

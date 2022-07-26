@@ -24,6 +24,7 @@ export interface IOptions {
   label: string
   selected?: boolean
   display?: string
+  tags?: string
 }
 
 interface ISelectField extends SelectProps {
@@ -148,7 +149,7 @@ const MiniInput: ForwardRefRenderFunction<
 
   const [searchText, setSearchText] = useState('')
   const displayedOptions = useMemo(
-    () => options.map((option) => !containsText(option.label, searchText) ? { ...option, display: 'none' } : option),
+    () => options.map((option) => !containsText(`${option.label}${option.tags}`, searchText) ? { ...option, display: 'none' } : option),
     [searchText, options]
   )
 

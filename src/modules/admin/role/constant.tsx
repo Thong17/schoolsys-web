@@ -10,37 +10,42 @@ import { ITableColumn } from 'components/shared/table/StickyTable'
 import MenuItem from '@mui/material/MenuItem'
 
 export interface IRoleBody {
-  name: Object,
-  description: string,
+  name: Object
+  description: string
   privilege: Object
 }
 
 export const initState = {
   name: {},
   description: '',
-  privilege: {}
+  privilege: {},
 }
 
-export declare type ColumnHeader = 'name' | 'description' | 'createdBy' | 'action' | 'privilege'
+export declare type ColumnHeader =
+  | 'name'
+  | 'description'
+  | 'createdBy'
+  | 'action'
+  | 'privilege'
 
 export const importColumns = ['_id', 'name', 'description', 'privilege']
 
 export const headerColumns = [
   {
     label: '_id',
-    key: '_id'
+    key: '_id',
   },
   {
     label: 'name',
-    key: 'name'
+    key: 'name',
   },
   {
     label: 'description',
-    key: 'description'
+    key: 'description',
   },
   {
     label: 'privilege',
-    key: 'privilege'
+    key: 'privilege',
   },
 ]
 
@@ -78,22 +83,24 @@ export const createData = (
   let action = (
     <div style={{ float: 'right' }}>
       {device === 'mobile' ? (
-        privilege?.role?.detail && (
-          <MenuDialog label={<ViewButton />}>
+        <MenuDialog label={<ViewButton />}>
+          {privilege?.role?.update && (
             <MenuItem
               component='div'
               onClick={() => navigate(`/admin/role/update/${id}`)}
             >
               Edit
             </MenuItem>
+          )}
+          {privilege?.role?.delete && (
             <MenuItem
               component='div'
               onClick={() => setDialog({ open: true, id })}
             >
               Delete
             </MenuItem>
-          </MenuDialog>
-        )
+          )}
+        </MenuDialog>
       ) : (
         <>
           {privilege?.role?.update && (
