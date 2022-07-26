@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useState } from 'react'
-import { PieChart, Pie, Sector } from 'recharts'
+import { PieChart, Pie, Sector, ResponsiveContainer } from 'recharts'
 
 const renderActiveShape = (props: any) => {
   const RADIAN = Math.PI / 180
@@ -17,7 +17,7 @@ const renderActiveShape = (props: any) => {
     detail,
     value,
   } = props
-  
+
   const sin = Math.sin(-RADIAN * midAngle)
   const cos = Math.cos(-RADIAN * midAngle)
   const sx = cx + (outerRadius + 10) * cos
@@ -77,19 +77,25 @@ const renderActiveShape = (props: any) => {
 }
 
 export interface IPieChartData {
-    name: string
-    value: number
-  }
-  
-  interface IPieChart {
-    data: IPieChartData[]
-    color?: string
-    fill?: string
-    height?: number
-    width?: number
-  }
+  name: string
+  value: number
+}
 
-export const CustomPieChart: FC<IPieChart> = ({ data, color = '#fff', fill = '#564563', width = 500, height = 300 }) => {
+interface IPieChart {
+  data: IPieChartData[]
+  color?: string
+  fill?: string
+  height?: number
+  width?: number
+}
+
+export const CustomPieChart: FC<IPieChart> = ({
+  data,
+  color = '#fff',
+  fill = '#564563',
+  width = '100%',
+  height = 300,
+}) => {
   const [activeIndex, setActiveIndex] = useState(0)
   const onPieEnter = useCallback(
     (_, index) => {
@@ -99,20 +105,20 @@ export const CustomPieChart: FC<IPieChart> = ({ data, color = '#fff', fill = '#5
   )
 
   return (
-    <PieChart width={width} height={height}>
-      <Pie
-        activeIndex={activeIndex}
-        activeShape={renderActiveShape}
-        data={data}
-        cx={width / 2}
-        cy={height / 2}
-        innerRadius={60}
-        outerRadius={80}
-        fill={fill}
-        color={color}
-        dataKey='value'
-        onMouseEnter={onPieEnter}
-      />
-    </PieChart>
+    <ResponsiveContainer width={width} height={height}>
+      <PieChart>
+        <Pie
+          activeIndex={activeIndex}
+          activeShape={renderActiveShape}
+          data={data}
+          innerRadius={60}
+          outerRadius={80}
+          fill={fill}
+          color={color}
+          dataKey='value'
+          onMouseEnter={onPieEnter}
+        />
+      </PieChart>
+    </ResponsiveContainer>
   )
 }

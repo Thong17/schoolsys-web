@@ -19,6 +19,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import ArrowRightAltRoundedIcon from '@mui/icons-material/ArrowRightAltRounded'
 import { IconButton } from '@mui/material'
 import { CardContainer } from 'components/shared/container/CardContainer'
+import useWeb from 'hooks/useWeb'
 
 const Header = () => {
   return (
@@ -30,6 +31,7 @@ const Header = () => {
 
 export const School = () => {
   const outlet = useOutlet()
+  const { width } = useWeb()
   const navigate = useNavigate()
   const { theme } = useTheme()
   const { lang } = useLanguage()
@@ -74,8 +76,12 @@ export const School = () => {
             style={{
               display: 'grid',
               gridTemplateColumns: '1fr 1fr',
-              gridColumnGap: 20,
-              gridTemplateAreas: ` 
+              gridGap: 20,
+              gridTemplateAreas: width < 1024 ? ` 
+                'header header' 
+                'role role'
+                'user user'
+              ` : ` 
                 'header header' 
                 'role user'
               `,

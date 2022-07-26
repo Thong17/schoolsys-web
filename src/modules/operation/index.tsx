@@ -18,6 +18,7 @@ import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import useLanguage from 'hooks/useLanguage'
 import { CardContainer } from 'components/shared/container/CardContainer'
+import useWeb from 'hooks/useWeb'
 
 const Header = () => {
   return (
@@ -29,6 +30,7 @@ const Header = () => {
 
 export const Operation = () => {
   const outlet = useOutlet()
+  const { width } = useWeb()
   const { lang } = useLanguage()
   const { theme } = useTheme()
   const location = useLocation()
@@ -76,8 +78,12 @@ export const Operation = () => {
             style={{
               display: 'grid',
               gridTemplateColumns: '1fr 1fr',
-              gridColumnGap: 20,
-              gridTemplateAreas: ` 
+              gridGap: 20,
+              gridTemplateAreas: width < 1024 ? ` 
+                'header header' 
+                'student student'
+                'teacher teacher'
+              `: ` 
                 'header header' 
                 'student teacher'
               `,
