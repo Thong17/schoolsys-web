@@ -1,7 +1,7 @@
 import { DeviceOptions } from 'contexts/web/interface'
 import { ITableColumn } from 'components/shared/table/StickyTable'
 import { ReactElement } from 'react'
-import { MenuList } from '@mui/material'
+import { MenuItem } from '@mui/material'
 
 import {
   UpdateButton,
@@ -81,24 +81,18 @@ export const createData = (
       {device === 'mobile' ? (
         privilege?.role?.detail && (
           <MenuDialog label={<ViewButton />}>
-            <MenuList
+            <MenuItem
               component='div'
               onClick={() => navigate(`/admin/user/update/${id}`)}
             >
               Edit
-            </MenuList>
-            <MenuList
+            </MenuItem>
+            <MenuItem
               component='div'
               onClick={() => setDialog({ open: true, id })}
             >
               Delete
-            </MenuList>
-            <MenuList
-              component='div'
-              onClick={() => navigate(`/admin/user/detail/${id}`)}
-            >
-              View
-            </MenuList>
+            </MenuItem>
           </MenuDialog>
         )
       ) : (

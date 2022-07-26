@@ -1,6 +1,8 @@
+import { TextEllipsis } from "./TextEllipsis"
+
 export const TextHighlight = ({ text, color, size }: any) => {
   return (
-    <div
+    <TextEllipsis
       style={{
         padding: '0 11px',
         height: 27,
@@ -14,6 +16,6 @@ export const TextHighlight = ({ text, color, size }: any) => {
       }}
     >
       {text}
-    </div>
+    </TextEllipsis>
   )
 }

@@ -7,7 +7,7 @@ import {
 import { DeviceOptions } from 'contexts/web/interface'
 import { MenuDialog } from 'components/shared/MenuDialog'
 import { ITableColumn } from 'components/shared/table/StickyTable'
-import MenuList from '@mui/material/MenuList'
+import MenuItem from '@mui/material/MenuItem'
 
 export interface IRoleBody {
   name: Object,
@@ -80,24 +80,18 @@ export const createData = (
       {device === 'mobile' ? (
         privilege?.role?.detail && (
           <MenuDialog label={<ViewButton />}>
-            <MenuList
+            <MenuItem
               component='div'
               onClick={() => navigate(`/admin/role/update/${id}`)}
             >
               Edit
-            </MenuList>
-            <MenuList
+            </MenuItem>
+            <MenuItem
               component='div'
               onClick={() => setDialog({ open: true, id })}
             >
               Delete
-            </MenuList>
-            <MenuList
-              component='div'
-              onClick={() => navigate(`/admin/role/detail/${id}`)}
-            >
-              View
-            </MenuList>
+            </MenuItem>
           </MenuDialog>
         )
       ) : (

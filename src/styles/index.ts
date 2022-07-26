@@ -243,7 +243,7 @@ export const RowNavbar = styled('div')({
   flexDirection: 'column',
   justifyContent: 'start',
   alignItems: 'center',
-  overflow: 'scroll',
+  overflow: 'auto',
   height: '90%',
 })
 

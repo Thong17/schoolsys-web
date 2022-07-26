@@ -7,7 +7,7 @@ import {
 import { DeviceOptions } from 'contexts/web/interface'
 import { MenuDialog } from 'components/shared/MenuDialog'
 import { ITableColumn } from 'components/shared/table/StickyTable'
-import MenuList from '@mui/material/MenuList'
+import MenuItem from '@mui/material/MenuItem'
 import { dateFormat } from 'utils'
 import { CircleIcon } from 'components/shared/table/CustomIcon'
 
@@ -148,24 +148,18 @@ export const createData = (
       {device === 'mobile' ? (
         privilege?.student?.detail && (
           <MenuDialog label={<ViewButton />}>
-            <MenuList
+            <MenuItem
               component='div'
               onClick={() => navigate(`/school/student/update/${id}`)}
             >
               Edit
-            </MenuList>
-            <MenuList
+            </MenuItem>
+            <MenuItem
               component='div'
               onClick={() => setDialog({ open: true, id })}
             >
               Delete
-            </MenuList>
-            <MenuList
-              component='div'
-              onClick={() => navigate(`/school/student/detail/${id}`)}
-            >
-              View
-            </MenuList>
+            </MenuItem>
           </MenuDialog>
         )
       ) : (

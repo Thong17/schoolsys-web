@@ -10,7 +10,6 @@ import {
 import { DeviceOptions } from 'contexts/web/interface'
 import { MenuDialog } from 'components/shared/MenuDialog'
 import { ITableColumn } from 'components/shared/table/StickyTable'
-import MenuList from '@mui/material/MenuList'
 import { CircleIcon } from 'components/shared/table/CustomIcon'
 import { TextHighlight } from 'components/shared/TextHighlight'
 import { IThemeStyle } from 'contexts/theme/interface'
@@ -20,7 +19,7 @@ import {
   capitalizeText,
   calculateGraduateResult,
 } from 'utils'
-import { IconButton } from '@mui/material'
+import { IconButton, MenuItem } from '@mui/material'
 import { AverageHighlight } from 'components/shared/AverageHighlight'
 
 export interface IClassBody {
@@ -188,24 +187,24 @@ export const createData = (
       {device === 'mobile' ? (
         privilege?.class?.detail && (
           <MenuDialog label={<ViewButton />}>
-            <MenuList
+            <MenuItem
               component='div'
               onClick={() => navigate(`/school/class/update/${id}`)}
             >
               Edit
-            </MenuList>
-            <MenuList
+            </MenuItem>
+            <MenuItem
               component='div'
               onClick={() => setDialog({ open: true, id })}
             >
               Delete
-            </MenuList>
-            <MenuList
+            </MenuItem>
+            <MenuItem
               component='div'
-              onClick={() => navigate(`/school/class/detail/${id}`)}
+              onClick={() => status ? setGraduateDialog({ open: true, id }) : onEnable(id)}
             >
-              View
-            </MenuList>
+              { status ? 'Graduate' : 'Enable' }
+            </MenuItem>
           </MenuDialog>
         )
       ) : (
@@ -289,15 +288,15 @@ export const createRequestData = (
       {device === 'mobile' ? (
         privilege?.class?.detail && (
           <MenuDialog label={<ViewButton />}>
-            <MenuList component='div' onClick={() => onAccept(id)}>
+            <MenuItem component='div' onClick={() => onAccept(id)}>
               Edit
-            </MenuList>
-            <MenuList
+            </MenuItem>
+            <MenuItem
               component='div'
               onClick={() => setDialog({ open: true, id })}
             >
               Reject
-            </MenuList>
+            </MenuItem>
           </MenuDialog>
         )
       ) : (
@@ -348,7 +347,7 @@ export const createStudentData = (
       {device === 'mobile' ? (
         privilege?.class?.detail && (
           <MenuDialog label={<ViewButton />}>
-            <MenuList component='div'>Reject</MenuList>
+            <MenuItem component='div'>Reject</MenuItem>
           </MenuDialog>
         )
       ) : (
