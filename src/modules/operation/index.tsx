@@ -17,7 +17,7 @@ import { getOperationDashboard, selectOperationDashboard } from 'shared/redux'
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import useLanguage from 'hooks/useLanguage'
-import { ChartContainer } from 'components/shared/container/ChartContainer'
+import { CardContainer } from 'components/shared/container/CardContainer'
 
 const Header = () => {
   return (
@@ -90,20 +90,20 @@ export const Operation = () => {
               <DetailSection title='Annual Leave' data={dashboard?.annualLeave} icon={<SailingRoundedIcon style={{ fontSize: 40 }} />} />
               <DetailSection title='Sick Leave' data={dashboard?.sickLeave} icon={<HotelRoundedIcon style={{ fontSize: 40 }} />} />
             </div>
-            <ChartContainer title={<>Checked In: <span style={{ color: theme.text.tertiary }}>{dateFormat()}</span></>} style={{ gridArea: 'student' }}>
+            <CardContainer title={<>Checked In: <span style={{ color: theme.text.tertiary }}>{dateFormat()}</span></>} style={{ gridArea: 'student' }}>
               <CustomPieChart
                 data={checkedIn}
                 fill={'#7B7D7D'}
                 color={theme.text.secondary}
               />
-            </ChartContainer>
-            <ChartContainer title={<>Checked Out: <span style={{ color: theme.text.tertiary }}>{dateFormat()}</span></>} style={{ gridArea: 'teacher' }}>
+            </CardContainer>
+            <CardContainer title={<>Checked Out: <span style={{ color: theme.text.tertiary }}>{dateFormat()}</span></>} style={{ gridArea: 'teacher' }}>
               <CustomPieChart
                 data={checkedOut}
                 fill={'#7B7D7D'}
                 color={theme.text.secondary}
               />
-            </ChartContainer>
+            </CardContainer>
           </div>
         </Container>
       )}

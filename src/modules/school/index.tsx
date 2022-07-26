@@ -18,7 +18,7 @@ import useLanguage from 'hooks/useLanguage'
 import { useLocation, useNavigate } from 'react-router-dom'
 import ArrowRightAltRoundedIcon from '@mui/icons-material/ArrowRightAltRounded'
 import { IconButton } from '@mui/material'
-import { ChartContainer } from 'components/shared/container/ChartContainer'
+import { CardContainer } from 'components/shared/container/CardContainer'
 
 const Header = () => {
   return (
@@ -118,20 +118,20 @@ export const School = () => {
                 action={<IconButton style={{ color: theme.text.secondary }} onClick={() => navigate('/school/class')}><ArrowRightAltRoundedIcon /></IconButton>}
               />
             </div>
-            <ChartContainer title={<>Class</>} style={{ gridArea: 'role' }}>
+            <CardContainer title={<>Class</>} style={{ gridArea: 'role' }}>
               <CustomPieChart
                 data={classes}
                 fill={'#7B7D7D'}
                 color={theme.text.secondary}
               />
-            </ChartContainer>
-            <ChartContainer title={<>Grade</>} style={{ gridArea: 'user' }}>
+            </CardContainer>
+            <CardContainer title={<>Grade</>} style={{ gridArea: 'user' }}>
               <CustomPieChart
                 data={grades}
                 fill={'#7B7D7D'}
                 color={theme.text.secondary}
               />
-            </ChartContainer>
+            </CardContainer>
           </div>
         </Container>
       )}

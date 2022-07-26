@@ -188,6 +188,12 @@ export const Attendances = () => {
                 class: _class._id
               })
             })
+            
+            if (attendances?.some((attendance: any) => attendance.user === teacher?.authenticate)) return
+            body.push({
+              user: teacher?.authenticate,
+              class: _class?._id
+            })
             Axios({
               method: 'POST',
               url: `/operation/attendance/checkInAll/${_class?._id}`,

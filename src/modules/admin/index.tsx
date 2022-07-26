@@ -14,7 +14,7 @@ import { useEffect, useState } from 'react'
 import { getAdminDashboard, selectAdminDashboard } from 'shared/redux'
 import useLanguage from 'hooks/useLanguage'
 import { useLocation } from 'react-router-dom'
-import { ChartContainer } from 'components/shared/container/ChartContainer'
+import { CardContainer } from 'components/shared/container/CardContainer'
 
 const Header = () => {
   return (
@@ -110,20 +110,20 @@ export const Admin = () => {
                 icon={<LocalPoliceRoundedIcon style={{ fontSize: 40 }} />}
               />
             </div>
-            <ChartContainer title={<>Role Privilege</>} style={{ gridArea: 'role' }}>
+            <CardContainer title={<>Role Privilege</>} style={{ gridArea: 'role' }}>
               <CustomPieChart
                 data={roles}
                 fill={'#7B7D7D'}
                 color={theme.text.secondary}
               />
-            </ChartContainer>
-            <ChartContainer title={<>User Privilege</>} style={{ gridArea: 'user' }}>
+            </CardContainer>
+            <CardContainer title={<>User Privilege</>} style={{ gridArea: 'user' }}>
               <CustomPieChart
                 data={users}
                 fill={'#7B7D7D'}
                 color={theme.text.secondary}
               />
-            </ChartContainer>
+            </CardContainer>
           </div>
         </Container>
       )}

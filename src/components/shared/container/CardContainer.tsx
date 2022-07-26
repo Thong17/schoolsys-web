@@ -2,7 +2,7 @@ import useTheme from "hooks/useTheme"
 import useWeb from "hooks/useWeb"
 import { TextEllipsis } from "../TextEllipsis"
 
-export const ChartContainer = ({ title, children, ...props }) => {
+export const CardContainer = ({ title, children, ...props }) => {
     const { theme } = useTheme()
     const { device } = useWeb()
   return (

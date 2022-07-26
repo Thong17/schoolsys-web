@@ -13,7 +13,7 @@ import {
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import useLanguage from 'hooks/useLanguage'
-import { ChartContainer } from 'components/shared/container/ChartContainer'
+import { CardContainer } from 'components/shared/container/CardContainer'
 import { CircleIcon } from 'components/shared/table/CustomIcon'
 import { CustomLineChart } from 'components/shared/charts/LineChart'
 import { MiniSelectField } from 'components/shared/form'
@@ -183,7 +183,7 @@ export const SchoolReport = () => {
             }
           />
         </div>
-        <ChartContainer
+        <CardContainer
           title={
             <>
               Charts
@@ -200,7 +200,7 @@ export const SchoolReport = () => {
           style={{ gridArea: 'charts' }}
         >
           <CustomLineChart data={dashboard.chartData?.subjects} labels={dashboard.chartData?.students} height={370} />
-        </ChartContainer>
+        </CardContainer>
       </div>
     </Container>
   )
