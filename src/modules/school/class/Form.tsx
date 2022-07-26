@@ -187,6 +187,7 @@ export const ClassForm = ({ defaultValues, id }: any) => {
       </div>
       <div style={{ gridArea: 'grade' }}>
         <SelectField
+          search={true}
           value={grade}
           label='Grade'
           err={errors.grade?.message}
@@ -197,6 +198,7 @@ export const ClassForm = ({ defaultValues, id }: any) => {
       </div>
       <div style={{ gridArea: 'teacher' }}>
         <SelectField
+          search={true}
           value={teacher}
           label='Class Teacher'
           err={errors.teacher?.message}
@@ -207,6 +209,7 @@ export const ClassForm = ({ defaultValues, id }: any) => {
       </div>
       <div style={{ gridArea: 'monitor' }}>
         <SelectField
+          search={true}
           value={monitor}
           label='Class Monitor'
           err={errors.monitor?.message}

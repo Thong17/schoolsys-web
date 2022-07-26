@@ -44,7 +44,7 @@ const containsText = (text, searchText) => {
 const Input: ForwardRefRenderFunction<
   InputHTMLAttributes<HTMLSelectElement>,
   ISelectField
-> = ({ options, name, value, label, err, hint, loading, search = true, ...props }, ref) => {
+> = ({ options, name, value, label, err, hint, loading, search = false, ...props }, ref) => {
   const { theme } = useTheme()
   const { device } = useWeb()
 
@@ -142,7 +142,7 @@ const Input: ForwardRefRenderFunction<
 const MiniInput: ForwardRefRenderFunction<
   InputHTMLAttributes<HTMLSelectElement>,
   ISelectField
-> = ({ options, name, value, label, err, hint, loading, search = true, ...props }, ref) => {
+> = ({ options, name, value, label, err, hint, loading, search = false, ...props }, ref) => {
   const { theme } = useTheme()
   const { device } = useWeb()
 

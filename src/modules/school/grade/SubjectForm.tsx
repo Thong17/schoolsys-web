@@ -132,6 +132,7 @@ export const SubjectForm = ({
         </div>
         <div style={{ gridArea: 'teacher' }}>
           <SelectField
+            search={true}
             value={teacher}
             label='Teacher'
             err={errors.teacher?.message}
