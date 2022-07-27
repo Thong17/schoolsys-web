@@ -34,7 +34,7 @@ export const languages = {
     ROLE: 'រ៉ូល',
     USER: 'អ្នក​ប្រើ',
     CREATE: 'បង្កើត',
-    SCHOOL_REPORT: 'របាយការណ៍​សាលា',
+    SCHOOL_REPORT: 'របាយការណ៍​សិក្សា',
     ATTENDANCE_REPORT: 'របាយការណ៍វត្តមាន',
   },
   Arab: {
