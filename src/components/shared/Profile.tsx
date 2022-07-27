@@ -17,7 +17,7 @@ const Profile: FC<IProfile> = ({ username, picture }) => {
 
   return (
     <>
-      <CustomProfile
+      {username && <CustomProfile
         styled={theme}
         aria-controls='profile-menu'
         onClick={(event) => setAnchorEl(event.currentTarget)}
@@ -28,7 +28,7 @@ const Profile: FC<IProfile> = ({ username, picture }) => {
             : (<div style={{ alignItems: 'center' }}>{username[0]}</div>)
         }
         {username}
-      </CustomProfile>
+      </CustomProfile>}
       <Menu
         open={Boolean(anchorEl)}
         onClose={() => setAnchorEl(null)}

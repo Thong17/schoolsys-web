@@ -36,7 +36,7 @@ export const CircleIcon = ({ icon, star = false, master = false, color = '#FFD70
             borderRadius: theme.radius.circle,
           }}
           src={`${process.env.REACT_APP_API_UPLOADS}${
-            icon ? icon : 'default.jpg'
+            icon ? icon : 'default.png'
           }`}
           alt={icon}
         />

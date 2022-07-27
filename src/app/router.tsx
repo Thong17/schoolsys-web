@@ -266,7 +266,7 @@ const routes: RouteObject[] = [
   },
   {
     path: '/operation',
-    element: (<AuthGuard role={{ route: 'attendance', action: 'list' }}><Operation /></AuthGuard>),
+    element: (<Operation />),
     children: [
       // Attendance routes
       {

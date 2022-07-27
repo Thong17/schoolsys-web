@@ -48,7 +48,7 @@ export const DetailContainer = ({ username, profile, position, id, children }) =
               borderRadius: theme.radius.primary,
             }}
             src={`${process.env.REACT_APP_API_UPLOADS}${
-              profile ? profile : 'default.jpg'
+              profile ? profile : 'default.png'
             }`}
             alt={profile}
           />
