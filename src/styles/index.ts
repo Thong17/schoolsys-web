@@ -43,8 +43,6 @@ export const CustomBottomNav = styled('div')(
     },
     '& a span': {
       display: 'none',
-      lineHeight: 0,
-      height: 17,
       alignSelf: 'center',
     },
   })
