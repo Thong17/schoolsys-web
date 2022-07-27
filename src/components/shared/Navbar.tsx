@@ -31,7 +31,7 @@ const Navbar = ({ children }) => {
   const { user } = useAuth()
   const { theme } = useTheme()
   const { toggleSidebar, sidebar } = useConfig()
-  const { device } = useWeb()
+  const { device, width } = useWeb()
   const navRef = useRef<HTMLDivElement>(document.createElement("div"))
 
   const openNavbar = () => {
@@ -62,12 +62,24 @@ const Navbar = ({ children }) => {
         device !== 'mobile' && device !== 'tablet' ? (sidebar ? 258 : 78) : 0
       }
     >
-      {device === 'mobile' ? (
-        <MenuBar
-          theme={theme}
-          open={navbar}
-          toggleSidebar={openNavbar}
-        ></MenuBar>
+      {width < 1024 ? (
+        <div style={{ display: 'flex' }}>
+          <MenuBar
+            theme={theme}
+            open={navbar}
+            toggleSidebar={openNavbar}
+          ></MenuBar>
+          <div style={{ display: 'flex', alignItems: 'center', marginLeft: 10 }}>
+            <div style={{ borderRadius: '50%', overflow: 'hidden', width: 32, height: 32, margin: '0 10px' }}>
+              <img src={logo} alt="logo" style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <span style={{ color: theme.text.secondary }}>EMAAN</span>
+              <span style={{ color: theme.text.quaternary, fontSize: 9 }}>INTERNATIONAL SCHOOL</span>
+            </div>
+          </div>
+        </div>
+        
       ) : (
         <div style={{ display: 'flex' }}>
           <MenuBar
@@ -86,7 +98,7 @@ const Navbar = ({ children }) => {
           </div>
         </div>
       )}
-      {device === 'mobile' ? (
+      {width < 1024 ? (
         <Dialog display={navbar}>
           <NavbarContainer
             ref={navRef}
