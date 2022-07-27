@@ -1,7 +1,7 @@
 import { RouteObject } from 'react-router'
 import AuthGuard from '../auth/AuthGuard'
 import { Login } from 'modules/auth/Login'
-import { Register } from 'modules/auth/Register'
+// import { Register } from 'modules/auth/Register'
 import { Admin, Roles, CreateRole, UpdateRole, DetailRole, Users, CreateUser, UpdateUser, DetailUser } from 'modules/admin'
 import { SchoolReport, AttendanceReport, AttendanceDetail, Report } from 'modules/report'
 import { Counter } from 'modules/counter/Counter'
@@ -21,10 +21,11 @@ const routes: RouteObject[] = [
     path: '/login',
     element: <Login />,
   },
-  {
-    path: '/register',
-    element: <Register />,
-  },
+  // Enable for Development only
+  // {
+  //   path: '/register',
+  //   element: <Register />,
+  // },
   {
     path: '/admin',
     element: (<Admin />),
