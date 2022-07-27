@@ -15,6 +15,8 @@ export const languages = {
     ROLE: 'Role',
     USER: 'User',
     CREATE: 'Create',
+    SCHOOL_REPORT: 'School Report',
+    ATTENDANCE_REPORT: 'Attendance Report',
   },
   Khmer: {
     TEST: 'សាកល្បង',
@@ -32,6 +34,8 @@ export const languages = {
     ROLE: 'រ៉ូល',
     USER: 'អ្នក​ប្រើ',
     CREATE: 'បង្កើត',
+    SCHOOL_REPORT: 'របាយការណ៍​សាលា',
+    ATTENDANCE_REPORT: 'របាយការណ៍វត្តមាន',
   },
   Arab: {
     TEST: 'اختبار',
@@ -48,6 +52,8 @@ export const languages = {
     TEACHER: 'معلم',
     ROLE: 'وظيفة',
     USER: 'المستعمل',
-    CREATE: 'Create',
+    CREATE: 'خلق',
+    SCHOOL_REPORT: 'تقرير مدرسي',
+    ATTENDANCE_REPORT: 'تقرير الحضور',
   }
 }
