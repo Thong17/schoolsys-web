@@ -135,80 +135,82 @@ export const Attendances = () => {
   }
 
   const handleClick = async (action) => {
-      switch (action) {
-        case 'reset':
-          confirm({
-            title: 'Reset All Student',
-            description: 'Are you sure you want to reset all attendance?',
-            variant: 'error'
-          }).then(() => {
-            Axios({
-              method: 'PUT',
-              url: `/operation/attendance/resetAll/${_class?._id}`
+    switch (action) {
+      case 'reset':
+        confirm({
+          title: 'Reset All Student',
+          description: 'Are you sure you want to reset all attendance?',
+          variant: 'error'
+        }).then(() => {
+          Axios({
+            method: 'PUT',
+            url: `/operation/attendance/resetAll/${_class?._id}`
+          })
+            .then((data) => {
+              const query = new URLSearchParams()
+              query.append('classId', _class._id)
+              dispatch(getListAttendance({ query }))
+              notify(data?.data?.msg, 'success')
             })
-              .then((data) => {
-                const query = new URLSearchParams()
-                query.append('classId', _class._id)
-                dispatch(getListAttendance({ query }))
-                notify(data?.data?.msg, 'success')
-              })
-              .catch((err) => notify(err?.response?.data?.msg, 'error'))
-          }).catch(() => {})
-          break
-        case 'checkOut':
-          confirm({
-            title: 'Check Out All Student',
-            description: 'Are you sure you want to check out all attendance?',
-            variant: 'info'
-          }).then(() => {
-            Axios({
-              method: 'PUT',
-              url: `/operation/attendance/checkOutAll/${_class?._id}`
+            .catch((err) => notify(err?.response?.data?.msg, 'error'))
+        }).catch(() => {})
+        break
+      case 'checkOut':
+        confirm({
+          title: 'Check Out All Student',
+          description: 'Are you sure you want to check out all attendance?',
+          variant: 'info'
+        }).then(() => {
+          Axios({
+            method: 'PUT',
+            url: `/operation/attendance/checkOutAll/${_class?._id}`
+          })
+            .then((data) => {
+              const query = new URLSearchParams()
+              query.append('classId', _class._id)
+              dispatch(getListAttendance({ query }))
+              notify(data?.data?.msg, 'success')
             })
-              .then((data) => {
-                const query = new URLSearchParams()
-                query.append('classId', _class._id)
-                dispatch(getListAttendance({ query }))
-                notify(data?.data?.msg, 'success')
-              })
-              .catch((err) => notify(err?.response?.data?.msg, 'error'))
-          }).catch(() => {})
-          break
-        default:
-          confirm({
-            title: 'Check In All Student',
-            description: 'Are you sure you want to check in all attendance?',
-            variant: 'info'
-          }).then(() => {
-            const body: any[] = []
-            _class?.students?.forEach((student) =>  {
-              if (attendances?.some((attendance: any) => attendance.user === student.authenticate)) return
-              body.push({
-                user: student.authenticate,
-                class: _class._id
-              })
+            .catch((err) => notify(err?.response?.data?.msg, 'error'))
+        }).catch(() => {})
+        break
+      default:
+        confirm({
+          title: 'Check In All Student',
+          description: 'Are you sure you want to check in all attendance?',
+          variant: 'info'
+        }).then(() => {
+          const body: any[] = []
+          _class?.students?.forEach((student) =>  {
+            if (attendances?.some((attendance: any) => attendance.user === student.authenticate)) return
+            body.push({
+              user: student.authenticate,
+              class: _class._id
             })
-            
-            if (attendances?.some((attendance: any) => attendance.user === teacher?.authenticate)) return
+          })
+          
+          if (!attendances?.some((attendance: any) => attendance.user === teacher?.authenticate)) {
             body.push({
               user: teacher?.authenticate,
               class: _class?._id
             })
-            Axios({
-              method: 'POST',
-              url: `/operation/attendance/checkInAll/${_class?._id}`,
-              body
+          }
+
+          Axios({
+            method: 'POST',
+            url: `/operation/attendance/checkInAll/${_class?._id}`,
+            body
+          })
+            .then((data) => {
+              const query = new URLSearchParams()
+              query.append('classId', _class?._id)
+              dispatch(getListAttendance({ query }))
+              notify(data?.data?.msg, 'success')
             })
-              .then((data) => {
-                const query = new URLSearchParams()
-                query.append('classId', _class?._id)
-                dispatch(getListAttendance({ query }))
-                notify(data?.data?.msg, 'success')
-              })
-              .catch((err) => notify(err?.response?.data?.msg, 'error'))
-          }).catch(() => {})
-          break
-      }
+            .catch((err) => notify(err?.response?.data?.msg, 'error'))
+        }).catch(() => {})
+        break
+    }
   }
   
   useEffect(() => {
