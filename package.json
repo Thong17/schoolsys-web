@@ -53,8 +53,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "dockerBuild": "docker build -t schoolsystem/schoolsys-web:release-v.1.0.0 .",
-    "dockerPush": "docker push schoolsystem/schoolsys-web:release-v.1.0.0"
+    "dockerBuild": "docker build -t schoolsystem/schoolsys-web:emaan-school .",
+    "dockerPush": "docker push schoolsystem/schoolsys-web:emaan-school"
   },
   "eslintConfig": {
     "extends": "react-app"
