@@ -122,7 +122,7 @@ export const themeStyle = {
     rounded: '20px',
   },
   font: {
-    family: `-apple-system, BlinkMacSystemFont, 'Open Sans', 'Helvetica Neue', sans-serif`,
+    family: `-apple-system, BlinkMacSystemFont, Arial, 'Open Sans', 'Helvetica Neue', 'Hanuman', sans-serif`,
     weight: 300,
   },
   color: {

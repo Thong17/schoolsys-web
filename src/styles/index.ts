@@ -288,7 +288,7 @@ export const Breadcrumbs = styled('div')(
       content: '""',
       position: 'absolute',
       left: -6,
-      bottom: 5,
+      bottom: 11,
       color: styled.text.secondary,
       width: 7,
       height: 7,
@@ -300,6 +300,9 @@ export const Breadcrumbs = styled('div')(
       textDecoration: 'none',
       color: styled.text.primary,
       padding: '0px 20px',
+      height: 30,
+      display: 'flex',
+      alignItems: 'center'
     },
     '& span': {
       paddingRight: 20,
