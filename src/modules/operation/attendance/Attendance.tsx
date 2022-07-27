@@ -69,6 +69,7 @@ const Header = ({ onSearch, stages, isCheckedIn, isCheckedOut, styled, onClick, 
 export const Attendances = () => {
   const navigate = useNavigate()
   const confirm = useAlert()
+  const { language } = useLanguage()
   const { id } = useParams()
   const { lang } = useLanguage()
   const { notify } = useNotify()
@@ -94,11 +95,11 @@ export const Attendances = () => {
 
   const stages = [
     {
-      title: 'Operation',
+      title: language['OPERATION'],
       path: '/operation',
     },
     {
-      title: 'Attendance',
+      title: language['ATTENDANCE'],
       path: '/operation/attendance',
     },
     {

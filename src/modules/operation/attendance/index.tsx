@@ -19,6 +19,7 @@ import { MenuItem } from '@mui/material'
 import { SortIcon } from 'components/shared/icons/SortIcon'
 
 const Header = ({ onSearch, handleFilter }) => {
+  const { language } = useLanguage()
   const [sortObj, setSortObj] = useState({
     name: false,
     createdAt: false,
@@ -32,13 +33,14 @@ const Header = ({ onSearch, handleFilter }) => {
     setSortObj({ ...sortObj, [filter]: !sortObj[filter] })
     return handleFilter({ filter, asc: sortObj[filter] })
   }
+
   const stages = [
     {
-      title: 'Operation',
+      title: language['OPERATION'],
       path: '/operation',
     },
     {
-      title: 'Attendance',
+      title: language['ATTENDANCE'],
     }
   ]
 

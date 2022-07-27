@@ -14,6 +14,7 @@ export const languages = {
     TEACHER: 'Teacher',
     ROLE: 'Role',
     USER: 'User',
+    CREATE: 'Create',
   },
   Khmer: {
     TEST: 'សាកល្បង',
@@ -30,6 +31,7 @@ export const languages = {
     TEACHER: 'គ្រូ',
     ROLE: 'រ៉ូល',
     USER: 'អ្នក​ប្រើ',
+    CREATE: 'បង្កើត',
   },
   Arab: {
     TEST: 'اختبار',
@@ -46,5 +48,6 @@ export const languages = {
     TEACHER: 'معلم',
     ROLE: 'وظيفة',
     USER: 'المستعمل',
+    CREATE: 'Create',
   }
 }

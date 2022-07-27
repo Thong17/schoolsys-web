@@ -27,6 +27,7 @@ const Header = ({ stages }) => {
 }
 
 export const AttendanceStudent = () => {
+  const { language } = useLanguage()
   const { theme } = useTheme()
   const { classId, userId } = useParams()
   const dispatch = useAppDispatch()
@@ -67,11 +68,11 @@ export const AttendanceStudent = () => {
 
   const stages = [
     {
-      title: 'Operation',
+      title: language['OPERATION'],
       path: '/operation',
     },
     {
-      title: 'Attendance',
+      title: language['ATTENDANCE'],
       path: '/operation/attendance',
     },
     {
