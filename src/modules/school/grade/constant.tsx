@@ -160,30 +160,28 @@ export const createSubjectData = (
   let action = (
     <div style={{ float: 'right' }}>
       {device === 'mobile' ? (
-        privilege?.grade?.detail && (
-          <MenuDialog label={<ViewButton />}>
-            <MenuItem
-              component='div'
-              onClick={() => onEdit(id)}
-            >
-              Edit
-            </MenuItem>
-            <MenuItem
-              component='div'
-              onClick={() => setDialog({ open: true, id })}
-            >
-              Delete
-            </MenuItem>
-          </MenuDialog>
-        )
+        <MenuDialog label={<ViewButton />}>
+          {privilege?.subject?.update && <MenuItem
+            component='div'
+            onClick={() => onEdit(id)}
+          >
+            Edit
+          </MenuItem>}
+          {privilege?.subject?.delete && <MenuItem
+            component='div'
+            onClick={() => setDialog({ open: true, id })}
+          >
+            Delete
+          </MenuItem>}
+        </MenuDialog>
       ) : (
         <>
-          {privilege?.grade?.update && (
+          {privilege?.subject?.update && (
             <UpdateButton
               onClick={() => onEdit(id)}
             />
           )}
-          {privilege?.grade?.delete && (
+          {privilege?.subject?.delete && (
             <DeleteButton onClick={() => setDialog({ open: true, id })} />
           )}
         </>

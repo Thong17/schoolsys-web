@@ -27,7 +27,7 @@ const routes: RouteObject[] = [
   },
   {
     path: '/admin',
-    element: (<AuthGuard role={{ route: 'admin', action: 'list' }}><Admin /></AuthGuard>),
+    element: (<Admin />),
     children: [
       // User routes
       {
@@ -206,7 +206,7 @@ const routes: RouteObject[] = [
       {
         path: 'grade/:action/:id/subject',
         element: (
-          <AuthGuard role={{ route: 'grade', action: 'update' }}>
+          <AuthGuard role={{ route: 'subject', action: 'list' }}>
             <SubjectGrade />
           </AuthGuard>
         ),
