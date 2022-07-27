@@ -3,20 +3,18 @@ import AuthGuard from '../auth/AuthGuard'
 import { Login } from 'modules/auth/Login'
 import { Register } from 'modules/auth/Register'
 import { Admin, Roles, CreateRole, UpdateRole, DetailRole, Users, CreateUser, UpdateUser, DetailUser } from 'modules/admin'
-import { Report } from 'modules/report'
+import { SchoolReport, AttendanceReport, AttendanceDetail, Report } from 'modules/report'
 import { Counter } from 'modules/counter/Counter'
 import Config from 'modules/config/Config'
 import NotFound from 'components/shared/NotFound'
 import { CreateStudent, CreateTeacher, DetailStudent, DetailTeacher, School, Students, Teachers, UpdateStudent, UpdateTeacher, DetailFormStudent, UpdateGrade, Grades, DetailGrade, CreateGrade, SubjectGrade, Classes, CreateClass, UpdateClass, DetailClass, StudentClass } from 'modules/school'
-import { Operation, Classes as AttendanceClasses, Attendances } from 'modules/operation'
+import { Operation, Classes as AttendanceClasses, Attendances, AttendanceStudent, AttendanceTeacher } from 'modules/operation'
 
 const routes: RouteObject[] = [
   {
     path: '/',
     element: (
-      <AuthGuard role={{ route: 'admin', action: 'list' }}>
-        <Counter />
-      </AuthGuard>
+      <Counter />
     ),
   },
   {
@@ -29,7 +27,7 @@ const routes: RouteObject[] = [
   },
   {
     path: '/admin',
-    element: (<AuthGuard role={{ route: 'admin', action: 'list' }}><Admin /></AuthGuard>),
+    element: (<Admin />),
     children: [
       // User routes
       {
@@ -102,13 +100,13 @@ const routes: RouteObject[] = [
   },
   {
     path: '/school',
-    element: (<AuthGuard role={{ route: 'admin', action: 'list' }}><School /></AuthGuard>),
+    element: (<School />),
     children: [
       // Student routes
       {
         path: 'student',
         element: (
-          <AuthGuard role={{ route: 'user', action: 'list' }}>
+          <AuthGuard role={{ route: 'student', action: 'list' }}>
             <Students />
           </AuthGuard>
         ),
@@ -116,7 +114,7 @@ const routes: RouteObject[] = [
       {
         path: 'student/create',
         element: (
-          <AuthGuard role={{ route: 'user', action: 'create' }}>
+          <AuthGuard role={{ route: 'student', action: 'create' }}>
             <CreateStudent />
           </AuthGuard>
         ),
@@ -124,7 +122,7 @@ const routes: RouteObject[] = [
       {
         path: 'student/update/:id',
         element: (
-          <AuthGuard role={{ route: 'user', action: 'update' }}>
+          <AuthGuard role={{ route: 'student', action: 'update' }}>
             <UpdateStudent />
           </AuthGuard>
         ),
@@ -132,7 +130,7 @@ const routes: RouteObject[] = [
       {
         path: 'student/detail/:id',
         element: (
-          <AuthGuard role={{ route: 'user', action: 'detail' }}>
+          <AuthGuard role={{ route: 'student', action: 'detail' }}>
             <DetailStudent />
           </AuthGuard>
         ),
@@ -140,7 +138,7 @@ const routes: RouteObject[] = [
       {
         path: 'student/:action/:id/:detail',
         element: (
-          <AuthGuard role={{ route: 'user', action: 'detail' }}>
+          <AuthGuard role={{ route: 'student', action: 'detail' }}>
             <DetailFormStudent />
           </AuthGuard>
         ),
@@ -150,7 +148,7 @@ const routes: RouteObject[] = [
       {
         path: 'teacher',
         element: (
-          <AuthGuard role={{ route: 'user', action: 'list' }}>
+          <AuthGuard role={{ route: 'teacher', action: 'list' }}>
             <Teachers />
           </AuthGuard>
         ),
@@ -158,7 +156,7 @@ const routes: RouteObject[] = [
       {
         path: 'teacher/create',
         element: (
-          <AuthGuard role={{ route: 'user', action: 'create' }}>
+          <AuthGuard role={{ route: 'teacher', action: 'create' }}>
             <CreateTeacher />
           </AuthGuard>
         ),
@@ -166,7 +164,7 @@ const routes: RouteObject[] = [
       {
         path: 'teacher/update/:id',
         element: (
-          <AuthGuard role={{ route: 'user', action: 'update' }}>
+          <AuthGuard role={{ route: 'teacher', action: 'update' }}>
             <UpdateTeacher />
           </AuthGuard>
         ),
@@ -174,7 +172,7 @@ const routes: RouteObject[] = [
       {
         path: 'teacher/detail/:id',
         element: (
-          <AuthGuard role={{ route: 'user', action: 'detail' }}>
+          <AuthGuard role={{ route: 'teacher', action: 'detail' }}>
             <DetailTeacher />
           </AuthGuard>
         ),
@@ -184,7 +182,7 @@ const routes: RouteObject[] = [
       {
         path: 'grade',
         element: (
-          <AuthGuard role={{ route: 'user', action: 'list' }}>
+          <AuthGuard role={{ route: 'grade', action: 'list' }}>
             <Grades />
           </AuthGuard>
         ),
@@ -192,7 +190,7 @@ const routes: RouteObject[] = [
       {
         path: 'grade/create',
         element: (
-          <AuthGuard role={{ route: 'user', action: 'create' }}>
+          <AuthGuard role={{ route: 'grade', action: 'create' }}>
             <CreateGrade />
           </AuthGuard>
         ),
@@ -200,7 +198,7 @@ const routes: RouteObject[] = [
       {
         path: 'grade/update/:id',
         element: (
-          <AuthGuard role={{ route: 'user', action: 'update' }}>
+          <AuthGuard role={{ route: 'grade', action: 'update' }}>
             <UpdateGrade />
           </AuthGuard>
         ),
@@ -208,7 +206,7 @@ const routes: RouteObject[] = [
       {
         path: 'grade/:action/:id/subject',
         element: (
-          <AuthGuard role={{ route: 'user', action: 'update' }}>
+          <AuthGuard role={{ route: 'subject', action: 'list' }}>
             <SubjectGrade />
           </AuthGuard>
         ),
@@ -216,7 +214,7 @@ const routes: RouteObject[] = [
       {
         path: 'grade/detail/:id',
         element: (
-          <AuthGuard role={{ route: 'user', action: 'detail' }}>
+          <AuthGuard role={{ route: 'grade', action: 'detail' }}>
             <DetailGrade />
           </AuthGuard>
         ),
@@ -226,7 +224,7 @@ const routes: RouteObject[] = [
       {
         path: 'class',
         element: (
-          <AuthGuard role={{ route: 'user', action: 'list' }}>
+          <AuthGuard role={{ route: 'class', action: 'list' }}>
             <Classes />
           </AuthGuard>
         ),
@@ -234,7 +232,7 @@ const routes: RouteObject[] = [
       {
         path: 'class/create',
         element: (
-          <AuthGuard role={{ route: 'user', action: 'create' }}>
+          <AuthGuard role={{ route: 'class', action: 'create' }}>
             <CreateClass />
           </AuthGuard>
         ),
@@ -242,7 +240,7 @@ const routes: RouteObject[] = [
       {
         path: 'class/update/:id',
         element: (
-          <AuthGuard role={{ route: 'user', action: 'update' }}>
+          <AuthGuard role={{ route: 'class', action: 'update' }}>
             <UpdateClass />
           </AuthGuard>
         ),
@@ -250,7 +248,7 @@ const routes: RouteObject[] = [
       {
         path: 'class/detail/:id',
         element: (
-          <AuthGuard role={{ route: 'user', action: 'detail' }}>
+          <AuthGuard role={{ route: 'class', action: 'detail' }}>
             <DetailClass />
           </AuthGuard>
         ),
@@ -258,7 +256,7 @@ const routes: RouteObject[] = [
       {
         path: 'class/:action/:id/student',
         element: (
-          <AuthGuard role={{ route: 'user', action: 'update' }}>
+          <AuthGuard role={{ route: 'class', action: 'detail' }}>
             <StudentClass />
           </AuthGuard>
         ),
@@ -267,13 +265,13 @@ const routes: RouteObject[] = [
   },
   {
     path: '/operation',
-    element: (<AuthGuard role={{ route: 'admin', action: 'list' }}><Operation /></AuthGuard>),
+    element: (<AuthGuard role={{ route: 'attendance', action: 'list' }}><Operation /></AuthGuard>),
     children: [
       // Attendance routes
       {
         path: 'attendance',
         element: (
-          <AuthGuard role={{ route: 'user', action: 'list' }}>
+          <AuthGuard role={{ route: 'attendance', action: 'list' }}>
             <AttendanceClasses />
           </AuthGuard>
         ),
@@ -281,8 +279,24 @@ const routes: RouteObject[] = [
       {
         path: 'attendance/class/:id',
         element: (
-          <AuthGuard role={{ route: 'user', action: 'create' }}>
+          <AuthGuard role={{ route: 'attendance', action: 'list' }}>
             <Attendances />
+          </AuthGuard>
+        ),
+      },
+      {
+        path: 'attendance/class/:classId/student/:userId',
+        element: (
+          <AuthGuard role={{ route: 'attendance', action: 'report' }}>
+            <AttendanceStudent />
+          </AuthGuard>
+        ),
+      },
+      {
+        path: 'attendance/class/:classId/teacher/:userId',
+        element: (
+          <AuthGuard role={{ route: 'attendance', action: 'report' }}>
+            <AttendanceTeacher />
           </AuthGuard>
         ),
       },
@@ -291,6 +305,20 @@ const routes: RouteObject[] = [
   {
     path: '/report',
     element: <Report />,
+    children: [
+      {
+        path: 'school',
+        element: <SchoolReport />,
+      },
+      {
+        path: 'attendance',
+        element: <AttendanceReport />,
+      },
+    ]
+  },
+  {
+    path: '/report/attendance/:type/:userId',
+    element: <AttendanceDetail />,
   },
   {
     path: '/config',

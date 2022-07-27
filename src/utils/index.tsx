@@ -88,6 +88,18 @@ export const dateFullYear = (date = null) => {
   return year
 }
 
+export const formatAttendanceDate = (dayString) => {
+  const today = new Date()
+  const year = today.getFullYear().toString()
+  let month = (today.getMonth() + 1).toString()
+
+  if (month.length === 1) {
+    month = '0' + month
+  }
+
+  return dayString.replace('YEAR', year).replace('MONTH', month)
+}
+
 export const inputDateFormat = (d) => {
   if (d === '') return d
 
@@ -105,6 +117,7 @@ export const inputDateFormat = (d) => {
 }
 
 export const capitalizeText = (text) => {
+  if (!text) return '...'
   return text?.charAt(0).toUpperCase() + text?.slice(1)
 }
 
@@ -131,6 +144,10 @@ export const calculateAverageScore = (scores, number) => {
 
   if (total === 0) return '0.00'
   return (total / number).toFixed(2)
+}
+
+export const calculatePercentage = (value, limit) => {
+  return value / limit * 100 || 0
 }
 
 export const calculateGraduateResult = (scores, subjects) => {

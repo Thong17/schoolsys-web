@@ -18,7 +18,8 @@ import useLanguage from 'hooks/useLanguage'
 import { useLocation, useNavigate } from 'react-router-dom'
 import ArrowRightAltRoundedIcon from '@mui/icons-material/ArrowRightAltRounded'
 import { IconButton } from '@mui/material'
-import { ChartContainer } from 'components/shared/container/ChartContainer'
+import { CardContainer } from 'components/shared/container/CardContainer'
+import useWeb from 'hooks/useWeb'
 
 const Header = () => {
   return (
@@ -30,6 +31,7 @@ const Header = () => {
 
 export const School = () => {
   const outlet = useOutlet()
+  const { width } = useWeb()
   const navigate = useNavigate()
   const { theme } = useTheme()
   const { lang } = useLanguage()
@@ -74,8 +76,12 @@ export const School = () => {
             style={{
               display: 'grid',
               gridTemplateColumns: '1fr 1fr',
-              gridColumnGap: 20,
-              gridTemplateAreas: ` 
+              gridGap: 20,
+              gridTemplateAreas: width < 1024 ? ` 
+                'header header' 
+                'role role'
+                'user user'
+              ` : ` 
                 'header header' 
                 'role user'
               `,
@@ -118,20 +124,20 @@ export const School = () => {
                 action={<IconButton style={{ color: theme.text.secondary }} onClick={() => navigate('/school/class')}><ArrowRightAltRoundedIcon /></IconButton>}
               />
             </div>
-            <ChartContainer title={<>Class</>} style={{ gridArea: 'role' }}>
+            <CardContainer title={<>Class</>} style={{ gridArea: 'role' }}>
               <CustomPieChart
                 data={classes}
                 fill={'#7B7D7D'}
                 color={theme.text.secondary}
               />
-            </ChartContainer>
-            <ChartContainer title={<>Grade</>} style={{ gridArea: 'user' }}>
+            </CardContainer>
+            <CardContainer title={<>Grade</>} style={{ gridArea: 'user' }}>
               <CustomPieChart
                 data={grades}
                 fill={'#7B7D7D'}
                 color={theme.text.secondary}
               />
-            </ChartContainer>
+            </CardContainer>
           </div>
         </Container>
       )}

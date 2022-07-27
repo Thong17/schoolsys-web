@@ -146,3 +146,5 @@ export const Classes = () => {
 }
 
 export { Attendances } from './Attendance'
+export { AttendanceStudent } from './AttendanceStudent'
+export { AttendanceTeacher } from './AttendanceTeacher'

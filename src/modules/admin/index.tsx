@@ -14,7 +14,8 @@ import { useEffect, useState } from 'react'
 import { getAdminDashboard, selectAdminDashboard } from 'shared/redux'
 import useLanguage from 'hooks/useLanguage'
 import { useLocation } from 'react-router-dom'
-import { ChartContainer } from 'components/shared/container/ChartContainer'
+import { CardContainer } from 'components/shared/container/CardContainer'
+import useWeb from 'hooks/useWeb'
 
 const Header = () => {
   return (
@@ -26,6 +27,7 @@ const Header = () => {
 
 export const Admin = () => {
   const outlet = useOutlet()
+  const { width } = useWeb()
   const { theme } = useTheme()
   const { lang } = useLanguage()
   const [totalRole, setTotalRole] = useState(0)
@@ -77,8 +79,12 @@ export const Admin = () => {
             style={{
               display: 'grid',
               gridTemplateColumns: '1fr 1fr',
-              gridColumnGap: 20,
-              gridTemplateAreas: ` 
+              gridGap: 20,
+              gridTemplateAreas: width < 1024 ? ` 
+                'header header' 
+                'role role'
+                'user user'
+              ` : ` 
                 'header header' 
                 'role user'
               `,
@@ -110,20 +116,20 @@ export const Admin = () => {
                 icon={<LocalPoliceRoundedIcon style={{ fontSize: 40 }} />}
               />
             </div>
-            <ChartContainer title={<>Role Privilege</>} style={{ gridArea: 'role' }}>
+            <CardContainer title={<>Role Privilege</>} style={{ gridArea: 'role' }}>
               <CustomPieChart
                 data={roles}
                 fill={'#7B7D7D'}
                 color={theme.text.secondary}
               />
-            </ChartContainer>
-            <ChartContainer title={<>User Privilege</>} style={{ gridArea: 'user' }}>
+            </CardContainer>
+            <CardContainer title={<>User Privilege</>} style={{ gridArea: 'user' }}>
               <CustomPieChart
                 data={users}
                 fill={'#7B7D7D'}
                 color={theme.text.secondary}
               />
-            </ChartContainer>
+            </CardContainer>
           </div>
         </Container>
       )}

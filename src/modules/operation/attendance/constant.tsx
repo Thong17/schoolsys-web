@@ -4,12 +4,14 @@ import PersonPinCircleRoundedIcon from '@mui/icons-material/PersonPinCircleRound
 import NotListedLocationRoundedIcon from '@mui/icons-material/NotListedLocationRounded'
 import WhereToVoteRoundedIcon from '@mui/icons-material/WhereToVoteRounded'
 import RestartAltRoundedIcon from '@mui/icons-material/RestartAltRounded'
+import BarChartRoundedIcon from '@mui/icons-material/BarChartRounded'
 import { ITableColumn } from 'components/shared/table/StickyTable'
 import { IThemeStyle } from 'contexts/theme/interface'
 import { TextHighlight } from 'components/shared/TextHighlight'
 import { IconButton } from '@mui/material'
 import { CircleIcon } from 'components/shared/table/CustomIcon'
 import { capitalizeText, timeFormat } from 'utils'
+import { MiniSelectField } from 'components/shared/form'
 
 export const columnData: ITableColumn<any>[] = [
   { id: 'name', label: 'Class' },
@@ -55,7 +57,7 @@ export const createData = (
   let action = (
     <div style={{ float: 'right' }}>
       <>
-        {privilege?.class?.update && (
+        {privilege?.attendance?.checkIn && (
           <IconButton
             disabled={!status}
             onClick={() => navigate(`/operation/attendance/class/${id}`)}
@@ -99,6 +101,7 @@ export const attendanceColumnData: ITableColumn<any>[] = [
   { id: 'lastName', label: 'Last\u00a0Name' },
   { id: 'firstName', label: 'First\u00a0Name' },
   { id: 'gender', label: 'Gender' },
+  { id: 'position', label: 'Position' },
   { id: 'checkedIn', label: 'Checked\u00a0In' },
   { id: 'checkedOut', label: 'Checked\u00a0Out' },
   { id: 'action', label: 'Action', align: 'right' },
@@ -114,9 +117,11 @@ export const createAttendanceData = (
   lastName: string,
   firstName: string,
   gender: string,
+  position: string,
   attendance: any,
   privilege: any,
   theme: IThemeStyle,
+  onDetail: Function,
   onCheckIn: Function,
   onCheckOut: Function,
   onReset: Function,
@@ -125,11 +130,11 @@ export const createAttendanceData = (
   let action = (
     <div style={{ float: 'right' }}>
       <>
-        {privilege?.class?.update && !attendance?.checkedOut ? (
+        {!attendance?.checkedOut ? (
           <>
             {
               attendance?.checkedIn ? (
-                <IconButton
+                privilege?.attendance?.checkOut && <IconButton
                   onClick={() => onCheckOut(attendance?._id)}
                   size='small'
                   style={{
@@ -142,23 +147,21 @@ export const createAttendanceData = (
                   <WhereToVoteRoundedIcon fontSize='small' />
                 </IconButton>
               ) : (
-                <>
-                  <IconButton
-                    onClick={() => onCheckIn(id)}
-                    size='small'
-                    style={{
-                      backgroundColor: `${theme.color.info}22`,
-                      borderRadius: theme.radius.primary,
-                      marginLeft: 5,
-                      color: theme.color.info,
-                    }}
-                  >
-                    <PersonPinCircleRoundedIcon fontSize='small' />
-                  </IconButton>
-                </>
+                privilege?.attendance?.checkIn && <IconButton
+                  onClick={() => onCheckIn(id)}
+                  size='small'
+                  style={{
+                    backgroundColor: `${theme.color.info}22`,
+                    borderRadius: theme.radius.primary,
+                    marginLeft: 5,
+                    color: theme.color.info,
+                  }}
+                >
+                  <PersonPinCircleRoundedIcon fontSize='small' />
+                </IconButton>
               )
             }
-            <IconButton
+            {privilege?.attendance?.permission && <IconButton
               disabled={attendance?.checkedIn ? true : false}
               onClick={() => onPermission(id, attendance?._id)}
               size='small'
@@ -170,10 +173,10 @@ export const createAttendanceData = (
               }}
             >
               <NotListedLocationRoundedIcon fontSize='small' />
-            </IconButton>
+            </IconButton>}
           </>
         ) : (
-          <IconButton
+          privilege?.attendance?.reset && <IconButton
             onClick={() => onReset(attendance?._id)}
             size='small'
             style={{
@@ -186,6 +189,18 @@ export const createAttendanceData = (
             <RestartAltRoundedIcon fontSize='small' />
           </IconButton>
         )}
+        {privilege?.attendance?.report && <IconButton
+          onClick={() => onDetail(id)}
+          size='small'
+          style={{
+            backgroundColor: `${theme.color.info}22`,
+            borderRadius: theme.radius.primary,
+            marginLeft: 5,
+            color: theme.color.info
+          }}
+        >
+          <BarChartRoundedIcon fontSize='small' />
+        </IconButton>}
       </>
     </div>
   )
@@ -227,6 +242,156 @@ export const createAttendanceData = (
     lastName,
     firstName,
     gender: capitalizeText(gender),
+    position,
+    checkedIn: attendance?.checkedIn ? <TextHighlight text={checkedInText} color={attendanceColor} /> : '...',
+    checkedOut: attendance?.checkedOut ? <TextHighlight text={checkedOutText} color={attendanceColor} /> : '...',
+    checkedInOn: attendance?.checkedIn,
+    checkedOutOn: attendance?.checkedOut,
+    action: action,
+  }
+}
+
+export const createTeacherAttendanceData = (
+  tags: string,
+  teacherId: string,
+  id: string,
+  profile: string,
+  lastName: string,
+  firstName: string,
+  gender: string,
+  position: string,
+  teacherOption: any[],
+  attendance: any,
+  privilege: any,
+  theme: IThemeStyle,
+  onDetail: Function,
+  onCheckIn: Function,
+  onCheckOut: Function,
+  onReset: Function,
+  onPermission: Function,
+  onChangeTeacher: Function
+): any => {
+  let action = (
+    <div style={{ float: 'right' }}>
+      <>
+        {!attendance?.checkedOut ? (
+          <>
+            {
+              attendance?.checkedIn ? (
+                privilege?.attendance?.checkOut && <IconButton
+                  onClick={() => onCheckOut(attendance?._id)}
+                  size='small'
+                  style={{
+                    backgroundColor: `${theme.color.success}22`,
+                    borderRadius: theme.radius.primary,
+                    marginLeft: 5,
+                    color: theme.color.success,
+                  }}
+                >
+                  <WhereToVoteRoundedIcon fontSize='small' />
+                </IconButton>
+              ) : (
+                privilege?.attendance?.checkIn && <IconButton
+                  onClick={() => onCheckIn(id)}
+                  size='small'
+                  style={{
+                    backgroundColor: `${theme.color.info}22`,
+                    borderRadius: theme.radius.primary,
+                    marginLeft: 5,
+                    color: theme.color.info,
+                  }}
+                >
+                  <PersonPinCircleRoundedIcon fontSize='small' />
+                </IconButton>
+              )
+            }
+            {privilege?.attendance?.permission && <IconButton
+              disabled={attendance?.checkedIn ? true : false}
+              onClick={() => onPermission(id, attendance?._id)}
+              size='small'
+              style={{
+                backgroundColor: `${attendance?.checkedIn ? `${theme.text.secondary}22` : `${theme.color.error}22`}`,
+                borderRadius: theme.radius.primary,
+                marginLeft: 5,
+                color: attendance?.checkedIn ? theme.text.secondary : theme.color.error,
+              }}
+            >
+              <NotListedLocationRoundedIcon fontSize='small' />
+            </IconButton>}
+          </>
+        ) : (
+          privilege?.attendance?.reset && <IconButton
+            onClick={() => onReset(attendance?._id)}
+            size='small'
+            style={{
+              backgroundColor: `${theme.color.info}22`,
+              borderRadius: theme.radius.primary,
+              marginLeft: 5,
+              color: theme.color.info,
+            }}
+          >
+            <RestartAltRoundedIcon fontSize='small' />
+          </IconButton>
+        )}
+        {privilege?.attendance?.report && <IconButton
+          onClick={() => onDetail(id)}
+          size='small'
+          style={{
+            backgroundColor: `${theme.color.info}22`,
+            borderRadius: theme.radius.primary,
+            marginLeft: 5,
+            color: theme.color.info
+          }}
+        >
+          <BarChartRoundedIcon fontSize='small' />
+        </IconButton>}
+      </>
+    </div>
+  )
+
+  const profileImage = <CircleIcon master={true} icon={profile} />
+
+  const checkedInText = attendance?.permissionType ? attendance?.permissionType : timeFormat(attendance?.checkedIn)
+  const checkedOutText = attendance?.permissionType ? attendance?.permissionType : timeFormat(attendance?.checkedOut)
+
+  let attendanceColor
+  switch (attendance?.permissionType) {
+    case 'Annual Leave':
+      attendanceColor = theme.color.info
+      break
+    case 'Sick Leave':
+      attendanceColor = theme.color.warning
+      break
+    case 'Urgent Leave':
+      attendanceColor = theme.color.warning
+      break
+    case 'Absent':
+      attendanceColor = theme.color.error
+      break
+    default:
+      attendanceColor = theme.color.success
+      break
+  }
+
+  const mappedOption = teacherOption.map(teacher => ({ label: teacher.ref, value: teacher._id, tags: `${teacher.tags}` }))
+
+  const selectRef = <MiniSelectField
+    search={true}
+    name='teacher'
+    options={mappedOption}
+    value={mappedOption.length ? teacherId : ''}
+    onChange={(event) => onChangeTeacher(event)}
+  />
+
+  return {
+    tags,
+    id,
+    ref: selectRef,
+    profile: profileImage,
+    lastName,
+    firstName,
+    gender: capitalizeText(gender),
+    position,
     checkedIn: attendance?.checkedIn ? <TextHighlight text={checkedInText} color={attendanceColor} /> : '...',
     checkedOut: attendance?.checkedOut ? <TextHighlight text={checkedOutText} color={attendanceColor} /> : '...',
     checkedInOn: attendance?.checkedIn,

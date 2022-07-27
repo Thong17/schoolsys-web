@@ -17,30 +17,42 @@ const CustomizedDot: FC<any> = (props: any) => {
   )
 }
 
-export const CustomLineChart = ({ width = '100%', height = 300, data }) => {
+export interface ILabelChart {
+  name: string,
+  profile: string
+}
+
+export interface IDataChart {
+  name: string,
+  title: string,
+  data: Object
+}
+
+export const CustomLineChart = ({ width = '100%', height = 300, labels, data }) => {  
   return (
     <ResponsiveContainer width={width} height={height}>
       <LineChart
-        data={data?.subjects}
+        data={data}
         margin={{
           top: 25,
-          right: 30,
-          left: 10,
+          right: 40,
+          left: 0,
           bottom: 10,
         }}
       >
         <Tooltip />
         <YAxis />
         <XAxis dataKey='title' />
-        {data?.students?.map((item, key) => {
+        {labels?.map((item, key) => {
           return (
-              <Line
-                key={key}
-                type='monotone'
-                dataKey={item.name}
-                stroke={generateColor()}
-                dot={<CustomizedDot icon={item.profile} />}
-              />
+            <Line
+              key={key}
+              type='monotone'
+              dataKey={item.name}
+              stroke={generateColor()}
+              dot={<CustomizedDot icon={item.profile} />}
+              strokeDasharray='3 3'
+            />
           )
         })}
       </LineChart>

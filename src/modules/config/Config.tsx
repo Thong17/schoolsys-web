@@ -17,26 +17,32 @@ const Config = () => {
           This is a {mode} mode theme with {language.TEST} language custom
           palette
         </p>
-        <SelectField
-          name='select-theme'
-          label='Theme'
-          value={mode}
-          defaultValue=''
-          onChange={(event) => changeTheme(event.target.value)}
-          options={Object.keys(themeMode).map((key) => {
-            return { label: key, value: key }
-          })}
-        />
-        <SelectField
-          name='select-language'
-          label='Language'
-          value={lang}
-          defaultValue=''
-          onChange={(event) => changeLanguage(event.target.value)}
-          options={Object.keys(languages).map((key) => {
-            return { label: key, value: key }
-          })}
-        />
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, gridTemplateAreas: `'theme language'` }}>
+          <div style={{ gridArea: 'theme' }}>
+            <SelectField
+              name='select-theme'
+              label='Theme'
+              value={mode}
+              defaultValue=''
+              onChange={(event) => changeTheme(event.target.value)}
+              options={Object.keys(themeMode).map((key) => {
+                return { label: key, value: key }
+              })}
+            />
+          </div>
+          <div style={{ gridArea: 'language' }}>
+            <SelectField
+              name='select-language'
+              label='Language'
+              value={lang}
+              defaultValue=''
+              onChange={(event) => changeLanguage(event.target.value)}
+              options={Object.keys(languages).map((key) => {
+                return { label: key, value: key }
+              })}
+            />
+          </div>
+        </div>
       </Container>
     </Layout>
   )

@@ -114,6 +114,7 @@ export const ApplicationForm = ({ studentId, defaultValues }) => {
       </div>
       <div style={{ gridArea: 'appliedClass' }}>
         <SelectField
+          search={true}
           value={_class}
           label='Applied Class'
           options={classOption}

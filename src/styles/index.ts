@@ -43,8 +43,6 @@ export const CustomBottomNav = styled('div')(
     },
     '& a span': {
       display: 'none',
-      lineHeight: 0,
-      height: 17,
       alignSelf: 'center',
     },
   })
@@ -115,7 +113,6 @@ export const SideNavContainer = styled('div')(
 export const CustomFooter = styled(Stack)(
   ({ styled }: { styled: IThemeMode }) => ({
     width: '100%',
-    backgroundColor: styled.background.primary,
     color: styled.text.primary,
     height: 70,
   })
@@ -244,7 +241,7 @@ export const RowNavbar = styled('div')({
   flexDirection: 'column',
   justifyContent: 'start',
   alignItems: 'center',
-  overflow: 'scroll',
+  overflow: 'auto',
   height: '90%',
 })
 
@@ -868,3 +865,4 @@ export const CustomTextEllipsis = styled('div')(
 
 export * from './container'
 export * from './form'
+export * from './calendar'

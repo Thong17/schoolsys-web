@@ -7,7 +7,7 @@ import {
 import { DeviceOptions } from 'contexts/web/interface'
 import { MenuDialog } from 'components/shared/MenuDialog'
 import { ITableColumn } from 'components/shared/table/StickyTable'
-import MenuList from '@mui/material/MenuList'
+import MenuItem from '@mui/material/MenuItem'
 
 export interface IGradeBody {
   name: string,
@@ -112,24 +112,18 @@ export const createData = (
       {device === 'mobile' ? (
         privilege?.grade?.detail && (
           <MenuDialog label={<ViewButton />}>
-            <MenuList
+            <MenuItem
               component='div'
               onClick={() => navigate(`/school/grade/update/${id}`)}
             >
               Edit
-            </MenuList>
-            <MenuList
+            </MenuItem>
+            <MenuItem
               component='div'
               onClick={() => setDialog({ open: true, id })}
             >
               Delete
-            </MenuList>
-            <MenuList
-              component='div'
-              onClick={() => navigate(`/school/grade/detail/${id}`)}
-            >
-              View
-            </MenuList>
+            </MenuItem>
           </MenuDialog>
         )
       ) : (
@@ -166,30 +160,28 @@ export const createSubjectData = (
   let action = (
     <div style={{ float: 'right' }}>
       {device === 'mobile' ? (
-        privilege?.grade?.detail && (
-          <MenuDialog label={<ViewButton />}>
-            <MenuList
-              component='div'
-              onClick={() => onEdit(id)}
-            >
-              Edit
-            </MenuList>
-            <MenuList
-              component='div'
-              onClick={() => setDialog({ open: true, id })}
-            >
-              Delete
-            </MenuList>
-          </MenuDialog>
-        )
+        <MenuDialog label={<ViewButton />}>
+          {privilege?.subject?.update && <MenuItem
+            component='div'
+            onClick={() => onEdit(id)}
+          >
+            Edit
+          </MenuItem>}
+          {privilege?.subject?.delete && <MenuItem
+            component='div'
+            onClick={() => setDialog({ open: true, id })}
+          >
+            Delete
+          </MenuItem>}
+        </MenuDialog>
       ) : (
         <>
-          {privilege?.grade?.update && (
+          {privilege?.subject?.update && (
             <UpdateButton
               onClick={() => onEdit(id)}
             />
           )}
-          {privilege?.grade?.delete && (
+          {privilege?.subject?.delete && (
             <DeleteButton onClick={() => setDialog({ open: true, id })} />
           )}
         </>

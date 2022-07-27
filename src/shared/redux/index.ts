@@ -69,12 +69,24 @@ export const getSchoolDashboard = createAsyncThunk(
   }
 )
 
-export const getReportDashboard = createAsyncThunk(
-  'dashboard/report',
+export const getReportSchoolDashboard = createAsyncThunk(
+  'dashboard/reportSchool',
   async (query?: URLSearchParams) => {
     const response = await Axios({
       method: 'GET',
-      url: '/dashboard/report',
+      url: '/dashboard/report/school',
+      params: query
+    })
+    return response?.data
+  }
+)
+
+export const getReportAttendanceDashboard = createAsyncThunk(
+  'dashboard/reportAttendance',
+  async (query?: URLSearchParams) => {
+    const response = await Axios({
+      method: 'GET',
+      url: '/dashboard/report/attendance',
       params: query
     })
     return response?.data
@@ -83,10 +95,11 @@ export const getReportDashboard = createAsyncThunk(
 
 export const getListTeacher = createAsyncThunk(
   'teacher/all',
-  async () => {
+  async (query?: URLSearchParams) => {
     const response = await Axios({
       method: 'GET',
-      url: '/school/teacher/list'
+      url: '/school/teacher/list',
+      params: query
     })
     return response?.data
   }
@@ -228,16 +241,29 @@ export const sharedSlice = createSlice({
         state.schoolDashboard.data = action.payload.data
       })
 
-      // Get Report Dashboard from API
-      .addCase(getReportDashboard.pending, (state) => {
-        state.reportDashboard.status = 'LOADING'
+      // Get Report School Dashboard from API
+      .addCase(getReportSchoolDashboard.pending, (state) => {
+        state.reportSchoolDashboard.status = 'LOADING'
       })
-      .addCase(getReportDashboard.rejected, (state) => {
-        state.reportDashboard.status = 'FAILED'
+      .addCase(getReportSchoolDashboard.rejected, (state) => {
+        state.reportSchoolDashboard.status = 'FAILED'
       })
-      .addCase(getReportDashboard.fulfilled, (state, action) => {
-        state.reportDashboard.status = 'SUCCESS'
-        state.reportDashboard.data = action.payload.data
+      .addCase(getReportSchoolDashboard.fulfilled, (state, action) => {
+        state.reportSchoolDashboard.status = 'SUCCESS'
+        state.reportSchoolDashboard.data = action.payload.data
+      })
+
+      // Get Report Attendance Dashboard from API
+      .addCase(getReportAttendanceDashboard.pending, (state) => {
+        state.reportAttendanceDashboard.status = 'LOADING'
+      })
+      .addCase(getReportAttendanceDashboard.rejected, (state) => {
+        state.reportAttendanceDashboard.status = 'FAILED'
+      })
+      .addCase(getReportAttendanceDashboard.fulfilled, (state, action) => {
+        state.reportAttendanceDashboard.status = 'SUCCESS'
+        state.reportAttendanceDashboard.data = action.payload.data
+        state.reportAttendanceDashboard.count = action.payload.length
       })
   },
 })
@@ -251,6 +277,7 @@ export const selectPreRole = (state: RootState) => state.shared.preRole
 export const selectOperationDashboard = (state: RootState) => state.shared.operationDashboard
 export const selectAdminDashboard = (state: RootState) => state.shared.adminDashboard
 export const selectSchoolDashboard = (state: RootState) => state.shared.schoolDashboard
-export const selectReportDashboard = (state: RootState) => state.shared.reportDashboard
+export const selectReportSchoolDashboard = (state: RootState) => state.shared.reportSchoolDashboard
+export const selectReportAttendanceDashboard = (state: RootState) => state.shared.reportAttendanceDashboard
 
 export default sharedSlice.reducer

@@ -2,7 +2,7 @@ import { IBody } from 'shared/interface'
 
 export interface AttendanceState {
   list: IBody<Object[]>
-  detail: IBody<any>
+  userAttendance: IBody<any>
 }
 
 export const initialState: AttendanceState = {
@@ -10,7 +10,7 @@ export const initialState: AttendanceState = {
     data: [],
     status: 'INIT',
   },
-  detail: {
+  userAttendance: {
     data: {},
     status: 'INIT',
   },

@@ -1,12 +1,11 @@
-
 import Container from 'components/shared/Container'
 import { StickyTable } from 'components/shared/table/StickyTable'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { useEffect, useState } from 'react'
 import { dateFormat, debounce } from 'utils'
 import { useSearchParams } from 'react-router-dom'
-import { Data, createAttendanceData, attendanceColumnData } from './constant'
+import { Data, createAttendanceData, attendanceColumnData, createTeacherAttendanceData } from './constant'
 import { getClass, selectClass } from 'modules/school/class/redux'
 import FactCheckRoundedIcon from '@mui/icons-material/FactCheckRounded'
 import useLanguage from 'hooks/useLanguage'
@@ -23,6 +22,7 @@ import Axios from 'constants/functions/Axios'
 import useNotify from 'hooks/useNotify'
 import useAlert from 'hooks/useAlert'
 import { PermissionForm } from './PermissionForm'
+import { getListTeacher, selectListTeacher } from 'shared/redux'
 
 const Header = ({ onSearch, stages, isCheckedIn, isCheckedOut, styled, onClick, handleFilter }) => {
   const [sortObj, setSortObj] = useState({
@@ -67,6 +67,7 @@ const Header = ({ onSearch, stages, isCheckedIn, isCheckedOut, styled, onClick, 
 }
 
 export const Attendances = () => {
+  const navigate = useNavigate()
   const confirm = useAlert()
   const { id } = useParams()
   const { lang } = useLanguage()
@@ -77,15 +78,19 @@ export const Attendances = () => {
   const [rowData, setRowData] = useState<Data[]>([])
   const { data: _class, status } = useAppSelector(selectClass)
   const { data: attendances, status: statusAttendance } = useAppSelector(selectListAttendance)
+  const { data: listTeacher, status: statusListTeacher } = useAppSelector(selectListTeacher)
   const [queryParams, setQueryParams] = useSearchParams()
   const [isCheckedIn, setIsCheckedIn] = useState(false)
   const [isCheckedOut, setIsCheckedOut] = useState(false)
+  const [teacherOption, setTeacherOption] = useState<any[]>([])
+  const [teacher, setTeacher] = useState<any>(_class?.teacher)
   const [permissionDialog, setPermissionDialog] = useState({
     open: false,
     studentId: null,
     attendanceId: null,
     classId: null
   })
+  const [loading, setLoading] = useState(true)
 
   const stages = [
     {
@@ -183,6 +188,12 @@ export const Attendances = () => {
                 class: _class._id
               })
             })
+            
+            if (attendances?.some((attendance: any) => attendance.user === teacher?.authenticate)) return
+            body.push({
+              user: teacher?.authenticate,
+              class: _class?._id
+            })
             Axios({
               method: 'POST',
               url: `/operation/attendance/checkInAll/${_class?._id}`,
@@ -210,6 +221,13 @@ export const Attendances = () => {
     const query = new URLSearchParams()
     query.append('classId', _class?._id)
     dispatch(getListAttendance({ query }))
+
+    const teacherQuery = new URLSearchParams()
+    teacherQuery.append('fields', 'ref lastName firstName tags')
+    dispatch(getListTeacher(teacherQuery))
+    setTimeout(() => {
+      setLoading(false)
+    }, 300)
   }, [_class, status, dispatch])
   
   useEffect(() => {
@@ -239,6 +257,14 @@ export const Attendances = () => {
       })
     }
 
+    const handleStudentDetail = (id) => {
+      navigate(`/operation/attendance/class/${_class._id}/student/${id}`)
+    }
+
+    const handleTeacherDetail = (id) => {
+      navigate(`/operation/attendance/class/${_class._id}/teacher/${id}`)
+    }
+
     const mappedAttendances = _class?.students?.map((student: any) => {
       const tags = `${JSON.stringify(student.firstName)}${student.lastName}${student.gender}${student.ref}`.replace(/ /g,'')
       const attendance: any = attendances.find((attendance: any) => attendance.user === student.authenticate)
@@ -252,9 +278,11 @@ export const Attendances = () => {
         student?.lastName,
         student?.firstName,
         student?.gender,
+        'Student',
         attendance,
         user?.privilege,
         theme,
+        handleStudentDetail,
         handleCheckIn,
         handleCheckOut,
         handleReset,
@@ -262,8 +290,19 @@ export const Attendances = () => {
       )
     })
     const filteredAttendances = mappedAttendances?.filter((elem) => _search.test(elem.tags))
-    
-    setRowData(filteredAttendances.sort((a, b) => {
+
+    const handleChangeTeacher = (event) => {
+      Axios({
+        method: 'GET',
+        url: `/school/teacher/detail/${event.target.value}`
+      })
+        .then((data) => {
+          setTeacher(data?.data?.data)
+        })
+        .catch((err) => notify(err?.response?.data?.msg, 'error'))
+    }
+
+    const sortedData = filteredAttendances.sort((a, b) => {
       if (_sort === 'desc') {
         if (b[_filter] < a[_filter]) return -1
         if (b[_filter] > a[_filter]) return 1
@@ -273,7 +312,35 @@ export const Attendances = () => {
         if (a[_filter] > b[_filter]) return 1
         return 0
       }
-    }))
+    })
+
+    if (teacher) {
+      const teacherTags = `${JSON.stringify(teacher?.firstName)}${teacher?.lastName}${teacher?.gender}${teacher?.ref}`.replace(/ /g,'')
+      const teacherAttendance: any = attendances.find((attendance: any) => attendance.user === teacher?.authenticate)
+      const mappedTeacher = createTeacherAttendanceData(
+        teacherTags,
+        teacher?._id,
+        teacher?.authenticate,
+        teacher?.profile?.filename,
+        teacher?.lastName,
+        teacher?.firstName,
+        teacher?.gender,
+        'Teacher',
+        teacherOption,
+        teacherAttendance,
+        user?.privilege,
+        theme,
+        handleTeacherDetail,
+        handleCheckIn,
+        handleCheckOut,
+        handleReset,
+        handlePermission,
+        handleChangeTeacher
+      )
+      setRowData([mappedTeacher, ...sortedData])
+    } else {
+      setRowData(sortedData)
+    }
 
     let checkedOut = true
     attendances?.forEach((attendance: any) => {
@@ -287,7 +354,17 @@ export const Attendances = () => {
       setIsCheckedIn(false)
       setIsCheckedOut(false)
     }  
-  }, [attendances, statusAttendance, _class, theme, user, queryParams, dispatch])
+  }, [attendances, statusAttendance, _class, theme, user, queryParams, teacherOption, teacher, dispatch, notify, navigate])
+
+  useEffect(() => {
+    setTeacher(_class?.teacher)
+  }, [_class])
+  
+  useEffect(() => {
+    if (statusListTeacher !== 'SUCCESS') return 
+    setTeacherOption(listTeacher)
+    
+  }, [statusListTeacher, listTeacher])
 
   return (
     <Container
@@ -299,7 +376,7 @@ export const Attendances = () => {
         defaultValues={{}}
         theme={theme}
       />
-      <StickyTable columns={attendanceColumnData} rows={rowData} pagination={false} />
+      <StickyTable columns={attendanceColumnData} rows={rowData} pagination={false} loading={loading} />
     </Container>
   )
 }
