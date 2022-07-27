@@ -20,6 +20,6 @@ export const Report = () => {
   )
 }
 
-export { SchoolReport } from './School'
-export { AttendanceReport } from './Attendance'
+export { SchoolReport } from './SchoolReport'
+export { AttendanceReport } from './AttendanceReport'
 export { AttendanceDetail } from './AttendanceDetail'
