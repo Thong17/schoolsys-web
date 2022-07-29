@@ -130,6 +130,10 @@ export const StudentClass = () => {
     handleQuery({ filter: option.filter, sort: option.asc ? 'asc' : 'desc' })
   }
 
+  const handleSetRequest = (value) => {
+    handleQuery({ request: value })
+  }
+
   const handleQuery = (data) => {
     let query = {}
     const _search = queryParams.get('search')
@@ -282,6 +286,7 @@ export const StudentClass = () => {
         _class={_class?.name?.[lang] || _class?.name?.['English']}
         grade={_class?.grade?.name?.[lang] || _class?.grade?.name?.['English']}
         rowData={requestDialog.students || []}
+        setRequest={handleSetRequest}
       />
       <ScoreDialog
         classId={_class?._id}
