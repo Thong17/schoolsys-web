@@ -69,9 +69,8 @@ export const ClassForm = ({ defaultValues, id }: any) => {
   const [teacher, setTeacher] = useState('')
   const teacherId = watch('teacher')
   useEffect(() => {
-    if (statusListTeacher !== 'INIT') return
     dispatch(getListTeacher())
-  }, [dispatch, statusListTeacher])
+  }, [dispatch])
 
   useEffect(() => {
     const teacher: any = listTeacher.find((value: any) => value._id === teacherId)
@@ -91,9 +90,8 @@ export const ClassForm = ({ defaultValues, id }: any) => {
   }
 
   useEffect(() => {
-    if (statusListGrade !== 'INIT') return
     dispatch(getListGrade())
-  }, [dispatch, statusListGrade])
+  }, [dispatch])
 
   useEffect(() => {
     const grade: any = listGrade.find((value: any) => value._id === gradeId)
