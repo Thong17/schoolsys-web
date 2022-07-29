@@ -74,7 +74,7 @@ const Navbar = ({ children }) => {
               <img src={logo} alt="logo" style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
             </div>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <span style={{ color: theme.text.secondary }}>EMAAN</span>
+              <span style={{ color: theme.text.secondary }}>SOFTDEV</span>
               <span style={{ color: theme.text.quaternary, fontSize: 9 }}>INTERNATIONAL SCHOOL</span>
             </div>
           </div>
@@ -92,7 +92,7 @@ const Navbar = ({ children }) => {
               <img src={logo} alt="logo" style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
             </div>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <span style={{ color: theme.text.secondary }}>EMAAN</span>
+              <span style={{ color: theme.text.secondary }}>SOFTDEV</span>
               <span style={{ color: theme.text.quaternary, fontSize: 9 }}>INTERNATIONAL SCHOOL</span>
             </div>
           </div>
