@@ -25,7 +25,7 @@ export const RequestDialog = ({
   _class,
   grade,
   rowData,
-  
+  setRequest
 }: any) => {
   const { user } = useAuth()
   const { device } = useWeb()
@@ -86,6 +86,7 @@ export const RequestDialog = ({
 
   const handleCloseDialog = () => {
     setDialog({ ...dialog, open: false })
+    setRequest(0)
   }
   
   return (
