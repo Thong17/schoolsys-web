@@ -13,9 +13,11 @@ import Axios from 'constants/functions/Axios'
 import useNotify from 'hooks/useNotify'
 import useLanguage from 'hooks/useLanguage'
 import Loading from 'components/shared/Loading'
+import { useNavigate } from 'react-router-dom'
 
 export const RoleForm = ({ defaultValues, id }: any) => {
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
   const { data: listRole, status: statusListRole } = useAppSelector(selectListRole)
   const { data: preRole, status: statusPreRole } = useAppSelector(selectPreRole)
   const {
@@ -159,7 +161,7 @@ export const RoleForm = ({ defaultValues, id }: any) => {
               justifyContent: 'end',
             }}
           >
-            <Button variant='contained' color='error'>
+            <Button variant='contained' color='error' onClick={() => navigate(-1)}>
               Cancel
             </Button>
             <Button

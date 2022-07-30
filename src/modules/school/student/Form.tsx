@@ -205,7 +205,7 @@ export const StudentForm = ({ defaultValues, id }: any) => {
           justifyContent: 'end',
         }}
       >
-        <Button variant='contained' color='error'>
+        <Button variant='contained' color='error' onClick={() => navigate(-1)}>
           Cancel
         </Button>
         <Button
