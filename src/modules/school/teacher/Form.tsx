@@ -14,6 +14,7 @@ import useNotify from 'hooks/useNotify'
 import { useEffect, useState } from 'react'
 import { IImage } from 'components/shared/form/UploadField'
 import { inputDateFormat } from 'utils'
+import { useNavigate } from 'react-router-dom'
 
 const listGender = [
   { label: 'Male', value: 'male' },
@@ -30,6 +31,7 @@ export const TeacherForm = ({ defaultValues, id }: any) => {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(teacherSchema), defaultValues: {...defaultValues, birthDate: inputDateFormat(defaultValues?.birthDate)} })
+  const navigate = useNavigate()
   const { device } = useWeb()
   const { notify } = useNotify()
   const [loading, setLoading] = useState(false)
@@ -211,7 +213,7 @@ export const TeacherForm = ({ defaultValues, id }: any) => {
           justifyContent: 'end',
         }}
       >
-        <Button variant='contained' color='error'>
+        <Button variant='contained' color='error' onClick={() => navigate(-1)}>
           Cancel
         </Button>
         <Button

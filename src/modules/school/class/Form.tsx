@@ -17,6 +17,7 @@ import { IOptions } from 'components/shared/form/SelectField'
 import { getListGrade, selectListGrade } from 'shared/redux'
 import useLanguage from 'hooks/useLanguage'
 import { getListTeacher, selectListTeacher } from 'shared/redux'
+import { useNavigate } from 'react-router-dom'
 
 const listSchedule = [
   { label: 'Morning', value: 'morning' },
@@ -35,6 +36,7 @@ export const ClassForm = ({ defaultValues, id }: any) => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(classSchema), defaultValues: { ...defaultValues, grade: defaultValues?.grade?._id, teacher: defaultValues?.teacher?._id }})
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
   const { device } = useWeb()
   const { notify } = useNotify()
   const { lang } = useLanguage()
@@ -232,7 +234,7 @@ export const ClassForm = ({ defaultValues, id }: any) => {
           justifyContent: 'end',
         }}
       >
-        <Button variant='contained' color='error'>
+        <Button variant='contained' color='error' onClick={() => navigate(-1)}>
           Cancel
         </Button>
         <Button

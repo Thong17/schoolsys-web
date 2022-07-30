@@ -9,6 +9,7 @@ import useWeb from 'hooks/useWeb'
 import { familySchema } from '../schema'
 import { getStudent } from '../redux'
 import { useAppDispatch } from 'app/hooks'
+import { useNavigate } from 'react-router-dom'
 
 export const FamilyForm = ({ studentId, defaultValues }) => {
   const {
@@ -19,6 +20,7 @@ export const FamilyForm = ({ studentId, defaultValues }) => {
   } = useForm({
     resolver: yupResolver(familySchema)
   })
+  const navigate = useNavigate()
   const { device } = useWeb()
   const { notify } = useNotify()
   const [loading, setLoading] = useState(false)
@@ -118,7 +120,7 @@ export const FamilyForm = ({ studentId, defaultValues }) => {
           justifyContent: 'end',
         }}
       >
-        <Button variant='contained' color='error'>
+        <Button variant='contained' color='error' onClick={() => navigate(-1)}>
           Cancel
         </Button>
         <Button
