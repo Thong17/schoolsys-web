@@ -11,6 +11,7 @@ import useWeb from 'hooks/useWeb'
 import { healthSchema } from '../schema'
 import { getStudent } from '../redux'
 import { useAppDispatch } from 'app/hooks'
+import { useNavigate } from 'react-router-dom'
 
 export const HealthForm = ({ studentId, defaultValues }) => {
   const {
@@ -21,6 +22,7 @@ export const HealthForm = ({ studentId, defaultValues }) => {
   } = useForm({
     resolver: yupResolver(healthSchema)
   })
+  const navigate = useNavigate()
   const { device } = useWeb()
   const { notify } = useNotify()
   const [loading, setLoading] = useState(false)
@@ -99,7 +101,7 @@ export const HealthForm = ({ studentId, defaultValues }) => {
           justifyContent: 'end',
         }}
       >
-        <Button variant='contained' color='error'>
+        <Button variant='contained' color='error' onClick={() => navigate(-1)}>
           Cancel
         </Button>
         <Button

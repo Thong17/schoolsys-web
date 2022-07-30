@@ -10,6 +10,7 @@ import Button from 'components/shared/Button'
 import Axios from 'constants/functions/Axios'
 import useNotify from 'hooks/useNotify'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export const RoleForm = ({ defaultValues, id }: any) => {
   const {
@@ -19,6 +20,7 @@ export const RoleForm = ({ defaultValues, id }: any) => {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(roleSchema), defaultValues })
+  const navigate = useNavigate()
   const { device } = useWeb()
   const { notify } = useNotify()
   const [loading, setLoading] = useState(false)
@@ -100,7 +102,7 @@ export const RoleForm = ({ defaultValues, id }: any) => {
           justifyContent: 'end',
         }}
       >
-        <Button variant='contained' color='error'>
+        <Button variant='contained' color='error' onClick={() => navigate(-1)}>
           Cancel
         </Button>
         <Button

@@ -15,6 +15,7 @@ import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { IOptions } from 'components/shared/form/SelectField'
 import useLanguage from 'hooks/useLanguage'
 import { selectListClass, getListClass } from 'shared/redux'
+import { useNavigate } from 'react-router-dom'
 
 export const ApplicationForm = ({ studentId, defaultValues }) => {
   const { data: listClass, status: statusListClass } = useAppSelector(selectListClass)
@@ -27,6 +28,7 @@ export const ApplicationForm = ({ studentId, defaultValues }) => {
   } = useForm({
     resolver: yupResolver(applicationSchema)
   })
+  const navigate = useNavigate()
   const { device } = useWeb()
   const { lang } = useLanguage()
   const { notify } = useNotify()
@@ -131,7 +133,7 @@ export const ApplicationForm = ({ studentId, defaultValues }) => {
           justifyContent: 'end',
         }}
       >
-        <Button variant='contained' color='error'>
+        <Button variant='contained' color='error' onClick={() => navigate(-1)}>
           Cancel
         </Button>
         <Button
