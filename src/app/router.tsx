@@ -4,17 +4,17 @@ import { Login } from 'modules/auth/Login'
 // import { Register } from 'modules/auth/Register'
 import { Admin, Roles, CreateRole, UpdateRole, DetailRole, Users, CreateUser, UpdateUser, DetailUser } from 'modules/admin'
 import { SchoolReport, AttendanceReport, AttendanceDetail, Report } from 'modules/report'
-import { Counter } from 'modules/counter/Counter'
 import Config from 'modules/config/Config'
 import NotFound from 'components/shared/NotFound'
 import { CreateStudent, CreateTeacher, DetailStudent, DetailTeacher, School, Students, Teachers, UpdateStudent, UpdateTeacher, DetailFormStudent, UpdateGrade, Grades, DetailGrade, CreateGrade, SubjectGrade, Classes, CreateClass, UpdateClass, DetailClass, StudentClass } from 'modules/school'
 import { Operation, Classes as AttendanceClasses, Attendances, AttendanceStudent, AttendanceTeacher } from 'modules/operation'
+import { Home } from 'modules/home'
 
 const routes: RouteObject[] = [
   {
     path: '/',
     element: (
-      <Counter />
+      <Home />
     ),
   },
   {

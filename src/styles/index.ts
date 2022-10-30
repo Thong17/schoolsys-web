@@ -212,7 +212,7 @@ export const CustomNavbar = styled(Stack)(
       boxShadow: 'none',
     },
     '& a.active': {
-      backgroundColor: styled.background.secondary,
+      backgroundColor: styled.active.secondary,
       color: styled.text.primary,
       boxShadow: styled.shadow.secondary,
     },
@@ -224,6 +224,7 @@ export const CustomNavbar = styled(Stack)(
       color: styled.text.secondary,
       padding: '7px 17px',
       borderRadius: styled.radius.primary,
+      backgroundColor: styled.background.secondary,
     },
     transition: '0.3s ease',
     position: 'fixed',

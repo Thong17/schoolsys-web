@@ -17,6 +17,9 @@ export const languages = {
     CREATE: 'Create',
     SCHOOL_REPORT: 'School Report',
     ATTENDANCE_REPORT: 'Attendance Report',
+    // Homepage
+    HOMEPAGE_TITLE: 'Welcome to School Management System',
+    HOMEPAGE_DESCRIPTION: 'We develop and design a reliable and high performance web application for you business with a modern user interface base on your requirement.',    
   },
   Khmer: {
     TEST: 'សាកល្បង',
@@ -36,6 +39,9 @@ export const languages = {
     CREATE: 'បង្កើត',
     SCHOOL_REPORT: 'របាយការណ៍​សិក្សា',
     ATTENDANCE_REPORT: 'របាយការណ៍វត្តមាន',
+    // Homepage
+    HOMEPAGE_TITLE: 'សូមស្វាគមន៍មកកាន់ប្រព័ន្ធគ្រប់គ្រងសាលារៀន',
+    HOMEPAGE_DESCRIPTION: 'យើងបង្កើតនិងរចនាកម្មវិធីគេហទំព័រដែលអាចទុកចិត្តបាននិងដំណើរការខ្ពស់សម្រាប់អាជីវកម្មរបស់អ្នកជាមួយនឹងមូលដ្ឋានចំណុចប្រទាក់អ្នកប្រើទំនើបតាមតម្រូវការរបស់អ្នក។',
   },
   Arab: {
     TEST: 'اختبار',
@@ -55,5 +61,8 @@ export const languages = {
     CREATE: 'خلق',
     SCHOOL_REPORT: 'تقرير مدرسي',
     ATTENDANCE_REPORT: 'تقرير الحضور',
+    // Homepage
+    HOMEPAGE_TITLE: 'مرحبًا بكم في نظام إدارة المدرسة',
+    HOMEPAGE_DESCRIPTION: 'نقوم بتطوير وتصميم تطبيق ويب موثوق وعالي الأداء لأعمالك باستخدام قاعدة واجهة مستخدم حديثة وفقًا لمتطلباتك.',    
   }
 }
