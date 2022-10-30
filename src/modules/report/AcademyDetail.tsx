@@ -1,11 +1,11 @@
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { AverageHighlight } from 'components/shared/AverageHighlight'
 import Container from 'components/shared/Container'
+import { DetailTag } from 'components/shared/DetailTag'
 import { CircleIcon } from 'components/shared/table/CustomIcon'
 import { ITableColumn, StickyTable } from 'components/shared/table/StickyTable'
 import useLanguage from 'hooks/useLanguage'
 import useTheme from 'hooks/useTheme'
-import useWeb from 'hooks/useWeb'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { getDetailAcademy, selectDetailAcademyDashboard } from 'shared/redux'
@@ -20,23 +20,7 @@ const Header = () => {
   )
 }
 
-const DetailTag = ({ label, value }) => {
-  const { theme } = useTheme()
-  const { device } = useWeb()
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', minWidth: 100 }}>
-      <span
-        style={{
-          color: theme.text.quaternary,
-          fontSize: theme.responsive[device].text.quaternary,
-        }}
-      >
-        {label}
-      </span>
-      <span style={{ color: theme.text.secondary, fontSize: theme.responsive[device].text.h5 }}>{value}</span>
-    </div>
-  )
-}
+
 
 const studentColumnData: ITableColumn<any>[] = [
   { id: 'rank', label: 'Rank' },
