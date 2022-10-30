@@ -93,6 +93,18 @@ export const getReportAttendanceDashboard = createAsyncThunk(
   }
 )
 
+export const getReportAcademyDashboard = createAsyncThunk(
+  'dashboard/reportAcademy',
+  async (query?: URLSearchParams) => {
+    const response = await Axios({
+      method: 'GET',
+      url: '/dashboard/report/academy',
+      params: query
+    })
+    return response?.data
+  }
+)
+
 export const getListTeacher = createAsyncThunk(
   'teacher/all',
   async (query?: URLSearchParams) => {
@@ -122,6 +134,17 @@ export const getListClass = createAsyncThunk(
     const response = await Axios({
       method: 'GET',
       url: '/school/class/list'
+    })
+    return response?.data
+  }
+)
+
+export const getDetailAcademy = createAsyncThunk(
+  'academy/detail',
+  async ({ id }: any) => {
+    const response = await Axios({
+      method: 'GET',
+      url: `/dashboard/report/academy/${id}`
     })
     return response?.data
   }
@@ -265,6 +288,32 @@ export const sharedSlice = createSlice({
         state.reportAttendanceDashboard.data = action.payload.data
         state.reportAttendanceDashboard.count = action.payload.length
       })
+
+      // Get Report Academy Dashboard from API
+      .addCase(getReportAcademyDashboard.pending, (state) => {
+        state.reportAcademyDashboard.status = 'LOADING'
+      })
+      .addCase(getReportAcademyDashboard.rejected, (state) => {
+        state.reportAcademyDashboard.status = 'FAILED'
+      })
+      .addCase(getReportAcademyDashboard.fulfilled, (state, action) => {
+        state.reportAcademyDashboard.status = 'SUCCESS'
+        state.reportAcademyDashboard.data = action.payload.data
+        state.reportAcademyDashboard.count = action.payload.length
+      })
+
+      // Get Detail Academy Dashboard from API
+      .addCase(getDetailAcademy.pending, (state) => {
+        state.detailAcademyDashboard.status = 'LOADING'
+      })
+      .addCase(getDetailAcademy.rejected, (state) => {
+        state.detailAcademyDashboard.status = 'FAILED'
+      })
+      .addCase(getDetailAcademy.fulfilled, (state, action) => {
+        state.detailAcademyDashboard.status = 'SUCCESS'
+        state.detailAcademyDashboard.data = action.payload.data
+        state.detailAcademyDashboard.count = action.payload.length
+      })
   },
 })
 
@@ -279,5 +328,7 @@ export const selectAdminDashboard = (state: RootState) => state.shared.adminDash
 export const selectSchoolDashboard = (state: RootState) => state.shared.schoolDashboard
 export const selectReportSchoolDashboard = (state: RootState) => state.shared.reportSchoolDashboard
 export const selectReportAttendanceDashboard = (state: RootState) => state.shared.reportAttendanceDashboard
+export const selectReportAcademyDashboard = (state: RootState) => state.shared.reportAcademyDashboard
+export const selectDetailAcademyDashboard = (state: RootState) => state.shared.detailAcademyDashboard
 
 export default sharedSlice.reducer
