@@ -13,7 +13,7 @@ const Footer = ({ ...props }) => {
       {...props}
     >
       <p style={{ color: theme.text.tertiary }}>
-        Copyright &copy; 2022 All Rights Reserved by <span style={{ color: theme.text.primary }}>SoftDev</span>
+        Copyright &copy; 2022 All Rights Reserved by <span style={{ color: theme.text.primary }}>Emaan School</span>
       </p>
     </CustomFooter>
   )
