@@ -139,6 +139,17 @@ export const getListClass = createAsyncThunk(
   }
 )
 
+export const getDetailAcademy = createAsyncThunk(
+  'academy/detail',
+  async ({ id }: any) => {
+    const response = await Axios({
+      method: 'GET',
+      url: `/dashboard/report/academy/${id}`
+    })
+    return response?.data
+  }
+)
+
 export const sharedSlice = createSlice({
   name: 'shared',
   initialState,
@@ -290,6 +301,19 @@ export const sharedSlice = createSlice({
         state.reportAcademyDashboard.data = action.payload.data
         state.reportAcademyDashboard.count = action.payload.length
       })
+
+      // Get Detail Academy Dashboard from API
+      .addCase(getDetailAcademy.pending, (state) => {
+        state.detailAcademyDashboard.status = 'LOADING'
+      })
+      .addCase(getDetailAcademy.rejected, (state) => {
+        state.detailAcademyDashboard.status = 'FAILED'
+      })
+      .addCase(getDetailAcademy.fulfilled, (state, action) => {
+        state.detailAcademyDashboard.status = 'SUCCESS'
+        state.detailAcademyDashboard.data = action.payload.data
+        state.detailAcademyDashboard.count = action.payload.length
+      })
   },
 })
 
@@ -305,5 +329,6 @@ export const selectSchoolDashboard = (state: RootState) => state.shared.schoolDa
 export const selectReportSchoolDashboard = (state: RootState) => state.shared.reportSchoolDashboard
 export const selectReportAttendanceDashboard = (state: RootState) => state.shared.reportAttendanceDashboard
 export const selectReportAcademyDashboard = (state: RootState) => state.shared.reportAcademyDashboard
+export const selectDetailAcademyDashboard = (state: RootState) => state.shared.detailAcademyDashboard
 
 export default sharedSlice.reducer

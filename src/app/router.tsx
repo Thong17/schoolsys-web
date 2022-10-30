@@ -11,6 +11,8 @@ import { Operation, Classes as AttendanceClasses, Attendances, AttendanceStudent
 import { Home } from 'modules/home'
 import { AcademyReport } from 'modules/report/AcademyReport'
 import { AcademyDetail } from 'modules/report/AcademyDetail'
+import { UserProfile } from 'modules/auth/UserProfile'
+import { UserChangePassword } from 'modules/auth/UserChangePassword'
 
 const routes: RouteObject[] = [
   {
@@ -23,11 +25,14 @@ const routes: RouteObject[] = [
     path: '/login',
     element: <Login />,
   },
-  // Enable for Development only
-  // {
-  //   path: '/register',
-  //   element: <Register />,
-  // },
+  {
+    path: '/user/:id',
+    element: <UserProfile />,
+  },
+  {
+    path: '/change-password/:id',
+    element: <UserChangePassword />,
+  },
   {
     path: '/admin',
     element: (<Admin />),

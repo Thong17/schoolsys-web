@@ -8,7 +8,6 @@ import {
   selectReportAcademyDashboard,
 } from 'shared/redux'
 import { useEffect, useState } from 'react'
-import useAuth from 'hooks/useAuth'
 import useTheme from 'hooks/useTheme'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { capitalizeText, dateFormat, debounce } from 'utils'
@@ -101,6 +100,7 @@ export const AcademyReport = () => {
 
   useEffect(() => {
     setRowData(data.map((item) => mappedData(item, lang, theme, navigate)))
+    // eslint-disable-next-line
   }, [data])
 
   useEffect(() => {
