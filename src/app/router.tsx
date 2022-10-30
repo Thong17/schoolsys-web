@@ -9,6 +9,8 @@ import NotFound from 'components/shared/NotFound'
 import { CreateStudent, CreateTeacher, DetailStudent, DetailTeacher, School, Students, Teachers, UpdateStudent, UpdateTeacher, DetailFormStudent, UpdateGrade, Grades, DetailGrade, CreateGrade, SubjectGrade, Classes, CreateClass, UpdateClass, DetailClass, StudentClass } from 'modules/school'
 import { Operation, Classes as AttendanceClasses, Attendances, AttendanceStudent, AttendanceTeacher } from 'modules/operation'
 import { Home } from 'modules/home'
+import { AcademyReport } from 'modules/report/AcademyReport'
+import { AcademyDetail } from 'modules/report/AcademyDetail'
 
 const routes: RouteObject[] = [
   {
@@ -314,6 +316,16 @@ const routes: RouteObject[] = [
       {
         path: 'attendance',
         element: <AttendanceReport />,
+      },
+      {
+        path: 'academy',
+        element: <AcademyReport />,
+      },
+      {
+        path: 'academy/:id',
+        element: (
+          <AcademyDetail />
+        ),
       },
     ]
   },

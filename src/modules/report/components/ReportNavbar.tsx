@@ -7,6 +7,7 @@ const ReportNavbar = () => {
     <>
       <NavLink to='/report/school'>{language['SCHOOL']}</NavLink>
       <NavLink to='/report/attendance'>{language['ATTENDANCE']}</NavLink>
+      <NavLink to='/report/academy'>{language['ACADEMY']}</NavLink>
     </>
   )
 }

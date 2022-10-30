@@ -19,6 +19,7 @@ export interface ShareState {
   schoolDashboard: IBody<any>
   reportSchoolDashboard: IBody<any>
   reportAttendanceDashboard: IBody<any>
+  reportAcademyDashboard: IBody<any>
 }
 
 export const initialState: ShareState = {
@@ -63,6 +64,11 @@ export const initialState: ShareState = {
     status: 'INIT',
   },
   reportAttendanceDashboard: {
+    data: [],
+    status: 'INIT',
+    count: 0
+  },
+  reportAcademyDashboard: {
     data: [],
     status: 'INIT',
     count: 0
