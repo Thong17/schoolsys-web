@@ -796,6 +796,22 @@ export const CustomFilterButton = styled('div')(
   })
 )
 
+export const CustomDownloadButton = styled('div')(
+  ({ styled }: { styled: IThemeStyle }) => ({
+    position: 'relative',
+    overflow: 'hidden',
+    display: 'flex',
+    alignItems: 'center',
+    backgroundColor: styled.background.secondary,
+    borderRadius: styled.radius.primary,
+    height: 36,
+    width: 40,
+    '& button': {
+      color: styled.text.secondary,
+    },
+  })
+)
+
 export const CustomOptionButton = styled('div')(
   ({ styled }: { styled: IThemeStyle }) => ({
     position: 'relative',
