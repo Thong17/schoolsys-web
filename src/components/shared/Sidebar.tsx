@@ -14,7 +14,7 @@ const Sidebar = () => {
     <SideNavContainer open={sidebar}>
       <CustomSideNav
         direction='column'
-        justifyContent='space-evenly'
+        justifyContent='start'
         alignItems='start'
         className='side-nav'
         styled={theme}
