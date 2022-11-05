@@ -89,7 +89,7 @@ const Header = ({ onSearch, classId, stages, isCheckedIn, isCheckedOut, styled, 
     }
     Axios({ url: `/export/attendance/class/${classId}`, method: 'POST', ...config })
       .then(data => {                        
-        downloadBuffer(convertBufferToArrayBuffer(data?.data?.file?.data), 'class_attendance.csv')
+        downloadBuffer(convertBufferToArrayBuffer(data?.data?.file?.data), 'class_attendance.xlsx')
       })
       .catch(err => notify(err?.response?.data?.message, 'error'))
   }
