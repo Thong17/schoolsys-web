@@ -137,8 +137,11 @@ export const Teachers = () => {
   }
 
   useEffect(() => {
-    const listTeachers = teachers.map((teacher: any) => {
+    const _limit = parseInt(queryParams.get('limit') || '0')
+    const _page = parseInt(queryParams.get('page') || '0')
+    const listTeachers = teachers.map((teacher: any, key) => {
       return createData(
+        (_limit * _page) + key + 1,
         teacher.ref,
         teacher._id,
         teacher.profile,
@@ -158,6 +161,7 @@ export const Teachers = () => {
       )
     })
     setRowData(listTeachers)
+    // eslint-disable-next-line
   }, [teachers, lang, user, device, navigate])
 
   return (
