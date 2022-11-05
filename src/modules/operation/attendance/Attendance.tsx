@@ -7,7 +7,7 @@ import { dateFormat, debounce } from 'utils'
 import { useSearchParams } from 'react-router-dom'
 import { Data, createAttendanceData, attendanceColumnData, createTeacherAttendanceData } from './constant'
 import { getClass, selectClass } from 'modules/school/class/redux'
-import FactCheckRoundedIcon from '@mui/icons-material/FactCheckRounded'
+import HomeWorkRoundedIcon from '@mui/icons-material/HomeWorkRounded'
 import useLanguage from 'hooks/useLanguage'
 import useAuth from 'hooks/useAuth'
 import useTheme from 'hooks/useTheme'
@@ -40,7 +40,7 @@ const Header = ({ onSearch, stages, isCheckedIn, isCheckedOut, styled, onClick, 
   }
 
   return <>
-    <Breadcrumb stages={stages} title={<FactCheckRoundedIcon />} />
+    <Breadcrumb stages={stages} title={<HomeWorkRoundedIcon />} />
     <div style={{ display: 'flex', alignItems: 'center' }}>
       <SearchField onChange={(e) => onSearch(e)} />
       <FilterButton style={{ marginLeft: 10 }}>
@@ -95,12 +95,12 @@ export const Attendances = () => {
 
   const stages = [
     {
-      title: language['OPERATION'],
-      path: '/operation',
+      title: language['SCHOOL'],
+      path: '/school',
     },
     {
       title: language['ATTENDANCE'],
-      path: '/operation/attendance',
+      path: '/school/attendance',
     },
     {
       title: `${_class?.name?.[lang] || _class?.name?.['English'] || '...'}`,
@@ -261,11 +261,11 @@ export const Attendances = () => {
     }
 
     const handleStudentDetail = (id) => {
-      navigate(`/operation/attendance/class/${_class._id}/student/${id}`)
+      navigate(`/school/attendance/class/${_class._id}/student/${id}`)
     }
 
     const handleTeacherDetail = (id) => {
-      navigate(`/operation/attendance/class/${_class._id}/teacher/${id}`)
+      navigate(`/school/attendance/class/${_class._id}/teacher/${id}`)
     }
 
     const mappedAttendances = _class?.students?.map((student: any) => {

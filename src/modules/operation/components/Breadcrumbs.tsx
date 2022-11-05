@@ -1,5 +1,5 @@
 import Breadcrumb from 'components/shared/Breadcrumbs'
-import FactCheckRoundedIcon from '@mui/icons-material/FactCheckRounded'
+import HomeWorkRoundedIcon from '@mui/icons-material/HomeWorkRounded'
 import { FC } from 'react'
 import useLanguage from 'hooks/useLanguage'
 
@@ -14,20 +14,20 @@ const AdminBreadcrumbs: FC<IAdminBreadcrumbs> = ({ page }) => {
   const stages = {
     operation: [
       {
-        title: language['OPERATION'],
+        title: language['SCHOOL'],
       },
     ],
     class: [
       {
-        title: language['OPERATION'],
-        path: '/operation',
+        title: language['SCHOOL'],
+        path: '/school',
       },
       {
         title: language['CLASS'],
       },
     ]
   }
-  return <Breadcrumb stages={stages[page]} title={<FactCheckRoundedIcon />} />
+  return <Breadcrumb stages={stages[page]} title={<HomeWorkRoundedIcon />} />
 }
 
 export default AdminBreadcrumbs

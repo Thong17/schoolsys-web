@@ -272,7 +272,7 @@ const routes: RouteObject[] = [
     ],
   },
   {
-    path: '/operation',
+    path: '/school',
     element: (<Operation />),
     children: [
       // Attendance routes

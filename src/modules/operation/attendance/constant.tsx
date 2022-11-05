@@ -60,7 +60,7 @@ export const createData = (
         {privilege?.attendance?.checkIn && (
           <IconButton
             disabled={!status}
-            onClick={() => navigate(`/operation/attendance/class/${id}`)}
+            onClick={() => navigate(`/school/attendance/class/${id}`)}
             size='small'
             style={{
               backgroundColor: status ? `${theme.color.info}22` : `${theme.text.secondary}22`,

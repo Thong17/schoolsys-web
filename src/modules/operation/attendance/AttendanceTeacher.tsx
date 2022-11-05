@@ -1,5 +1,5 @@
 import Breadcrumb from 'components/shared/Breadcrumbs'
-import FactCheckRoundedIcon from '@mui/icons-material/FactCheckRounded'
+import HomeWorkRoundedIcon from '@mui/icons-material/HomeWorkRounded'
 import Container from 'components/shared/Container'
 import { useParams } from 'react-router-dom'
 import useLanguage from 'hooks/useLanguage'
@@ -21,7 +21,7 @@ import Loading from 'components/shared/Loading'
 const Header = ({ stages }) => {
   return (
     <>
-      <Breadcrumb stages={stages} title={<FactCheckRoundedIcon />} />
+      <Breadcrumb stages={stages} title={<HomeWorkRoundedIcon />} />
     </>
   )
 }
@@ -68,16 +68,16 @@ export const AttendanceTeacher = () => {
 
   const stages = [
     {
-      title: language['OPERATION'],
-      path: '/operation',
+      title: language['SCHOOL'],
+      path: '/school',
     },
     {
       title: language['ATTENDANCE'],
-      path: '/operation/attendance',
+      path: '/school/attendance',
     },
     {
       title: `${_class?.name?.[lang] || _class?.name?.['English'] || '...'}`,
-      path: `/operation/attendance/class/${_class._id}`,
+      path: `/school/attendance/class/${_class._id}`,
     },
     {
       title: `${user?.lastName} ${user?.firstName}`,

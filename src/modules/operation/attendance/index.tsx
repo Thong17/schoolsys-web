@@ -8,7 +8,7 @@ import { debounce } from 'utils'
 import { useSearchParams } from 'react-router-dom'
 import { Data, createData, columnData } from './constant'
 import { getListClass, selectListClass } from 'modules/school/class/redux'
-import FactCheckRoundedIcon from '@mui/icons-material/FactCheckRounded'
+import HomeWorkRoundedIcon from '@mui/icons-material/HomeWorkRounded'
 import useLanguage from 'hooks/useLanguage'
 import useAuth from 'hooks/useAuth'
 import useTheme from 'hooks/useTheme'
@@ -36,8 +36,8 @@ const Header = ({ onSearch, handleFilter }) => {
 
   const stages = [
     {
-      title: language['OPERATION'],
-      path: '/operation',
+      title: language['SCHOOL'],
+      path: '/school',
     },
     {
       title: language['ATTENDANCE'],
@@ -45,7 +45,7 @@ const Header = ({ onSearch, handleFilter }) => {
   ]
 
   return <>
-    <Breadcrumb stages={stages} title={<FactCheckRoundedIcon />} />
+    <Breadcrumb stages={stages} title={<HomeWorkRoundedIcon />} />
     <div style={{ display: 'flex', alignItems: 'center' }}>
       <SearchField onChange={(e) => onSearch(e)} />
       <FilterButton style={{ marginLeft: 10 }}>
