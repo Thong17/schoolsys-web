@@ -52,6 +52,7 @@ export const CustomSideNav = styled(Stack)(
   ({ styled }: { styled: IThemeStyle }) => ({
     height: '100%',
     width: '100%',
+    paddingTop: 20,
     backgroundColor: styled.background.secondary,
     boxShadow: styled.shadow.secondary,
     borderRadius: styled.radius.secondary,
@@ -63,6 +64,7 @@ export const CustomSideNav = styled(Stack)(
       padding: '9px 0',
       display: 'flex',
       alignItem: 'center',
+      marginBottom: 20
     },
     '& a:hover': {
       boxShadow: styled.shadow.container,
