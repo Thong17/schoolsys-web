@@ -137,8 +137,11 @@ export const Grades = () => {
   }
 
   useEffect(() => {
-    const listGrades = grades.map((grade: any) => {
+    const _limit = parseInt(queryParams.get('limit') || '0')
+    const _page = parseInt(queryParams.get('page') || '0')
+    const listGrades = grades.map((grade: any, key) => {
       return createData(
+        (_limit * _page) + key + 1,
         grade._id,
         grade.name?.[lang] || grade.name?.['English'],
         grade.level,
@@ -152,6 +155,7 @@ export const Grades = () => {
       )
     })
     setRowData(listGrades)
+    // eslint-disable-next-line
   }, [grades, lang, user, device, navigate])
 
   return (

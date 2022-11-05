@@ -33,7 +33,7 @@ export const initSubject = {
   description: '',
 }
 
-export declare type ColumnHeader = 'name' | 'level' | 'subjects' | 'description' | 'action'
+export declare type ColumnHeader = 'no' | 'name' | 'level' | 'subjects' | 'description' | 'action'
 
 export const importColumns = ['_id', 'name', 'level', 'subjects', 'description']
 
@@ -69,6 +69,7 @@ export const importColumnData: ITableColumn<ColumnHeader>[] = [
 ]
 
 export const columnData: ITableColumn<ColumnHeader>[] = [
+  { id: 'no', label: 'NO' },
   { id: 'name', label: 'Name' },
   { id: 'level', label: 'Level' },
   { id: 'subjects', label: 'Subject' },
@@ -86,6 +87,7 @@ export const subjectColumnData: ITableColumn<any>[] = [
 ]
 
 export interface Data {
+  no: number
   id: string
   name: string,
   level: string,
@@ -96,6 +98,7 @@ export interface Data {
 }
 
 export const createData = (
+  key: number,
   id: string,
   name: string,
   level: string,
@@ -141,7 +144,7 @@ export const createData = (
     </div>
   )
 
-  return { id, name, level, subjects: subjects?.length, description, createdBy, action: action }
+  return { no: key, id, name, level, subjects: subjects?.length, description, createdBy, action: action }
 }
 
 export const createSubjectData = (
