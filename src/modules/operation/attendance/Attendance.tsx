@@ -3,7 +3,7 @@ import { StickyTable } from 'components/shared/table/StickyTable'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { useEffect, useState } from 'react'
-import { dateFormat, debounce, downloadBuffer } from 'utils'
+import { dateFormat, debounce, downloadBuffer, convertBufferToArrayBuffer } from 'utils'
 import { useSearchParams } from 'react-router-dom'
 import { Data, createAttendanceData, attendanceColumnData, createTeacherAttendanceData } from './constant'
 import { getClass, selectClass } from 'modules/school/class/redux'
@@ -88,10 +88,8 @@ const Header = ({ onSearch, classId, stages, isCheckedIn, isCheckedOut, styled, 
       },
     }
     Axios({ url: `/export/attendance/class/${classId}`, method: 'POST', ...config })
-      .then(data => {
-        console.log(data?.data?.file);
-        
-        downloadBuffer(data?.data?.file?.data, 'class_attendance.csv')
+      .then(data => {                        
+        downloadBuffer(convertBufferToArrayBuffer(data?.data?.file?.data), 'class_attendance.csv')
       })
       .catch(err => notify(err?.response?.data?.message, 'error'))
   }

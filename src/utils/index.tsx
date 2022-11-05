@@ -212,3 +212,12 @@ export const downloadBuffer = (buffer, filename) => {
   document.body.appendChild(link)
   link.click()
 }
+
+export const convertBufferToArrayBuffer = (buf) => {
+  const ab = new ArrayBuffer(buf.length)
+  const view = new Uint8Array(ab)
+  for (let i = 0; i < buf.length; ++i) {
+      view[i] = buf[i]
+  }
+  return ab
+}
