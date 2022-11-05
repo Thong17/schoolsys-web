@@ -27,7 +27,7 @@ export const sideNav = [
   },
   {
     route: '/config',
-    title: 'CONFIG',
+    title: 'THEME',
     icon: <SettingsIcon />,
   },
 ]
