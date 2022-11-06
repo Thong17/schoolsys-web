@@ -11,10 +11,10 @@ import { useEffect, useState } from 'react'
 import useTheme from 'hooks/useTheme'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { capitalizeText, dateFormat, debounce } from 'utils'
-import { SearchField } from 'components/shared/table/SearchField'
-import { FilterButton } from 'components/shared/table/FilterButton'
-import { IconButton, MenuItem } from '@mui/material'
-import { SortIcon } from 'components/shared/icons/SortIcon'
+// import { SearchField } from 'components/shared/table/SearchField'
+// import { FilterButton } from 'components/shared/table/FilterButton'
+import { IconButton } from '@mui/material'
+// import { SortIcon } from 'components/shared/icons/SortIcon'
 import useLanguage from 'hooks/useLanguage'
 
 export const columnData: ITableColumn<any>[] = [
@@ -56,31 +56,31 @@ const mappedData = (data, lang, theme, navigate) => {
 }
 
 const Header = ({ handleFilter, onSearch }) => {
-  const [sortObj, setSortObj] = useState({
-    ref: false,
-    checkedInOn: false,
-    checkedOutOn: false,
-    lastName: false,
-    firstName: false,
-    gender: false,
-  })
+  // const [sortObj, setSortObj] = useState({
+  //   ref: false,
+  //   checkedInOn: false,
+  //   checkedOutOn: false,
+  //   lastName: false,
+  //   firstName: false,
+  //   gender: false,
+  // })
 
-  const handleChangeFilter = ({ filter }) => {
-    setSortObj({ ...sortObj, [filter]: !sortObj[filter] })
-    return handleFilter({ filter, asc: sortObj[filter] })
-  }
+  // const handleChangeFilter = ({ filter }) => {
+  //   setSortObj({ ...sortObj, [filter]: !sortObj[filter] })
+  //   return handleFilter({ filter, asc: sortObj[filter] })
+  // }
 
   return (
     <>
       <ReportBreadcrumbs page='academyReport' />
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      {/* <div style={{ display: 'flex', alignItems: 'center' }}>
         <SearchField onChange={(e) => onSearch(e)} />
         <FilterButton style={{ marginLeft: 10 }}>
           <MenuItem onClick={() => handleChangeFilter({ filter: 'gender' })}>
             <SortIcon asc={sortObj.gender} /> By Gender
           </MenuItem>
         </FilterButton>
-      </div>
+      </div> */}
     </>
   )
 }

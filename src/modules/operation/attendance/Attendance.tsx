@@ -3,7 +3,7 @@ import { StickyTable } from 'components/shared/table/StickyTable'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { useEffect, useState } from 'react'
-import { dateFormat, debounce } from 'utils'
+import { dateFormat, debounce, downloadBuffer, convertBufferToArrayBuffer } from 'utils'
 import { useSearchParams } from 'react-router-dom'
 import { Data, createAttendanceData, attendanceColumnData, createTeacherAttendanceData } from './constant'
 import { getClass, selectClass } from 'modules/school/class/redux'
@@ -23,8 +23,11 @@ import useNotify from 'hooks/useNotify'
 import useAlert from 'hooks/useAlert'
 import { PermissionForm } from './PermissionForm'
 import { getListTeacher, selectListTeacher } from 'shared/redux'
+import { DownloadButton } from 'components/shared/table/DownloadButton'
+import moment from 'moment'
 
-const Header = ({ onSearch, stages, isCheckedIn, isCheckedOut, styled, onClick, handleFilter }) => {
+const Header = ({ onSearch, classId, stages, isCheckedIn, isCheckedOut, styled, onClick, handleFilter }) => {
+  const { notify } = useNotify()
   const [sortObj, setSortObj] = useState({
     ref: false,
     checkedInOn: false,
@@ -39,6 +42,58 @@ const Header = ({ onSearch, stages, isCheckedIn, isCheckedOut, styled, onClick, 
     return handleFilter({ filter, asc: sortObj[filter] })
   }
 
+  const handleExportReport = (duration) => {
+    let body = {}
+    switch (duration) {
+      case 'weekly':
+        body = {
+          fromDate: moment().startOf('week'),
+          toDate: moment().endOf('week'),
+        }
+        break
+        
+      case 'monthly':
+        body = {
+          fromDate: moment().startOf('month'),
+          toDate: moment().endOf('month'),
+        }
+        break
+
+      case 'quarterly':
+        body = {
+          fromDate: moment().startOf('month'),
+          toDate: moment().endOf('month'),
+        }
+        break
+
+      case 'yearly':
+        body = {
+          fromDate: moment().startOf('year'),
+          toDate: moment().endOf('year'),
+        }
+        break
+
+      default:
+        body = {
+          fromDate: moment().startOf('day'),
+          toDate: moment().endOf('day'),
+        }
+        break
+    }
+    const config = {
+      responseType: "arraybuffer",
+      body,
+      headers: {
+        Accept: "application/octet-stream",
+      },
+    }
+    Axios({ url: `/export/attendance/class/${classId}`, method: 'POST', ...config })
+      .then(data => {                        
+        downloadBuffer(convertBufferToArrayBuffer(data?.data?.file?.data), 'class_attendance.xlsx')
+      })
+      .catch(err => notify(err?.response?.data?.message, 'error'))
+  }
+
   return <>
     <Breadcrumb stages={stages} title={<FactCheckRoundedIcon />} />
     <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -51,6 +106,13 @@ const Header = ({ onSearch, stages, isCheckedIn, isCheckedOut, styled, onClick, 
         <MenuItem onClick={() => handleChangeFilter({ filter: 'firstName' })}><SortIcon asc={sortObj.firstName} /> By FirstName</MenuItem>
         <MenuItem onClick={() => handleChangeFilter({ filter: 'gender' })}><SortIcon asc={sortObj.gender} /> By Gender</MenuItem>
       </FilterButton>
+      <DownloadButton style={{ marginLeft: 10 }}>
+        <MenuItem onClick={() => handleExportReport('today')}>Today</MenuItem>
+        <MenuItem onClick={() => handleExportReport('weekly')}>Weekly</MenuItem>
+        <MenuItem onClick={() => handleExportReport('monthly')}>Monthly</MenuItem>
+        <MenuItem onClick={() => handleExportReport('quarterly')}>Quarterly</MenuItem>
+        <MenuItem onClick={() => handleExportReport('yearly')}>Yearly</MenuItem>
+      </DownloadButton>
       <CustomButton
         style={{
           marginLeft: 10,
@@ -371,7 +433,7 @@ export const Attendances = () => {
 
   return (
     <Container
-      header={<Header stages={stages} onSearch={handleSearch} styled={theme} isCheckedIn={isCheckedIn} isCheckedOut={isCheckedOut} onClick={handleClick} handleFilter={handleFilter} />}
+      header={<Header classId={id} stages={stages} onSearch={handleSearch} styled={theme} isCheckedIn={isCheckedIn} isCheckedOut={isCheckedOut} onClick={handleClick} handleFilter={handleFilter} />}
     >
       <PermissionForm
         dialog={permissionDialog}
