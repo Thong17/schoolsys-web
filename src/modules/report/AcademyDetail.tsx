@@ -48,8 +48,6 @@ const createStudentData = (
 ): any => {
   const calculatedAverage = calculateAverageScore(scores, subjects.length)
 
-
-
   const profileImage =
     id === monitor? (
       <CircleIcon star={true} icon={profile} />

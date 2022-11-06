@@ -228,7 +228,7 @@ export const calculateGraduateResult = (scores, subjects) => {
       return 'C'
     case totalAverage < gradeB:
       return 'B'
-    case totalAverage < gradeA:
+    case totalAverage <= gradeA:
       return 'A'
   }
 }
