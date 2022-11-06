@@ -1,6 +1,7 @@
 import { sha256 } from 'js-sha256'
 import { IToken } from 'contexts/auth/interface'
 import jwtDecode from 'jwt-decode'
+import moment from 'moment'
 
 export const generateHash = async (
   ts: string,
@@ -65,6 +66,47 @@ export const currencyFormat = (value, currency) => {
       {value.toFixed(decimal).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}
     </span>
   )
+}
+
+export const durationMap = (duration) => {
+  let mappedData = {}
+  switch (duration) {
+    case 'weekly':
+      mappedData = {
+        fromDate: moment().startOf('week'),
+        toDate: moment().endOf('week'),
+      }
+      break
+      
+    case 'monthly':
+      mappedData = {
+        fromDate: moment().startOf('month'),
+        toDate: moment().endOf('month'),
+      }
+      break
+
+    case 'quarterly':
+      mappedData = {
+        fromDate: moment().startOf('month'),
+        toDate: moment().endOf('month'),
+      }
+      break
+
+    case 'yearly':
+      mappedData = {
+        fromDate: moment().startOf('year'),
+        toDate: moment().endOf('year'),
+      }
+      break
+
+    default:
+      mappedData = {
+        fromDate: moment().startOf('day'),
+        toDate: moment().endOf('day'),
+      }
+      break
+  }
+  return mappedData
 }
 
 export const dateFormat = (date: any = null) => {
@@ -186,7 +228,7 @@ export const calculateGraduateResult = (scores, subjects) => {
       return 'C'
     case totalAverage < gradeB:
       return 'B'
-    case totalAverage < gradeA:
+    case totalAverage <= gradeA:
       return 'A'
   }
 }
@@ -198,4 +240,26 @@ export const generateColor = () => {
     color += letters[Math.floor(Math.random() * 8)]
   }
   return color
+}
+
+export const downloadBuffer = (buffer, filename) => {
+  const url = window.URL.createObjectURL(
+    new Blob([buffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8",
+    }),
+  );
+  const link = document.createElement("a")
+  link.href = url
+  link.setAttribute("download", filename)
+  document.body.appendChild(link)
+  link.click()
+}
+
+export const convertBufferToArrayBuffer = (buf) => {
+  const ab = new ArrayBuffer(buf.length)
+  const view = new Uint8Array(ab)
+  for (let i = 0; i < buf.length; ++i) {
+      view[i] = buf[i]
+  }
+  return ab
 }

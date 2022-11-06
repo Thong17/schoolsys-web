@@ -52,6 +52,7 @@ export const CustomSideNav = styled(Stack)(
   ({ styled }: { styled: IThemeStyle }) => ({
     height: '100%',
     width: '100%',
+    paddingTop: 20,
     backgroundColor: styled.background.secondary,
     boxShadow: styled.shadow.secondary,
     borderRadius: styled.radius.secondary,
@@ -63,6 +64,7 @@ export const CustomSideNav = styled(Stack)(
       padding: '9px 0',
       display: 'flex',
       alignItem: 'center',
+      marginBottom: 20
     },
     '& a:hover': {
       boxShadow: styled.shadow.container,
@@ -781,6 +783,22 @@ export const CustomSearchField = styled('div')(
 )
 
 export const CustomFilterButton = styled('div')(
+  ({ styled }: { styled: IThemeStyle }) => ({
+    position: 'relative',
+    overflow: 'hidden',
+    display: 'flex',
+    alignItems: 'center',
+    backgroundColor: styled.background.secondary,
+    borderRadius: styled.radius.primary,
+    height: 36,
+    width: 40,
+    '& button': {
+      color: styled.text.secondary,
+    },
+  })
+)
+
+export const CustomDownloadButton = styled('div')(
   ({ styled }: { styled: IThemeStyle }) => ({
     position: 'relative',
     overflow: 'hidden',

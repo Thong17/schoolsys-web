@@ -69,7 +69,7 @@ export const PermissionForm = ({
       isOpen={dialog.open}
       handleClose={handleCloseDialog}
     >
-      <TextTitle title='Permission Form' />
+      <TextTitle title='Attendance Form' />
       <form
         style={{
           fontFamily: theme.font.family,
@@ -88,7 +88,7 @@ export const PermissionForm = ({
         <div style={{ gridArea: 'permissionType' }}>
           <SelectField
             value={permissionType}
-            label='Permission'
+            label='Type Of Attendance'
             err={errors.permissionType?.message}
             options={listPermission}
             {...register('permissionType')}
@@ -97,7 +97,7 @@ export const PermissionForm = ({
         <div style={{ gridArea: 'checkedOut' }}>
           <TextField
             type='datetime-local'
-            label='Check Out'
+            label='Date'
             err={errors.checkedOut?.message}
             {...register('checkedOut')}
           />
@@ -105,7 +105,7 @@ export const PermissionForm = ({
         <div style={{ gridArea: 'description' }}>
           <DetailField
             type='text'
-            label='Description'
+            label='Reason'
             style={{ height: 70 }}
             {...register('description')}
           />

@@ -42,6 +42,7 @@ export const initState = {
 }
 
 export declare type ColumnHeader =
+  | 'no'
   | 'name'
   | 'room'
   | 'level'
@@ -112,6 +113,7 @@ export const importColumnData: ITableColumn<ColumnHeader>[] = [
 ]
 
 export const columnData: ITableColumn<ColumnHeader>[] = [
+  { id: 'no', label: 'NO' },
   { id: 'name', label: 'Name' },
   { id: 'room', label: 'Room' },
   { id: 'schedule', label: 'Schedule' },
@@ -146,6 +148,7 @@ export const studentColumnData: ITableColumn<any>[] = [
 ]
 
 export interface Data {
+  no: number
   id: string
   name: string
   room: string
@@ -161,6 +164,7 @@ export interface Data {
 }
 
 export const createData = (
+  key: number,
   id: string,
   name: string,
   room: string,
@@ -267,6 +271,7 @@ export const createData = (
   )
 
   return {
+    no: key,
     id,
     name,
     room,

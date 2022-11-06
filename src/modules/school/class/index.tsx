@@ -263,9 +263,11 @@ export const Classes = () => {
     const handleOpenStudent = (id) => {
       navigate(`/school/class/update/${id}/student`)
     }
-
-    const listClasses = classes.map((_class: any) => {
+    const _limit = parseInt(queryParams.get('limit') || '0')
+    const _page = parseInt(queryParams.get('page') || '0')
+    const listClasses = classes.map((_class: any, key) => {
       return createData(
+        (_limit * _page) + key + 1,
         _class._id,
         _class.name?.[lang] || _class.name?.['English'],
         _class.room,
@@ -289,6 +291,7 @@ export const Classes = () => {
       )
     })
     setRowData(listClasses)
+    // eslint-disable-next-line
   }, [classes, lang, user, device, theme, queryParams, navigate, dispatch, notify, confirm])
 
   return (
