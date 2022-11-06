@@ -1,6 +1,7 @@
 import { sha256 } from 'js-sha256'
 import { IToken } from 'contexts/auth/interface'
 import jwtDecode from 'jwt-decode'
+import moment from 'moment'
 
 export const generateHash = async (
   ts: string,
@@ -65,6 +66,47 @@ export const currencyFormat = (value, currency) => {
       {value.toFixed(decimal).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}
     </span>
   )
+}
+
+export const durationMap = (duration) => {
+  let mappedData = {}
+  switch (duration) {
+    case 'weekly':
+      mappedData = {
+        fromDate: moment().startOf('week'),
+        toDate: moment().endOf('week'),
+      }
+      break
+      
+    case 'monthly':
+      mappedData = {
+        fromDate: moment().startOf('month'),
+        toDate: moment().endOf('month'),
+      }
+      break
+
+    case 'quarterly':
+      mappedData = {
+        fromDate: moment().startOf('month'),
+        toDate: moment().endOf('month'),
+      }
+      break
+
+    case 'yearly':
+      mappedData = {
+        fromDate: moment().startOf('year'),
+        toDate: moment().endOf('year'),
+      }
+      break
+
+    default:
+      mappedData = {
+        fromDate: moment().startOf('day'),
+        toDate: moment().endOf('day'),
+      }
+      break
+  }
+  return mappedData
 }
 
 export const dateFormat = (date: any = null) => {

@@ -3,7 +3,7 @@ import { StickyTable } from 'components/shared/table/StickyTable'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { useEffect, useState } from 'react'
-import { dateFormat, debounce, downloadBuffer, convertBufferToArrayBuffer } from 'utils'
+import { dateFormat, debounce, downloadBuffer, convertBufferToArrayBuffer, durationMap } from 'utils'
 import { useSearchParams } from 'react-router-dom'
 import { Data, createAttendanceData, attendanceColumnData, createTeacherAttendanceData } from './constant'
 import { getClass, selectClass } from 'modules/school/class/redux'
@@ -24,7 +24,6 @@ import useAlert from 'hooks/useAlert'
 import { PermissionForm } from './PermissionForm'
 import { getListTeacher, selectListTeacher } from 'shared/redux'
 import { DownloadButton } from 'components/shared/table/DownloadButton'
-import moment from 'moment'
 
 const Header = ({ onSearch, classId, stages, isCheckedIn, isCheckedOut, styled, onClick, handleFilter }) => {
   const { notify } = useNotify()
@@ -43,43 +42,8 @@ const Header = ({ onSearch, classId, stages, isCheckedIn, isCheckedOut, styled, 
   }
 
   const handleExportReport = (duration) => {
-    let body = {}
-    switch (duration) {
-      case 'weekly':
-        body = {
-          fromDate: moment().startOf('week'),
-          toDate: moment().endOf('week'),
-        }
-        break
-        
-      case 'monthly':
-        body = {
-          fromDate: moment().startOf('month'),
-          toDate: moment().endOf('month'),
-        }
-        break
-
-      case 'quarterly':
-        body = {
-          fromDate: moment().startOf('month'),
-          toDate: moment().endOf('month'),
-        }
-        break
-
-      case 'yearly':
-        body = {
-          fromDate: moment().startOf('year'),
-          toDate: moment().endOf('year'),
-        }
-        break
-
-      default:
-        body = {
-          fromDate: moment().startOf('day'),
-          toDate: moment().endOf('day'),
-        }
-        break
-    }
+    let body = durationMap(duration)
+  
     const config = {
       responseType: "arraybuffer",
       body,
