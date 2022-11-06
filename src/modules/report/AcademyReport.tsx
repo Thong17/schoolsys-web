@@ -10,12 +10,15 @@ import {
 import { useEffect, useState } from 'react'
 import useTheme from 'hooks/useTheme'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { capitalizeText, dateFormat, debounce } from 'utils'
-import { SearchField } from 'components/shared/table/SearchField'
-import { FilterButton } from 'components/shared/table/FilterButton'
-import { IconButton, MenuItem } from '@mui/material'
-import { SortIcon } from 'components/shared/icons/SortIcon'
+import { capitalizeText, convertBufferToArrayBuffer, dateFormat, debounce, downloadBuffer } from 'utils'
+import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded'
+// import { SearchField } from 'components/shared/table/SearchField'
+// import { FilterButton } from 'components/shared/table/FilterButton'
+import { IconButton } from '@mui/material'
+// import { SortIcon } from 'components/shared/icons/SortIcon'
 import useLanguage from 'hooks/useLanguage'
+import Axios from 'constants/functions/Axios'
+import useNotify from 'hooks/useNotify'
 
 export const columnData: ITableColumn<any>[] = [
   { id: 'class', label: 'Class' },
@@ -27,7 +30,7 @@ export const columnData: ITableColumn<any>[] = [
   { id: 'action', label: 'Action', align: 'right' },
 ]
 
-const mappedData = (data, lang, theme, navigate) => {
+const mappedData = (data, lang, theme, navigate, downloadReport) => {
   let action = (
     <div style={{ float: 'right' }}>
       <IconButton
@@ -41,6 +44,18 @@ const mappedData = (data, lang, theme, navigate) => {
         }}
       >
         <BarChartRoundedIcon fontSize='small' />
+      </IconButton>
+      <IconButton
+        onClick={() => downloadReport(data._id)}
+        size='small'
+        style={{
+          backgroundColor: `${theme.color.info}22`,
+          borderRadius: theme.radius.primary,
+          marginLeft: 5,
+          color: theme.color.info,
+        }}
+      >
+        <DownloadRoundedIcon fontSize='small' />
       </IconButton>
     </div>
   )
@@ -56,31 +71,31 @@ const mappedData = (data, lang, theme, navigate) => {
 }
 
 const Header = ({ handleFilter, onSearch }) => {
-  const [sortObj, setSortObj] = useState({
-    ref: false,
-    checkedInOn: false,
-    checkedOutOn: false,
-    lastName: false,
-    firstName: false,
-    gender: false,
-  })
+  // const [sortObj, setSortObj] = useState({
+  //   ref: false,
+  //   checkedInOn: false,
+  //   checkedOutOn: false,
+  //   lastName: false,
+  //   firstName: false,
+  //   gender: false,
+  // })
 
-  const handleChangeFilter = ({ filter }) => {
-    setSortObj({ ...sortObj, [filter]: !sortObj[filter] })
-    return handleFilter({ filter, asc: sortObj[filter] })
-  }
+  // const handleChangeFilter = ({ filter }) => {
+  //   setSortObj({ ...sortObj, [filter]: !sortObj[filter] })
+  //   return handleFilter({ filter, asc: sortObj[filter] })
+  // }
 
   return (
     <>
       <ReportBreadcrumbs page='academyReport' />
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      {/* <div style={{ display: 'flex', alignItems: 'center' }}>
         <SearchField onChange={(e) => onSearch(e)} />
         <FilterButton style={{ marginLeft: 10 }}>
           <MenuItem onClick={() => handleChangeFilter({ filter: 'gender' })}>
             <SortIcon asc={sortObj.gender} /> By Gender
           </MenuItem>
         </FilterButton>
-      </div>
+      </div> */}
     </>
   )
 }
@@ -97,9 +112,23 @@ export const AcademyReport = () => {
   const dispatch = useAppDispatch()
   const [rowData, setRowData] = useState<any[]>([])
   const [queryParams, setQueryParams] = useSearchParams()
+  const { notify } = useNotify()
 
   useEffect(() => {
-    setRowData(data.map((item) => mappedData(item, lang, theme, navigate)))
+    const downloadReport = (id) => {
+      const config = {
+        responseType: "arraybuffer",
+        headers: {
+          Accept: "application/octet-stream",
+        },
+      }
+      Axios({ url: `/export/academy/class/${id}`, method: 'POST', ...config })
+        .then(data => {
+          downloadBuffer(convertBufferToArrayBuffer(data?.data?.file?.data), 'student_attendance.xlsx')
+        })
+        .catch(err => notify(err?.response?.data?.message, 'error'))
+    }
+    setRowData(data.map((item) => mappedData(item, lang, theme, navigate, downloadReport)))
     // eslint-disable-next-line
   }, [data])
 

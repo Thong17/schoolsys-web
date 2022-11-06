@@ -11,12 +11,23 @@ import { useEffect, useState } from 'react'
 import useAuth from 'hooks/useAuth'
 import useTheme from 'hooks/useTheme'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { capitalizeText, debounce } from 'utils'
+import { capitalizeText, convertBufferToArrayBuffer, debounce, downloadBuffer, durationMap } from 'utils'
 import { SearchField } from 'components/shared/table/SearchField'
 import { FilterButton } from 'components/shared/table/FilterButton'
-import { MenuItem } from '@mui/material'
+import {
+  Button,
+  DialogActions,
+  FormControlLabel,
+  MenuItem,
+  Radio,
+  RadioGroup,
+} from '@mui/material'
 import { SortIcon } from 'components/shared/icons/SortIcon'
 import { MiniSelectField } from 'components/shared/form'
+import { AlertDialog } from 'components/shared/table/AlertDialog'
+import { CustomButton } from 'styles/index'
+import Axios from 'constants/functions/Axios'
+import useNotify from 'hooks/useNotify'
 
 const Header = ({ handleFilter, onSearch, onChangeType, type }) => {
   const [sortObj, setSortObj] = useState({
@@ -89,9 +100,16 @@ export const AttendanceReport = () => {
   const [rowData, setRowData] = useState<any[]>([])
   const [queryParams, setQueryParams] = useSearchParams()
   const [type, setType] = useState(queryParams.get('type') || 'student')
+  const [exportDialog, setExportDialog] = useState({ open: false, id: null, type: null })
+  const [duration, setDuration] = useState('today')
+  const { notify } = useNotify()
 
   useEffect(() => {
     let mappedData: any[] = []
+    const exportReport = (id, type) => {
+      setExportDialog({ id, type, open: true })
+    }
+
     if (students) {
       const mappedStudent = students?.map((item) => {
         return createData(
@@ -104,6 +122,7 @@ export const AttendanceReport = () => {
           item.contact || '...',
           user?.privilege,
           navigate,
+          exportReport,
           theme
         )
       })
@@ -122,6 +141,7 @@ export const AttendanceReport = () => {
           item.contact || '...',
           user?.privilege,
           navigate,
+          exportReport,
           theme
         )
       })
@@ -173,6 +193,29 @@ export const AttendanceReport = () => {
     setQueryParams({ ...query, ...data })
   }
 
+  const handleCloseExport = () => {
+    setExportDialog({ id: null, type: null, open: false })
+  }
+
+  const handleConfirmExport = (event) => {
+    event.preventDefault()    
+    let body = durationMap(duration)
+  
+    const config = {
+      responseType: "arraybuffer",
+      body,
+      headers: {
+        Accept: "application/octet-stream",
+      },
+    }
+    Axios({ url: `/export/attendance/student/${exportDialog.id}/${exportDialog.type}`, method: 'POST', ...config })
+      .then(data => {
+        handleCloseExport()
+        downloadBuffer(convertBufferToArrayBuffer(data?.data?.file?.data), 'student_attendance.xlsx')
+      })
+      .catch(err => notify(err?.response?.data?.message, 'error'))
+  }
+
   return (
     <Container
       header={
@@ -184,6 +227,53 @@ export const AttendanceReport = () => {
         />
       }
     >
+      <AlertDialog isOpen={exportDialog.open} handleClose={handleCloseExport}>
+        <form
+          onSubmit={handleConfirmExport}
+          style={{ position: 'relative', minWidth: 400 }}
+        >
+          <div style={{ padding: 20, color: theme.text.secondary }}>
+            <h3 style={{ fontFamily: theme.font.family, fontWeight: theme.font.weight, marginBottom: 20 }}>Export Student Attendance</h3>
+            <RadioGroup name='duration' onChange={(event) => setDuration(event.target.value)} value={duration}>
+              <FormControlLabel
+                value='today'
+                control={<Radio style={{ color: theme.text.secondary }} />}
+                label='Today'
+              />
+              <FormControlLabel
+                value='weekly'
+                control={<Radio style={{ color: theme.text.secondary }} />}
+                label='Weekly'
+              />
+              <FormControlLabel
+                value='monthly'
+                control={<Radio style={{ color: theme.text.secondary }} />}
+                label='Monthly'
+              />
+              <FormControlLabel
+                value='yearly'
+                control={<Radio style={{ color: theme.text.secondary }} />}
+                label='Yearly'
+              />
+            </RadioGroup>
+          </div>
+          <DialogActions>
+            <Button onClick={handleCloseExport}>Cancel</Button>
+            <CustomButton
+              type='submit'
+              style={{
+                marginLeft: 10,
+                backgroundColor: theme.background.secondary,
+                color: theme.text.secondary,
+              }}
+              styled={theme}
+              autoFocus
+            >
+              Export
+            </CustomButton>
+          </DialogActions>
+        </form>
+      </AlertDialog>
       <StickyTable
         columns={columnData}
         rows={rowData}
