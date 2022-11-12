@@ -138,8 +138,11 @@ export const Roles = () => {
   }
 
   useEffect(() => {
-    const listRoles = roles.map((role: any) => {
+    const _limit = parseInt(queryParams.get('limit') || '0')
+    const _page = parseInt(queryParams.get('page') || '0')
+    const listRoles = roles.map((role: any, key) => {
       return createData(
+        (_limit * _page) + key + 1,
         role._id,
         role.name?.[lang] || role.name?.['English'],
         role.description || '...',
@@ -151,6 +154,7 @@ export const Roles = () => {
       )
     })
     setRowData(listRoles)
+    // eslint-disable-next-line
   }, [roles, lang, user, device, navigate])
 
   return (

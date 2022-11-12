@@ -137,10 +137,14 @@ export const Users = () => {
   }
 
   useEffect(() => {
-    const list = users.map((data: any) => {
+    const _limit = parseInt(queryParams.get('limit') || '0')
+    const _page = parseInt(queryParams.get('page') || '0')
+    const list = users.map((data: any, key) => {
       return createData(
+        (_limit * _page) + key + 1,
         data._id,
         data.username,
+        data.fullName || '...',
         data.role?.name?.[lang] || data.role?.name?.['English'],
         data.email || '...',
         user?.privilege,
@@ -150,6 +154,7 @@ export const Users = () => {
       )
     })
     setRowData(list)
+    // eslint-disable-next-line
   }, [users, lang, user, device, navigate])
 
   return (
