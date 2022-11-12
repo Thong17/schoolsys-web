@@ -51,7 +51,9 @@ export const importColumnData: ITableColumn<ColumnHeader>[] = [
 ]
 
 export declare type ColumnHeader =
+  | 'ref'
   | 'no'
+  | 'fullName'
   | 'username'
   | 'role'
   | 'email'
@@ -59,8 +61,10 @@ export declare type ColumnHeader =
   | 'status'
 
 export const columnData: ITableColumn<ColumnHeader>[] = [
+  { id: 'ref', label: 'ID' },
   { id: 'username', label: 'Username' },
-  { id: 'role', label: 'Role' },
+  { id: 'fullName', label: 'Full Name' },
+  { id: 'role', label: 'Position' },
   { id: 'email', label: 'Email' },
   { id: 'action', label: 'Action', align: 'right' },
 ]
