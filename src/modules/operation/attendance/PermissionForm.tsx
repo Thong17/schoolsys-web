@@ -16,9 +16,7 @@ import { useAppDispatch } from 'app/hooks'
 import { permissionAttendance } from './redux'
 
 const listPermission = [
-  { label: 'Annual Leave', value: 'Annual Leave' },
-  { label: 'Sick Leave', value: 'Sick Leave' },
-  { label: 'Urgent Leave', value: 'Urgent Leave' },
+  { label: 'Permission', value: 'Permission' },
   { label: 'Absent', value: 'Absent' },
 ]
 
