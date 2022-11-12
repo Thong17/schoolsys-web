@@ -61,7 +61,7 @@ export declare type ColumnHeader =
   | 'status'
 
 export const columnData: ITableColumn<ColumnHeader>[] = [
-  { id: 'ref', label: 'ID' },
+  { id: 'no', label: 'NO' },
   { id: 'username', label: 'Username' },
   { id: 'fullName', label: 'Full Name' },
   { id: 'role', label: 'Position' },
@@ -70,16 +70,20 @@ export const columnData: ITableColumn<ColumnHeader>[] = [
 ]
 
 export interface Data {
+  no: number
   id: string
   username: string
+  fullName: string
   role: string
   email: string
   action: ReactElement
 }
 
 export const createData = (
+  key: number,
   id: string,
   username: string,
+  fullName: string,
   role: string,
   email: any,
   privilege: any,
@@ -122,5 +126,5 @@ export const createData = (
       )}
     </div>
   )
-  return { id, username, role, email, action }
+  return { no: key, id, username, fullName, role, email, action }
 }
