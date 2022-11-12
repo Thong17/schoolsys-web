@@ -15,6 +15,8 @@ export const languages = {
     TEACHER: 'Teacher',
     ROLE: 'Role',
     USER: 'User',
+    USER_ROLE: 'User Role',
+    USER_LIST: 'User List',
     CREATE: 'Create',
     SCHOOL_REPORT: 'School Report',
     ATTENDANCE_REPORT: 'Attendance Report',

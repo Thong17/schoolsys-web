@@ -7,7 +7,6 @@ import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { DetailSection } from 'components/shared/container/DetailSection'
 import SecurityRoundedIcon from '@mui/icons-material/SecurityRounded'
 import AdminPanelSettingsRoundedIcon from '@mui/icons-material/AdminPanelSettingsRounded'
-import LocalPoliceRoundedIcon from '@mui/icons-material/LocalPoliceRounded'
 import useTheme from 'hooks/useTheme'
 import { CustomPieChart } from 'components/shared/charts/PieChart'
 import { useEffect, useState } from 'react'
@@ -32,7 +31,6 @@ export const Admin = () => {
   const { lang } = useLanguage()
   const [totalRole, setTotalRole] = useState(0)
   const [totalUser, setTotalUser] = useState(0)
-  const [totalPrivilege, setTotalPrivilege] = useState(0)
   const [roles, setRoles] = useState([])
   const [users, setUsers] = useState([])
   const dispatch = useAppDispatch()
@@ -62,7 +60,6 @@ export const Admin = () => {
     setUsers(mappedUser)
     setTotalRole(dashboard?.totalRole)
     setTotalUser(dashboard?.totalUser)
-    setTotalPrivilege(dashboard?.totalPrivilege)
   }, [dashboard, lang, theme])
 
 
@@ -109,11 +106,6 @@ export const Admin = () => {
                 title='Total User'
                 data={totalUser}
                 icon={<AdminPanelSettingsRoundedIcon style={{ fontSize: 40 }} />}
-              />
-              <DetailSection
-                title='Total Privilege'
-                data={totalPrivilege}
-                icon={<LocalPoliceRoundedIcon style={{ fontSize: 40 }} />}
               />
             </div>
             <CardContainer title={<>Role Privilege</>} style={{ gridArea: 'role' }}>

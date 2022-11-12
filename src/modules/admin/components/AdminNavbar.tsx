@@ -6,8 +6,8 @@ const AdminNavbar = () => {
   const { language } = useLanguage()
   return (
     <>
-        <NavLink to='/admin/role'>{language['ROLE']}</NavLink>
-        <NavLink to='/admin/user'>{language['USER']}</NavLink>
+        <NavLink to='/admin/role'>{language['USER_ROLE']}</NavLink>
+        <NavLink to='/admin/user'>{language['USER_LIST']}</NavLink>
     </>
   )
 }

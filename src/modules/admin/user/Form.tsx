@@ -129,7 +129,7 @@ export const RoleForm = ({ defaultValues, id }: any) => {
           <div style={{ gridArea: 'role' }}>
             <SelectField
               value={role}
-              label='Role'
+              label='Position'
               options={roleOption}
               err={errors.role?.message}
               loading={statusListRole === 'LOADING' ? true : false}
