@@ -71,6 +71,13 @@ export const currencyFormat = (value, currency) => {
 export const durationMap = (duration) => {
   let mappedData = {}
   switch (duration) {
+    case 'daily':
+      mappedData = {
+        fromDate: moment().startOf('day'),
+        toDate: moment().endOf('day'),
+      }
+      break
+
     case 'weekly':
       mappedData = {
         fromDate: moment().startOf('week'),
@@ -101,8 +108,8 @@ export const durationMap = (duration) => {
 
     default:
       mappedData = {
-        fromDate: moment().startOf('day'),
-        toDate: moment().endOf('day'),
+        fromDate: null,
+        toDate: null,
       }
       break
   }

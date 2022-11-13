@@ -3,7 +3,7 @@ import { StickyTable } from 'components/shared/table/StickyTable'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { useEffect, useState } from 'react'
-import { dateFormat, debounce, downloadBuffer, convertBufferToArrayBuffer, durationMap } from 'utils'
+import { dateFormat, debounce } from 'utils'
 import { useSearchParams } from 'react-router-dom'
 import { Data, createAttendanceData, attendanceColumnData, createTeacherAttendanceData } from './constant'
 import { getClass, selectClass } from 'modules/school/class/redux'
@@ -14,7 +14,7 @@ import useTheme from 'hooks/useTheme'
 import Breadcrumb from 'components/shared/Breadcrumbs'
 import { SearchField } from 'components/shared/table/SearchField'
 import { FilterButton } from 'components/shared/table/FilterButton'
-import { MenuItem } from '@mui/material'
+import { IconButton, MenuItem } from '@mui/material'
 import { SortIcon } from 'components/shared/icons/SortIcon'
 import { checkInAttendance, checkOutAttendance, resetAttendance, getListAttendance, selectListAttendance } from './redux'
 import { CustomButton } from 'styles'
@@ -23,10 +23,11 @@ import useNotify from 'hooks/useNotify'
 import useAlert from 'hooks/useAlert'
 import { PermissionForm } from './PermissionForm'
 import { getListTeacher, selectListTeacher } from 'shared/redux'
-import { DownloadButton } from 'components/shared/table/DownloadButton'
+import { AttendanceReport } from './AttendanceReport'
+import { CustomDownloadButton } from 'styles'
+import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded'
 
-const Header = ({ onSearch, classId, stages, isCheckedIn, isCheckedOut, styled, onClick, handleFilter }) => {
-  const { notify } = useNotify()
+const Header = ({ onSearch, stages, isCheckedIn, isCheckedOut, styled, onClick, handleFilter, onExport }) => {
   const [sortObj, setSortObj] = useState({
     ref: false,
     checkedInOn: false,
@@ -41,23 +42,6 @@ const Header = ({ onSearch, classId, stages, isCheckedIn, isCheckedOut, styled, 
     return handleFilter({ filter, asc: sortObj[filter] })
   }
 
-  const handleExportReport = (duration) => {
-    let body = durationMap(duration)
-  
-    const config = {
-      responseType: "arraybuffer",
-      body,
-      headers: {
-        Accept: "application/octet-stream",
-      },
-    }
-    Axios({ url: `/export/attendance/class/${classId}`, method: 'POST', ...config })
-      .then(data => {                        
-        downloadBuffer(convertBufferToArrayBuffer(data?.data?.file?.data), 'class_attendance.xlsx')
-      })
-      .catch(err => notify(err?.response?.data?.message, 'error'))
-  }
-
   return <>
     <Breadcrumb stages={stages} title={<FactCheckRoundedIcon />} />
     <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -70,13 +54,7 @@ const Header = ({ onSearch, classId, stages, isCheckedIn, isCheckedOut, styled, 
         <MenuItem onClick={() => handleChangeFilter({ filter: 'firstName' })}><SortIcon asc={sortObj.firstName} /> By FirstName</MenuItem>
         <MenuItem onClick={() => handleChangeFilter({ filter: 'gender' })}><SortIcon asc={sortObj.gender} /> By Gender</MenuItem>
       </FilterButton>
-      <DownloadButton style={{ marginLeft: 10 }}>
-        <MenuItem onClick={() => handleExportReport('today')}>Today</MenuItem>
-        <MenuItem onClick={() => handleExportReport('weekly')}>Weekly</MenuItem>
-        <MenuItem onClick={() => handleExportReport('monthly')}>Monthly</MenuItem>
-        <MenuItem onClick={() => handleExportReport('quarterly')}>Quarterly</MenuItem>
-        <MenuItem onClick={() => handleExportReport('yearly')}>Yearly</MenuItem>
-      </DownloadButton>
+      <CustomDownloadButton styled={styled} style={{ marginLeft: 10 }} onClick={() => onExport()}><IconButton><DownloadRoundedIcon /></IconButton></CustomDownloadButton>
       <CustomButton
         style={{
           marginLeft: 10,
@@ -115,6 +93,10 @@ export const Attendances = () => {
     open: false,
     studentId: null,
     attendanceId: null,
+    classId: null
+  })
+  const [attendanceDialog, setAttendanceDialog] = useState({
+    open: false,
     classId: null
   })
   const [loading, setLoading] = useState(true)
@@ -395,15 +377,23 @@ export const Attendances = () => {
     
   }, [statusListTeacher, listTeacher])
 
+  const handleClickExport = () => {
+    setAttendanceDialog({ open: true, classId: _class._id })
+  }
+
   return (
     <Container
-      header={<Header classId={id} stages={stages} onSearch={handleSearch} styled={theme} isCheckedIn={isCheckedIn} isCheckedOut={isCheckedOut} onClick={handleClick} handleFilter={handleFilter} />}
+      header={<Header stages={stages} onSearch={handleSearch} onExport={handleClickExport} styled={theme} isCheckedIn={isCheckedIn} isCheckedOut={isCheckedOut} onClick={handleClick} handleFilter={handleFilter} />}
     >
       <PermissionForm
         dialog={permissionDialog}
         setDialog={setPermissionDialog}
         defaultValues={{}}
         theme={theme}
+      />
+      <AttendanceReport
+        dialog={attendanceDialog}
+        setDialog={setAttendanceDialog}
       />
       <StickyTable columns={attendanceColumnData} rows={rowData} pagination={false} loading={loading} />
     </Container>
