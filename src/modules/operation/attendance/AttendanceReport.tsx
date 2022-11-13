@@ -78,13 +78,21 @@ export const AttendanceReport = ({
   useEffect(() => {
     const classId = dialog.classId
     if (!classId) return
-    Axios({ method: 'GET', url: `/operation/attendance/report/${classId}` })
+    const params = new URLSearchParams()
+    const { fromDate, toDate } = durationMap(durationType)
+
+    if (fromDate && toDate) {
+      params.append('fromDate', fromDate.toString())
+      params.append('toDate', toDate.toString())
+    }
+
+    Axios({ method: 'GET', url: `/operation/attendance/report/${classId}`, params })
       .then((data) => {
         setRowData(data.data.data.map((data) => mappedAttendanceData(data, theme)))
       })
       .catch((err) => notify(err?.response?.data?.msg))
     // eslint-disable-next-line
-  }, [dialog.classId])
+  }, [dialog.classId, durationType])
   
 
   const handleCloseDialog = () => {
@@ -115,7 +123,7 @@ export const AttendanceReport = ({
     >
       <TextTitle title='Attendance Report' />
       <br />
-      <div style={{ width: '90vw' }}>
+      <div style={{ width: '90vw', height: '71vh' }}>
         <div style={{ width: '100%', height: 40, display: 'flex', justifyContent: 'flex-end', padding: '0 10px', boxSizing: 'border-box' }}>
           <MiniSelectField options={durationOption} value={durationType} onChange={(event) => setDurationType(event.target.value)} />
         </div>

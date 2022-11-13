@@ -69,51 +69,43 @@ export const currencyFormat = (value, currency) => {
 }
 
 export const durationMap = (duration) => {
-  let mappedData = {}
   switch (duration) {
     case 'daily':
-      mappedData = {
+      return {
         fromDate: moment().startOf('day'),
         toDate: moment().endOf('day'),
       }
-      break
 
     case 'weekly':
-      mappedData = {
+      return {
         fromDate: moment().startOf('week'),
         toDate: moment().endOf('week'),
       }
-      break
       
     case 'monthly':
-      mappedData = {
+      return {
         fromDate: moment().startOf('month'),
         toDate: moment().endOf('month'),
       }
-      break
 
     case 'quarterly':
-      mappedData = {
+      return {
         fromDate: moment().startOf('month'),
         toDate: moment().endOf('month'),
       }
-      break
 
     case 'yearly':
-      mappedData = {
+      return {
         fromDate: moment().startOf('year'),
         toDate: moment().endOf('year'),
       }
-      break
 
     default:
-      mappedData = {
+      return {
         fromDate: null,
         toDate: null,
       }
-      break
   }
-  return mappedData
 }
 
 export const dateFormat = (date: any = null) => {
