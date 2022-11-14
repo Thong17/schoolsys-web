@@ -11,7 +11,7 @@ import useNotify from 'hooks/useNotify'
 import useTheme from 'hooks/useTheme'
 import { useEffect, useState } from 'react'
 import { CustomButton } from 'styles/index'
-import { capitalizeText, convertBufferToArrayBuffer, dateFormat, downloadBuffer, durationMap, timeFormat } from 'utils/index'
+import { capitalizeText, convertBufferToArrayBuffer, downloadBuffer, durationMap } from 'utils/index'
 
 const durationOption: IOptions[] = [
   { label: 'Daily', value: 'daily' },
@@ -22,47 +22,27 @@ const durationOption: IOptions[] = [
 ]
 
 const attendanceColumn: ITableColumn<any>[] = [
+  { id: 'no', label: 'NO' },
   { id: 'ref', label: 'ID' },
   { id: 'profile', label: 'Profile' },
   { id: 'username', label: 'Username' },
   { id: 'gender', label: 'Gender' },
-  { id: 'position', label: 'Position' },
   { id: 'attendance', label: 'Attendance' },
-  { id: 'date', label: 'Date' },
-  { id: 'checkedIn', label: 'Checked In' },
-  { id: 'checkedOut', label: 'Checked Out' },
+  { id: 'absent', label: 'Absent' },
+  { id: 'permission', label: 'Permission' },
+  { id: 'others', label: 'Others' },
 ]
 
 const mappedAttendanceData = (data, theme) => {
-  let attendanceColor
-  switch (data.permissionType) {
-    case 'Annual Leave':
-      attendanceColor = theme.color.info
-      break
-    case 'Sick Leave':
-      attendanceColor = theme.color.warning
-      break
-    case 'Urgent Leave':
-      attendanceColor = theme.color.warning
-      break
-    case 'Absent':
-      attendanceColor = theme.color.error
-      break
-    default:
-      attendanceColor = theme.color.success
-      break
-  }
-
   return {
-    ref: data.user.username,
-    profile: <CircleIcon master={data.user.segment === 'Teacher'} icon={data.profile} />,
-    username: data.username,
+    ref: data.ref,
+    profile: <CircleIcon icon={data.profile.filename} />,
+    username: `${data.lastName} ${data.firstName}`,
     gender: capitalizeText(data.gender),
-    position: data.user.segment,
-    attendance: <TextHighlight text={data.permissionType} color={attendanceColor} /> || '...',
-    date: dateFormat(data?.checkedIn) || '...',
-    checkedIn: timeFormat(data?.checkedIn) || '...',
-    checkedOut: timeFormat(data?.checkedOut) || '...',
+    attendance: <TextHighlight text={data.totalAttendance} color={theme.color.info} /> || '...',
+    absent: <TextHighlight text={data.totalAbsent} color={theme.color.error} /> || '...',
+    permission: <TextHighlight text={data.totalPermission} color={theme.color.warning} /> || '...',
+    others: <TextHighlight text={data.totalOthers} color={theme.color.warning} /> || '...',
   }
 }
 
@@ -88,7 +68,7 @@ export const AttendanceReport = ({
 
     Axios({ method: 'GET', url: `/operation/attendance/report/${classId}`, params })
       .then((data) => {
-        setRowData(data.data.data.map((data) => mappedAttendanceData(data, theme)))
+        setRowData(data.data.data.map((data, index) => ({ ...mappedAttendanceData(data, theme), no: index + 1 })))
       })
       .catch((err) => notify(err?.response?.data?.msg))
     // eslint-disable-next-line
