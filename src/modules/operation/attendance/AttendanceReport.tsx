@@ -36,7 +36,7 @@ const attendanceColumn: ITableColumn<any>[] = [
 const mappedAttendanceData = (data, theme) => {
   return {
     ref: data.ref,
-    profile: <CircleIcon icon={data.profile.filename} />,
+    profile: <CircleIcon icon={data.profile?.filename} />,
     username: `${data.lastName} ${data.firstName}`,
     gender: capitalizeText(data.gender),
     attendance: <TextHighlight text={data.totalAttendance} color={theme.color.info} /> || '...',
