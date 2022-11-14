@@ -68,7 +68,7 @@ const Score = ({ data, id, classId }) => {
   )
 }
 
-const scoreOptions = [
+export const scoreOptions = [
   { label: 'January', value: '0' },
   { label: 'February', value: '1' },
   { label: 'March', value: '2' },

@@ -363,6 +363,7 @@ export const createStudentData = (
   firstName: string,
   gender: string,
   scores: Array<any>,
+  month: string,
   subjects: Array<any>,
   privilege: any,
   device: DeviceOptions,
@@ -385,7 +386,9 @@ export const createStudentData = (
       )}
     </div>
   )
-  const calculatedAverage = calculateAverageScore(scores, subjects.length)
+
+  const monthlyScores = scores.filter(item => item.description === month)  
+  const calculatedAverage = calculateAverageScore(monthlyScores, subjects.length)
 
   const profileImage =
     id === monitor ? (
@@ -408,7 +411,7 @@ export const createStudentData = (
     lastName,
     firstName,
     gender: capitalizeText(gender),
-    score: calculateTotalScore(scores),
+    score: calculateTotalScore(monthlyScores),
     average: averageText,
     action: action,
   }
