@@ -3,7 +3,7 @@ import { Section } from '../Section'
 import { TextField } from '.'
 import { useState } from 'react'
 
-export const LocaleField = ({ name, onChange, describe, defaultValue, err, ...prop }: any) => {
+export const LocaleField = ({ name, onChange, describe, defaultValue, label, err, ...prop }: any) => {
   const [localeField, setLocaleField] = useState(defaultValue || {})
   const langs = Object.keys(languages)
 
@@ -36,7 +36,7 @@ export const LocaleField = ({ name, onChange, describe, defaultValue, err, ...pr
               onChange={handleChange}
               key={index}
               type='text'
-              label={language}
+              label={label || language}
               name={`${name}.${language}`}
               value={localeField[language] || ''}
               {...prop}

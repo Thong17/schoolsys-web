@@ -82,6 +82,7 @@ export const RoleForm = ({ defaultValues, id }: any) => {
           err={errors?.name}
           describe='Role'
           name='name'
+          label='Role Name'
           defaultValue={getValues('name')}
         />
         <DetailField
