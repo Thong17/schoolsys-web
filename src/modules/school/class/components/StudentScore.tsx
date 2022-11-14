@@ -28,7 +28,7 @@ export const StudentScore = ({ students, subject, classId }) => {
   const { theme } = useTheme()
   const buttonRefs = useRef<any>([])
   buttonRefs.current = []
-  const [option, setOption] = useState('Other')
+  const [option, setOption] = useState(new Date().getMonth().toString())
   const [refs, setRefs] = useState<any>([])
 
   const addButtonRef = (el) => {
