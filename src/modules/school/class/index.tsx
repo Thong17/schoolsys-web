@@ -32,6 +32,8 @@ import { CustomButton } from 'styles'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import FileDownloadRoundedIcon from '@mui/icons-material/FileDownloadRounded'
 import { CSVLink } from 'react-csv'
+import { MiniSelectField } from 'components/shared/form'
+import { scoreOptions } from './components/StudentMarkList'
 
 export const Classes = () => {
   const dispatch = useAppDispatch()
@@ -49,6 +51,7 @@ export const Classes = () => {
   const { data: _class, status: statusClass } = useAppSelector(selectClass)
   const { data: classes, count, status } = useAppSelector(selectListClass)
   const [dialog, setDialog] = useState({ open: false, id: null })
+  const [selected, setSelected] = useState<any>(new Date().getMonth().toString())
   const [graduateDialog, setGraduateDialog] = useState({
     open: false,
     id: null,
@@ -62,6 +65,10 @@ export const Classes = () => {
 
   const handleSearch = (e) => {
     updateQuery(e.target.value)
+  }
+
+  const handleChangeMonth = (event) => {
+    setSelected(event.target.value)
   }
 
   const handleFilter = (option) => {
@@ -196,6 +203,7 @@ export const Classes = () => {
         student.firstName,
         student.gender,
         student.currentAcademy?.scores,
+        selected,
         _class.grade?.subjects
       )
       exportDate = [
@@ -215,7 +223,7 @@ export const Classes = () => {
     })
     setGraduateExportRowData(exportDate?.sort((a, b) => a.Score > b.Score ? -1 : 1).map((student, key) => { return { ...student, Rank: `#${key+1}` } }))
     setGraduateRowData(graduateStudents?.sort((a, b) => a.score > b.score ? -1 : 1).map((student, key) => { return { ...student, rank: `#${key+1}` } }))
-  }, [_class, statusClass])
+  }, [_class, selected, statusClass])
 
   useEffect(() => {
     const handleGraduateDialog = (data) => {
@@ -363,28 +371,31 @@ export const Classes = () => {
               {dateFullYear(_class.startedAt)} - {dateFullYear()}
             </span>
           </h3>
-          <CSVLink
-            headers={graduateExportColumnData}
-            data={graduateExportRowData}
-            filename={`graduate_${
-              _class.grade?.name?.['English']
-            }_${new Date().toDateString()}.csv`}
-            style={{
-              color: theme.text.secondary,
-              textDecoration: 'none',
-            }}
-          >
-            <CustomButton
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <MiniSelectField options={scoreOptions} value={selected} onChange={handleChangeMonth} />
+            <CSVLink
+              headers={graduateExportColumnData}
+              data={graduateExportRowData}
+              filename={`graduate_${
+                _class.grade?.name?.['English']
+              }_${new Date().toDateString()}.csv`}
               style={{
-                backgroundColor: theme.background.secondary,
                 color: theme.text.secondary,
+                textDecoration: 'none',
               }}
-              styled={theme}
-              autoFocus
             >
-              <FileDownloadRoundedIcon />
-            </CustomButton>
-          </CSVLink>
+              <CustomButton
+                style={{
+                  backgroundColor: theme.background.secondary,
+                  color: theme.text.secondary,
+                }}
+                styled={theme}
+                autoFocus
+              >
+                <FileDownloadRoundedIcon />
+              </CustomButton>
+            </CSVLink>
+          </div>
         </div>
         <div
           style={{

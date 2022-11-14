@@ -449,10 +449,13 @@ export const createGraduateData = (
   firstName,
   gender,
   scores,
+  month,
   subjects
 ) => {
   const profileImage = <CircleIcon icon={profile} />
-  const calculatedAverage = calculateAverageScore(scores, subjects?.length)
+
+  const monthlyScores = scores.filter((item) => item.description === month)
+  const calculatedAverage = calculateAverageScore(monthlyScores, subjects?.length)
   let averageText = (
     <AverageHighlight
       calculatedAverage={calculatedAverage}
@@ -467,9 +470,9 @@ export const createGraduateData = (
     firstName,
     gender: capitalizeText(gender),
     // contact,
-    score: calculateTotalScore(scores),
+    score: calculateTotalScore(monthlyScores),
     average: averageText,
     averageText: calculatedAverage,
-    result: calculateGraduateResult(scores, subjects),
+    result: calculateGraduateResult(monthlyScores, subjects),
   }
 }
