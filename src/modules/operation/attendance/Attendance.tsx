@@ -348,9 +348,9 @@ export const Attendances = () => {
         handlePermission,
         handleChangeTeacher
       )
-      setRowData([mappedTeacher, ...sortedData])
+      setRowData([mappedTeacher, ...sortedData].map((item, key) => ({ ...item, no: key + 1 })))
     } else {
-      setRowData(sortedData)
+      setRowData(sortedData.map((item, key) => ({ ...item, no: key + 1 })))
     }
 
     let checkedOut = true
