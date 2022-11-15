@@ -128,6 +128,7 @@ export const ScoreForm = ({ defaultValue, onSubmit, student, academy, option, on
         value={score}
         placeholder='Mark'
         type='number'
+        step='any'
         maxLength={3}
         onChange={(event) => setScore(event.target.value)}
         style={{
