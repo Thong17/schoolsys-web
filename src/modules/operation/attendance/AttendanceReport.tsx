@@ -37,7 +37,6 @@ const attendanceColumn: ITableColumn<any>[] = [
   { id: 'attendance', label: 'Attendance' },
   { id: 'absent', label: 'Absent' },
   { id: 'permission', label: 'Permission' },
-  { id: 'others', label: 'Others' },
 ]
 
 const mappedAttendanceData = (data, theme) => {
@@ -59,9 +58,6 @@ const mappedAttendanceData = (data, theme) => {
           color={theme.color.warning}
         />
       ) || '...',
-    others:
-      <TextHighlight text={data.totalOthers} color={theme.color.warning} /> ||
-      '...',
   }
 }
 
