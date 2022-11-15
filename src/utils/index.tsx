@@ -177,6 +177,11 @@ export const calculateTotalScore = (scores, subject = null) => {
   }
 }
 
+export const getFullMonth = (number) => {
+  const listMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+  return listMonths[number]
+}
+
 export const calculateAverageScore = (scores, number) => {
   let total = 0
   scores?.forEach((score) => {
