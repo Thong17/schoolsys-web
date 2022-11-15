@@ -109,7 +109,7 @@ export const Classes = () => {
   useEffect(() => {
     if (status !== 'SUCCESS') return
 
-    const mappedClasses = classes?.map((_class: any) => {
+    const mappedClasses = classes?.filter((item: any) => item.isActive)?.map((_class: any) => {
       return createData(
         _class._id,
         _class.name?.[lang] || _class.name?.['English'],
