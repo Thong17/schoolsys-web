@@ -363,6 +363,9 @@ export const createTeacherAttendanceData = (
     case 'Annual Leave':
       attendanceColor = theme.color.info
       break
+    case 'Permission':
+      attendanceColor = theme.color.warning
+      break
     case 'Sick Leave':
       attendanceColor = theme.color.warning
       break
