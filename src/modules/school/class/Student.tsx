@@ -25,8 +25,11 @@ import { FilterButton } from 'components/shared/table/FilterButton'
 import { MenuItem } from '@mui/material'
 import { SortIcon } from 'components/shared/icons/SortIcon'
 import { debounce } from 'utils'
+import { MiniSelectField } from 'components/shared/form'
+import { scoreOptions } from './components/StudentMarkList'
 
-const Header = ({ stages, styled, onOpenRequest, onOpenAchievement, totalRequest, onSearch, onFilter }) => {
+const Header = ({ params, stages, styled, onOpenRequest, onOpenAchievement, totalRequest, onSearch, onFilter, onChangeMonth }) => {
+  const [selected, setSelected] = useState<any>(params.get('month') || new Date().getMonth().toString())
   const [sortObj, setSortObj] = useState({
     ref: false,
     lastName: false,
@@ -40,10 +43,16 @@ const Header = ({ stages, styled, onOpenRequest, onOpenAchievement, totalRequest
     return onFilter({ filter, asc: sortObj[filter] })
   }
 
+  const handleChangeMonth = (event) => {
+    setSelected(event.target.value)
+    onChangeMonth(event.target.value)
+  }
+
   return (
     <>
       <Breadcrumb stages={stages} title={<HomeWorkRoundedIcon />} />
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <MiniSelectField options={scoreOptions} value={selected} onChange={handleChangeMonth} />
         <SearchField onChange={(e) => onSearch(e)} />
         <FilterButton style={{ marginLeft: 10 }}>
           <MenuItem onClick={() => handleChangeFilter({ filter: 'score' })}><SortIcon asc={sortObj.score} /> By Score</MenuItem>
@@ -134,15 +143,21 @@ export const StudentClass = () => {
     handleQuery({ request: value })
   }
 
+  const handleChangeMonth = (value) => {
+    handleQuery({ month: value })
+  }
+
   const handleQuery = (data) => {
     let query = {}
     const _search = queryParams.get('search')
     const _filter = queryParams.get('filter')
     const _sort = queryParams.get('sort')
+    const _month = queryParams.get('month')
 
     if (_search) query = { search: _search, ...query }
     if (_filter) query = { filter: _filter, ...query }
     if (_sort) query = { sort: _sort, ...query }
+    if (_month) query = { month: _month, ...query }
 
     setQueryParams({...query, ...data})
   }
@@ -197,6 +212,7 @@ export const StudentClass = () => {
     const _search = new RegExp(queryParams.get('search') || '', "i")
     const _filter = queryParams.get('filter') || 'createdAt'
     const _sort = queryParams.get('sort') || 'asc'
+    const _month = queryParams.get('month') || new Date().getMonth().toString()
 
     const studentData = _class?.students?.map((student) => {
       const tags = `${JSON.stringify(student.firstName)}${student.lastName}${student.gender}${student.ref}`.replace(/ /g,'')
@@ -210,6 +226,7 @@ export const StudentClass = () => {
         student?.firstName,
         student?.gender,
         student?.currentAcademy?.scores,
+        _month,
         _class?.grade?.subjects,
         user?.privilege,
         device,
@@ -260,6 +277,7 @@ export const StudentClass = () => {
     <Container
       header={
         <Header
+          params={queryParams}
           stages={stages}
           styled={theme}
           onOpenRequest={handleOpenRequest}
@@ -267,6 +285,7 @@ export const StudentClass = () => {
           totalRequest={appliedStudents?.length || 0}
           onFilter={handleFilter}
           onSearch={handleSearch}
+          onChangeMonth={handleChangeMonth}
         />
       }
     >

@@ -68,17 +68,24 @@ const Score = ({ data, id, classId }) => {
   )
 }
 
-const scoreOptions = [
-  { label: '1st Semester', value: '1st Semester' },
-  { label: '2nd Semester', value: '2nd Semester' },
-  { label: 'Exam', value: 'Exam' },
-  { label: 'Homework', value: 'Homework' },
-  { label: 'Other', value: 'Other' },
+export const scoreOptions = [
+  { label: 'January', value: '0' },
+  { label: 'February', value: '1' },
+  { label: 'March', value: '2' },
+  { label: 'April', value: '3' },
+  { label: 'May', value: '4' },
+  { label: 'June', value: '5' },
+  { label: 'July', value: '6' },
+  { label: 'August', value: '7' },
+  { label: 'September', value: '8' },
+  { label: 'October', value: '9' },
+  { label: 'November', value: '10' },
+  { label: 'December', value: '11' },
 ]
 
 export const ScoreForm = ({ defaultValue, onSubmit, student, academy, option, onChangeOption }: any) => {
   const { theme } = useTheme()
-  const [selected, setSelected] = useState(option || 'other')
+  const [selected, setSelected] = useState(option || new Date().getMonth().toString())
   const [score, setScore] = useState('')
   const scoreRef = useRef(document.createElement('input'))
 
@@ -228,7 +235,7 @@ export const StudentMarkList = ({ scores, student, academy, subject, buttonRef, 
         }}
       >
         {scores?.map((score, key) => {
-          return score.subject === subject && <Score key={key} data={`${score.description}: ${score.score}`} id={score._id} classId={classId} />
+          return score.subject === subject && <Score key={key} data={`${scoreOptions.find(item => item.value === score.description)?.label}: ${score.score}`} id={score._id} classId={classId} />
         })}
         {showForm && <ScoreForm student={student} academy={academy} onSubmit={handleSubmitScore} option={option} onChangeOption={onChangeOption} />}
       </div>
