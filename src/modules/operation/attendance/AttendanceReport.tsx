@@ -130,15 +130,13 @@ export const AttendanceReport = ({ dialog, setDialog }: any) => {
     const { fromDate: durationFromDate, toDate: durationToDate } = durationMap(durationType)
 
     if (durationType === 'range') {
-      if (fromDate && toDate) {
-        params.append('fromDate', fromDate.toString())
-        params.append('toDate', toDate.toString())
-      }
+      if (!fromDate || !toDate) return
+      params.append('fromDate', fromDate.toString())
+      params.append('toDate', toDate.toString())
     } else {
-      if (durationFromDate && durationToDate) {
-        params.append('fromDate', durationFromDate.toString())
-        params.append('toDate', durationToDate.toString())
-      }
+      if (!durationFromDate || !durationToDate) return
+      params.append('fromDate', durationFromDate.toString())
+      params.append('toDate', durationToDate.toString())
     }
 
     Axios({
