@@ -63,37 +63,37 @@ const Navbar = ({ children }) => {
       }
     >
       {width < 1024 ? (
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
           <MenuBar
             theme={theme}
             open={navbar}
             toggleSidebar={openNavbar}
           ></MenuBar>
           <div style={{ display: 'flex', alignItems: 'center', marginLeft: 10 }}>
-            <div style={{ borderRadius: '50%', overflow: 'hidden', width: 32, height: 32, margin: '0 10px' }}>
+            <div style={{ borderRadius: '50%', overflow: 'hidden', width: 37, height: 37, margin: '0 10px' }}>
               <img src={logo} alt="logo" style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
             </div>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <span style={{ color: theme.text.secondary }}>EMAAN</span>
-              <span style={{ color: theme.text.quaternary, fontSize: 9 }}>INTERNATIONAL SCHOOL</span>
+              <span style={{ color: theme.text.secondary, fontSize: 20 }}>EMAAN</span>
+              <span style={{ color: theme.text.quaternary, fontSize: 11 }}>INTERNATIONAL SCHOOL</span>
             </div>
           </div>
         </div>
         
       ) : (
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
           <MenuBar
             theme={theme}
             open={sidebar}
             toggleSidebar={toggleSidebar}
           ></MenuBar>
           <div style={{ display: 'flex', alignItems: 'center', marginLeft: 10 }}>
-            <div style={{ borderRadius: '50%', overflow: 'hidden', width: 32, height: 32, margin: '0 10px' }}>
+            <div style={{ borderRadius: '50%', overflow: 'hidden', width: 43, height: 43, margin: '0 10px' }}>
               <img src={logo} alt="logo" style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
             </div>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <span style={{ color: theme.text.secondary }}>EMAAN</span>
-              <span style={{ color: theme.text.quaternary, fontSize: 9 }}>INTERNATIONAL SCHOOL</span>
+              <span style={{ color: theme.text.secondary, fontSize: 20 }}>EMAAN</span>
+              <span style={{ color: theme.text.quaternary, fontSize: 11 }}>INTERNATIONAL SCHOOL</span>
             </div>
           </div>
         </div>

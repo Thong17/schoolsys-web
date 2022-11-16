@@ -191,7 +191,8 @@ export const ListNavbar = styled('div')({
   width: '50%',
   display: 'flex',
   justifyContent: 'space-evenly',
-  alignItems: 'center',
+  alignItems: 'end',
+  height: '70%',
   '& a': {
     textDecoration: 'none',
   },
