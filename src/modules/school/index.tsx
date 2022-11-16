@@ -9,15 +9,12 @@ import LocalLibraryRoundedIcon from '@mui/icons-material/LocalLibraryRounded'
 import GroupsRoundedIcon from '@mui/icons-material/GroupsRounded'
 import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded'
 import SchoolRoundedIcon from '@mui/icons-material/SchoolRounded'
-import HourglassBottomRoundedIcon from '@mui/icons-material/HourglassBottomRounded'
 import useTheme from 'hooks/useTheme'
 import { CustomPieChart } from 'components/shared/charts/PieChart'
 import { useEffect, useState } from 'react'
 import { getSchoolDashboard, selectSchoolDashboard } from 'shared/redux'
 import useLanguage from 'hooks/useLanguage'
-import { useLocation, useNavigate } from 'react-router-dom'
-import ArrowRightAltRoundedIcon from '@mui/icons-material/ArrowRightAltRounded'
-import { IconButton } from '@mui/material'
+import { useLocation } from 'react-router-dom'
 import { CardContainer } from 'components/shared/container/CardContainer'
 import useWeb from 'hooks/useWeb'
 
@@ -32,7 +29,6 @@ const Header = () => {
 export const School = () => {
   const outlet = useOutlet()
   const { width } = useWeb()
-  const navigate = useNavigate()
   const { theme } = useTheme()
   const { lang } = useLanguage()
   const [classes, setClasses] = useState([])
@@ -116,12 +112,6 @@ export const School = () => {
                 title='Total Teacher'
                 data={dashboard?.totalTeacher}
                 icon={<PeopleRoundedIcon style={{ fontSize: 40 }} />}
-              />
-              <DetailSection
-                title='Pending Application'
-                data={dashboard?.pendingApplication}
-                icon={<HourglassBottomRoundedIcon style={{ fontSize: 40 }} />}
-                action={<IconButton style={{ color: theme.text.secondary }} onClick={() => navigate('/school/class')}><ArrowRightAltRoundedIcon /></IconButton>}
               />
             </div>
             <CardContainer title={<>Class</>} style={{ gridArea: 'role' }}>
