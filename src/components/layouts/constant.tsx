@@ -3,6 +3,7 @@ import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
 import BarChartRoundedIcon from '@mui/icons-material/BarChartRounded'
 import HomeWorkRoundedIcon from '@mui/icons-material/HomeWorkRounded'
 // import FactCheckRoundedIcon from '@mui/icons-material/FactCheckRounded'
+import ArrowRightAltRoundedIcon from '@mui/icons-material/ArrowRightAltRounded'
 
 export const sideNav = [
   // {
@@ -14,6 +15,33 @@ export const sideNav = [
     route: '/school',
     title: 'SCHOOL',
     icon: <HomeWorkRoundedIcon />,
+    children: [
+      {
+        route: '/school/attendance',
+        title: 'Attendance',
+        icon: <ArrowRightAltRoundedIcon />,
+      },
+      {
+        route: '/school/class',
+        title: 'Class',
+        icon: <ArrowRightAltRoundedIcon />,
+      },
+      {
+        route: '/school/grade',
+        title: 'Grade',
+        icon: <ArrowRightAltRoundedIcon />,
+      },
+      {
+        route: '/school/student',
+        title: 'Student',
+        icon: <ArrowRightAltRoundedIcon />,
+      },
+      {
+        route: '/school/teacher',
+        title: 'Teacher',
+        icon: <ArrowRightAltRoundedIcon />,
+      },
+    ]
   },
   {
     route: '/admin',
