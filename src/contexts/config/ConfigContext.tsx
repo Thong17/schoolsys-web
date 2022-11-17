@@ -9,7 +9,7 @@ interface IConfig {
 const initState: IConfig = {
   sidebar: localStorage.getItem('setting-sidebar') === 'true' ? true : false,
   display: localStorage.getItem('setting-display') === 'list' ? 'list' : 'grid',
-  tabs: JSON.parse(localStorage.getItem('setting-tabs') || '[]'),
+  tabs: Array.isArray(JSON.parse(localStorage.getItem('setting-tabs') || '[]')) ? JSON.parse(localStorage.getItem('setting-tabs') || '[]') : [],
 }
 export const ConfigContext = createContext({
   ...initState,
