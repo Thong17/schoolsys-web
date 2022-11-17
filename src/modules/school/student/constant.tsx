@@ -96,7 +96,7 @@ export const columnData: ITableColumn<ColumnHeader>[] = [
   { id: 'no', label: 'NO' },
   { id: 'ref', label: 'ID' },
   { id: 'profile', label: 'Profile' },
-  { id: 'username', label: 'Username' },
+  { id: 'username', label: 'Full Name' },
   { id: 'gender', label: 'Gender' },
   // { id: 'dateOfBirth', label: 'Date\u00a0Of\u00a0Birth' },
   // { id: 'placeOfBirth', label: 'Place\u00a0Of\u00a0Birth' },
