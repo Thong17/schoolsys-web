@@ -12,6 +12,28 @@ export const sideNav = [
   //   icon: <FactCheckRoundedIcon />,
   // },
   {
+    route: '/report',
+    title: 'REPORT',
+    icon: <BarChartRoundedIcon />,
+    children: [
+      {
+        route: '/report/school',
+        title: 'School',
+        icon: <ArrowRightAltRoundedIcon />,
+      },
+      {
+        route: '/report/attendance',
+        title: 'Attendance',
+        icon: <ArrowRightAltRoundedIcon />,
+      },
+      {
+        route: '/report/academy',
+        title: 'Academy',
+        icon: <ArrowRightAltRoundedIcon />,
+      },
+    ]
+  },
+  {
     route: '/school',
     title: 'SCHOOL',
     icon: <HomeWorkRoundedIcon />,
@@ -44,14 +66,9 @@ export const sideNav = [
     ]
   },
   {
-    route: '/admin',
-    title: 'ADMIN',
+    route: '/admin/user',
+    title: 'USER',
     icon: <AdminPanelSettingsIcon />,
-  },
-  {
-    route: '/report',
-    title: 'REPORT',
-    icon: <BarChartRoundedIcon />,
   },
   {
     route: '/config',

@@ -25,7 +25,7 @@ export const languages = {
     // Homepage
     HOMEPAGE_TITLE: 'Welcome to School Management System',
     HOMEPAGE_DESCRIPTION: 'We develop and design a reliable and high performance web application for you business with a modern user interface base on your requirement.', 
-    THEME: 'Theme'   
+    THEME: 'Theme',
   },
   // Khmer: {
   //   TEST: 'សាកល្បង',
