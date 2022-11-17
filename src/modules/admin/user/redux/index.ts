@@ -22,9 +22,10 @@ export const getUser = createAsyncThunk(
       method: 'GET',
       url: `/admin/user/detail/${id}`
     })
+    
     let data = {}
     fields.forEach((field) => {
-      data[field] = response?.data?.data?.[field]
+      data[field] = response?.data?.data?.user?.[field]
     })
     
     return { ...response?.data, data }

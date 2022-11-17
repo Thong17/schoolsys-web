@@ -21,6 +21,7 @@ export const RoleForm = ({ defaultValues, id }: any) => {
   const { data: listRole, status: statusListRole } = useAppSelector(selectListRole)
   const { data: preRole, status: statusPreRole } = useAppSelector(selectPreRole)
   const {
+    setValue,
     watch,
     register,
     handleSubmit,
@@ -31,7 +32,7 @@ export const RoleForm = ({ defaultValues, id }: any) => {
   const { lang } = useLanguage()
   const [loading, setLoading] = useState(false)
   const [role, setRole] = useState('')
-  const [privilege, setPrivilege] = useState<any>({ label: '', data: {} })
+  const [privilege, setPrivilege] = useState<any>({ label: '', data: {}, isDefault: false })
   const [roleOption, setRoleOption] = useState<IOptions[]>([])
   const roleId = watch('role')
 
@@ -53,7 +54,9 @@ export const RoleForm = ({ defaultValues, id }: any) => {
   useEffect(() => {
     const role = listRole.find((value) => value._id === roleId)
     setRole(role?._id || '')
-    setPrivilege({ data: role?.privilege || {}, label: role?.name?.[lang] || role?.name?.['English'] || '' })
+    setPrivilege({ data: role?.privilege || {}, label: role?.name?.[lang] || role?.name?.['English'] || '', isDefault: role?.isDefault })
+    setValue('privilege', role?.privilege)
+    // eslint-disable-next-line
   }, [roleId, listRole, lang])
 
   useEffect(() => {
@@ -74,6 +77,10 @@ export const RoleForm = ({ defaultValues, id }: any) => {
 
     setRoleOption(options)
   }, [listRole, lang])
+
+  const handleSetPrivilege = (privilege) => {
+    setValue('privilege', privilege)
+  }
 
   return (
     <form
@@ -177,7 +184,7 @@ export const RoleForm = ({ defaultValues, id }: any) => {
         </div>
       </div>
       <div style={{ gridArea: 'privilege' }}>
-        {statusPreRole === 'SUCCESS' ? <PrivilegeField label={`${privilege.label} Privilege Preview`} preValue={preRole} value={privilege.data} isReadOnly={true} /> : <Loading />}
+        {statusPreRole === 'SUCCESS' ? <PrivilegeField label='Privilege' returnValue={handleSetPrivilege} preValue={preRole} value={privilege.data} isReadOnly={privilege.isDefault} /> : <Loading />}
       </div>
     </form>
   )
