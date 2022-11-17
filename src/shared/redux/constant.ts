@@ -5,6 +5,7 @@ export interface IListRole {
   name: object
   description?: string
   privilege?: object
+  isDefault?: boolean
 }
 
 export interface ShareState {
