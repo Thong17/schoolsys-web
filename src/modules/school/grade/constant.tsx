@@ -70,10 +70,10 @@ export const importColumnData: ITableColumn<ColumnHeader>[] = [
 
 export const columnData: ITableColumn<ColumnHeader>[] = [
   { id: 'no', label: 'NO' },
-  { id: 'name', label: 'Name' },
-  { id: 'level', label: 'Level' },
+  { id: 'name', label: 'Grade' },
+  // { id: 'level', label: 'Level' },
   { id: 'subjects', label: 'Subject' },
-  { id: 'description', label: 'Description' },
+  { id: 'description', label: 'Other' },
   { id: 'action', label: 'Action', align: 'right' },
 ]
 
