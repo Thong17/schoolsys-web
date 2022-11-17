@@ -14,9 +14,11 @@ import { CustomPieChart } from 'components/shared/charts/PieChart'
 import { useEffect, useState } from 'react'
 import { getSchoolDashboard, selectSchoolDashboard } from 'shared/redux'
 import useLanguage from 'hooks/useLanguage'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { CardContainer } from 'components/shared/container/CardContainer'
 import useWeb from 'hooks/useWeb'
+import { IconButton } from '@mui/material'
+import ArrowRightAltRoundedIcon from '@mui/icons-material/ArrowRightAltRounded'
 
 const Header = () => {
   return (
@@ -27,6 +29,7 @@ const Header = () => {
 }
 
 export const School = () => {
+  const navigate = useNavigate()
   const outlet = useOutlet()
   const { width } = useWeb()
   const { theme } = useTheme()
