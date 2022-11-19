@@ -47,21 +47,25 @@ export const sideNav = [
         route: '/school/class',
         title: 'Class',
         icon: <ArrowRightAltRoundedIcon />,
+        permission: 'class'
       },
       {
         route: '/school/grade',
         title: 'Grade',
         icon: <ArrowRightAltRoundedIcon />,
+        permission: 'grade'
       },
       {
         route: '/school/student',
         title: 'Student',
         icon: <ArrowRightAltRoundedIcon />,
+        permission: 'student'
       },
       {
         route: '/school/teacher',
         title: 'Teacher',
         icon: <ArrowRightAltRoundedIcon />,
+        permission: 'teacher'
       },
     ]
   },
@@ -69,6 +73,7 @@ export const sideNav = [
     route: '/admin/user',
     title: 'USER',
     icon: <AdminPanelSettingsIcon />,
+    permission: 'admin'
   },
   {
     route: '/config',
