@@ -16,12 +16,12 @@ export const sideNav = [
     title: 'REPORT',
     icon: <BarChartRoundedIcon />,
     children: [
-      {
-        route: '/report/school',
-        title: 'School',
-        icon: <ArrowRightAltRoundedIcon />,
-        permission: 'school'
-      },
+      // {
+      //   route: '/report/school',
+      //   title: 'School',
+      //   icon: <ArrowRightAltRoundedIcon />,
+      //   permission: 'school'
+      // },
       {
         route: '/report/attendance',
         title: 'Attendance',
@@ -75,7 +75,7 @@ export const sideNav = [
   },
   {
     route: '/admin/user',
-    title: 'USER',
+    title: 'User Management',
     icon: <AdminPanelSettingsIcon />,
     permission: 'admin'
   },
