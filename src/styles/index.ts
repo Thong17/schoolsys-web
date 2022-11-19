@@ -724,7 +724,7 @@ export const CustomPrivilege = styled('div')(
       '& div': {
         marginLeft: 20,
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(90px, 1fr))',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
       },
     },
   })
