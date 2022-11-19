@@ -20,16 +20,19 @@ export const sideNav = [
         route: '/report/school',
         title: 'School',
         icon: <ArrowRightAltRoundedIcon />,
+        permission: 'school'
       },
       {
         route: '/report/attendance',
         title: 'Attendance',
         icon: <ArrowRightAltRoundedIcon />,
+        permission: 'attendance'
       },
       {
         route: '/report/academy',
         title: 'Academy',
         icon: <ArrowRightAltRoundedIcon />,
+        permission: 'academy'
       },
     ]
   },
@@ -42,6 +45,7 @@ export const sideNav = [
         route: '/school/attendance',
         title: 'Attendance',
         icon: <ArrowRightAltRoundedIcon />,
+        permission: 'attendance'
       },
       {
         route: '/school/class',
