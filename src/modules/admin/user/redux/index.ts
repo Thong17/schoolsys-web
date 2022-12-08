@@ -24,7 +24,7 @@ export const getUser = createAsyncThunk(
     })
     let data = {}
     fields.forEach((field) => {
-      data[field] = response?.data?.data?.[field]
+      data[field] = response?.data?.data?.user?.[field]
     })
     
     return { ...response?.data, data }

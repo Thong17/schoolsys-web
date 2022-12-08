@@ -10,11 +10,13 @@ export const sideNav = [
     route: '/operation',
     title: 'OPERATION',
     icon: <FactCheckRoundedIcon />,
+    permission: 'operation'
   },
   {
     route: '/school',
     title: 'SCHOOL',
     icon: <HomeWorkRoundedIcon />,
+    permission: 'school',
     children: [
       {
         route: '/school/class',
@@ -52,10 +54,12 @@ export const sideNav = [
     route: '/report',
     title: 'REPORT',
     icon: <BarChartRoundedIcon />,
+    permission: 'report'
   },
   {
     route: '/config',
     title: 'CONFIG',
     icon: <SettingsIcon />,
+    permission: 'config'
   },
 ]
