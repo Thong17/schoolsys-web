@@ -101,21 +101,25 @@ export const School = () => {
                 title='Total Class'
                 data={dashboard?.totalClass}
                 icon={<LocalLibraryRoundedIcon style={{ fontSize: 40 }} />}
+                action={<IconButton style={{ color: theme.text.secondary }} onClick={() => navigate('/school/class')}><ArrowRightAltRoundedIcon /></IconButton>}
               />
               <DetailSection
                 title='Total Grade'
                 data={dashboard?.totalGrade}
                 icon={<SchoolRoundedIcon style={{ fontSize: 40 }} />}
+                action={<IconButton style={{ color: theme.text.secondary }} onClick={() => navigate('/school/grade')}><ArrowRightAltRoundedIcon /></IconButton>}
               />
               <DetailSection
                 title='Total Student'
                 data={dashboard?.totalStudent}
                 icon={<GroupsRoundedIcon style={{ fontSize: 40 }} />}
+                action={<IconButton style={{ color: theme.text.secondary }} onClick={() => navigate('/school/student')}><ArrowRightAltRoundedIcon /></IconButton>}
               />
               <DetailSection
                 title='Total Teacher'
                 data={dashboard?.totalTeacher}
                 icon={<PeopleRoundedIcon style={{ fontSize: 40 }} />}
+                action={<IconButton style={{ color: theme.text.secondary }} onClick={() => navigate('/school/teacher')}><ArrowRightAltRoundedIcon /></IconButton>}
               />
               <DetailSection
                 title='Pending Application'

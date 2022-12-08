@@ -22,6 +22,7 @@ export const initState = {
 }
 
 export declare type ColumnHeader =
+  | 'no'
   | 'name'
   | 'description'
   | 'createdBy'
@@ -57,12 +58,14 @@ export const importColumnData: ITableColumn<ColumnHeader>[] = [
 ]
 
 export const columnData: ITableColumn<ColumnHeader>[] = [
+  { id: 'no', label: 'NO' },
   { id: 'name', label: 'Name' },
   { id: 'description', label: 'Description' },
   { id: 'createdBy', label: 'Created\u00a0By', align: 'right' },
   { id: 'action', label: 'Action', align: 'right' },
 ]
 export interface Data {
+  no: number
   id: string
   name: string
   description: string
@@ -71,6 +74,7 @@ export interface Data {
 }
 
 export const createData = (
+  key: number,
   id: string,
   name: string,
   description: string,
@@ -116,5 +120,5 @@ export const createData = (
     </div>
   )
 
-  return { id, name, description, createdBy, action: action }
+  return { no: key, id, name, description, createdBy, action: action }
 }

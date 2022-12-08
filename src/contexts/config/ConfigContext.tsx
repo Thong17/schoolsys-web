@@ -3,21 +3,25 @@ import { createContext, useState } from 'react'
 interface IConfig {
   sidebar: boolean,
   display: 'grid' | 'list'
+  tabs: string[]
 }
 
 const initState: IConfig = {
   sidebar: localStorage.getItem('setting-sidebar') === 'true' ? true : false,
   display: localStorage.getItem('setting-display') === 'list' ? 'list' : 'grid',
+  tabs: Array.isArray(JSON.parse(localStorage.getItem('setting-tabs') || '[]')) ? JSON.parse(localStorage.getItem('setting-tabs') || '[]') : [],
 }
 export const ConfigContext = createContext({
   ...initState,
   toggleSidebar: () => {},
   toggleDisplay: (display) => {},
+  resetTabs: (tabs) => {},
 })
 
 const ConfigProvider = ({ children }) => {
   const [sidebar, setSidebar] = useState(initState.sidebar)
   const [display, setDisplay] = useState<'grid' | 'list'>(initState.display)
+  const [tabs, setTabs] = useState<string[]>(initState.tabs)
 
   const toggleSidebar = () => {
     const toggleSidebar = !sidebar
@@ -30,8 +34,13 @@ const ConfigProvider = ({ children }) => {
     localStorage.setItem('setting-display', display)
   }
 
+  const resetTabs = (tabs) => {
+    setTabs(tabs)
+    localStorage.setItem('setting-tabs', JSON.stringify(tabs))
+  }
+
   return (
-    <ConfigContext.Provider value={{ sidebar, display, toggleSidebar, toggleDisplay }}>
+    <ConfigContext.Provider value={{ sidebar, display, tabs, toggleSidebar, toggleDisplay, resetTabs }}>
       {children}
     </ConfigContext.Provider>
   )

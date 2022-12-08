@@ -77,6 +77,9 @@ export const CustomSideNav = styled(Stack)(
     '& a svg': {
       marginLeft: 12,
     },
+    '& .link': {
+      width: '100%',
+    }
   })
 )
 
@@ -109,6 +112,12 @@ export const SideNavContainer = styled('div')(
       opacity: '1',
       overflow: 'visible',
     },
+    '& div a:hover .toggle': {
+      display: 'block',
+    },
+    '& .toggle': {
+      display: open ? 'block' : 'none',
+    }
   })
 )
 
@@ -715,7 +724,7 @@ export const CustomPrivilege = styled('div')(
       '& div': {
         marginLeft: 20,
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(90px, 1fr))',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
       },
     },
   })

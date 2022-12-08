@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from 'app/hooks'
 import { selectListClass, getListClass, getClass, selectClass } from './redux'
 import { useEffect, useState } from 'react'
-import { capitalizeText, debounce, dateFullYear } from 'utils'
+import { capitalizeText, debounce, dateFullYear, downloadBuffer, convertBufferToArrayBuffer, getFullMonth } from 'utils'
 import { useSearchParams } from 'react-router-dom'
 import useTheme from 'hooks/useTheme'
 import { Header } from './Header'
@@ -22,7 +22,6 @@ import {
   importColumns,
   graduateColumnData,
   createGraduateData,
-  graduateExportColumnData,
 } from './constant'
 import { ImportExcel } from 'constants/functions/Excels'
 import useAlert from 'hooks/useAlert'
@@ -31,7 +30,8 @@ import { Button, DialogActions, IconButton } from '@mui/material'
 import { CustomButton } from 'styles'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import FileDownloadRoundedIcon from '@mui/icons-material/FileDownloadRounded'
-import { CSVLink } from 'react-csv'
+import { MiniSelectField } from 'components/shared/form'
+import { scoreOptions } from './components/StudentMarkList'
 
 export const Classes = () => {
   const dispatch = useAppDispatch()
@@ -45,10 +45,10 @@ export const Classes = () => {
   const { notify } = useNotify()
   const [rowData, setRowData] = useState<Data[]>([])
   const [graduateRowData, setGraduateRowData] = useState<any[]>([])
-  const [graduateExportRowData, setGraduateExportRowData] = useState<any[]>([])
   const { data: _class, status: statusClass } = useAppSelector(selectClass)
   const { data: classes, count, status } = useAppSelector(selectListClass)
   const [dialog, setDialog] = useState({ open: false, id: null })
+  const [selected, setSelected] = useState<any>(new Date().getMonth().toString())
   const [graduateDialog, setGraduateDialog] = useState({
     open: false,
     id: null,
@@ -62,6 +62,10 @@ export const Classes = () => {
 
   const handleSearch = (e) => {
     updateQuery(e.target.value)
+  }
+
+  const handleChangeMonth = (event) => {
+    setSelected(event.target.value)
   }
 
   const handleFilter = (option) => {
@@ -196,6 +200,7 @@ export const Classes = () => {
         student.firstName,
         student.gender,
         student.currentAcademy?.scores,
+        selected,
         _class.grade?.subjects
       )
       exportDate = [
@@ -213,9 +218,8 @@ export const Classes = () => {
       ]
       return data
     })
-    setGraduateExportRowData(exportDate?.sort((a, b) => a.Score > b.Score ? -1 : 1).map((student, key) => { return { ...student, Rank: `#${key+1}` } }))
     setGraduateRowData(graduateStudents?.sort((a, b) => a.score > b.score ? -1 : 1).map((student, key) => { return { ...student, rank: `#${key+1}` } }))
-  }, [_class, statusClass])
+  }, [_class, selected, statusClass])
 
   useEffect(() => {
     const handleGraduateDialog = (data) => {
@@ -294,6 +298,30 @@ export const Classes = () => {
     // eslint-disable-next-line
   }, [classes, lang, user, device, theme, queryParams, navigate, dispatch, notify, confirm])
 
+  const handleExportData = () => {
+    const body = { month: selected }
+
+    const config = {
+      responseType: 'arraybuffer',
+      body,
+      headers: {
+        Accept: 'application/octet-stream',
+      },
+    }
+    Axios({
+      url: `/export/education/class/${graduateDialog.id}`,
+      method: 'POST',
+      ...config,
+    })
+      .then((data) => {
+        downloadBuffer(
+          convertBufferToArrayBuffer(data?.data?.file?.data),
+          `class_education_${getFullMonth(body.month)}.xlsx`
+        )
+      })
+      .catch((err) => notify(err?.response?.data?.message, 'error'))
+  }
+
   return (
     <Container
       header={
@@ -363,18 +391,10 @@ export const Classes = () => {
               {dateFullYear(_class.startedAt)} - {dateFullYear()}
             </span>
           </h3>
-          <CSVLink
-            headers={graduateExportColumnData}
-            data={graduateExportRowData}
-            filename={`graduate_${
-              _class.grade?.name?.['English']
-            }_${new Date().toDateString()}.csv`}
-            style={{
-              color: theme.text.secondary,
-              textDecoration: 'none',
-            }}
-          >
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <MiniSelectField options={scoreOptions} value={selected} onChange={handleChangeMonth} />
             <CustomButton
+              onClick={handleExportData}
               style={{
                 backgroundColor: theme.background.secondary,
                 color: theme.text.secondary,
@@ -384,7 +404,7 @@ export const Classes = () => {
             >
               <FileDownloadRoundedIcon />
             </CustomButton>
-          </CSVLink>
+          </div>
         </div>
         <div
           style={{

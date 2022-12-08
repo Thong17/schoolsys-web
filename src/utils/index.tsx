@@ -69,44 +69,43 @@ export const currencyFormat = (value, currency) => {
 }
 
 export const durationMap = (duration) => {
-  let mappedData = {}
   switch (duration) {
-    case 'weekly':
-      mappedData = {
-        fromDate: moment().startOf('week'),
-        toDate: moment().endOf('week'),
-      }
-      break
-      
-    case 'monthly':
-      mappedData = {
-        fromDate: moment().startOf('month'),
-        toDate: moment().endOf('month'),
-      }
-      break
-
-    case 'quarterly':
-      mappedData = {
-        fromDate: moment().startOf('month'),
-        toDate: moment().endOf('month'),
-      }
-      break
-
-    case 'yearly':
-      mappedData = {
-        fromDate: moment().startOf('year'),
-        toDate: moment().endOf('year'),
-      }
-      break
-
-    default:
-      mappedData = {
+    case 'daily':
+      return {
         fromDate: moment().startOf('day'),
         toDate: moment().endOf('day'),
       }
-      break
+
+    case 'weekly':
+      return {
+        fromDate: moment().startOf('week'),
+        toDate: moment().endOf('week'),
+      }
+      
+    case 'monthly':
+      return {
+        fromDate: moment().startOf('month'),
+        toDate: moment().endOf('month'),
+      }
+
+    case 'quarterly':
+      return {
+        fromDate: moment().startOf('month'),
+        toDate: moment().endOf('month'),
+      }
+
+    case 'yearly':
+      return {
+        fromDate: moment().startOf('year'),
+        toDate: moment().endOf('year'),
+      }
+
+    default:
+      return {
+        fromDate: null,
+        toDate: null,
+      }
   }
-  return mappedData
 }
 
 export const dateFormat = (date: any = null) => {
@@ -176,6 +175,11 @@ export const calculateTotalScore = (scores, subject = null) => {
     })
     return total
   }
+}
+
+export const getFullMonth = (number) => {
+  const listMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+  return listMonths[number]
 }
 
 export const calculateAverageScore = (scores, number) => {

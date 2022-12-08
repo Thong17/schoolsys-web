@@ -96,6 +96,7 @@ export const createData = (
 }
 
 export const attendanceColumnData: ITableColumn<any>[] = [
+  { id: 'no', label: 'NO' },
   { id: 'ref', label: 'ID' },
   { id: 'profile', label: 'Profile' },
   { id: 'lastName', label: 'Last\u00a0Name' },
@@ -220,6 +221,9 @@ export const createAttendanceData = (
     case 'Annual Leave':
       attendanceColor = theme.color.info
       break
+    case 'Permission':
+        attendanceColor = theme.color.info
+        break
     case 'Sick Leave':
       attendanceColor = theme.color.warning
       break
@@ -358,6 +362,9 @@ export const createTeacherAttendanceData = (
   switch (attendance?.permissionType) {
     case 'Annual Leave':
       attendanceColor = theme.color.info
+      break
+    case 'Permission':
+      attendanceColor = theme.color.warning
       break
     case 'Sick Leave':
       attendanceColor = theme.color.warning
